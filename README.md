@@ -1,5 +1,5 @@
-COVID19IN
-=========
+India COVID-19 Data Archive
+===========================
 
 This repository contains the source code for the COVID-19 India
 data page at <https://covid19in.github.io/>.
