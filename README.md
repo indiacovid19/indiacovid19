@@ -44,8 +44,8 @@ exceptions are described in the [Exceptions](#exceptions) section below.
 Exceptions
 ----------
 
-In the following cases, the data in [`indiacovid19.json`][1]
-differs slightly from the data in the reference links documented above:
+In the following cases, the numbers in [`indiacovid19.json`][1]
+differs slightly from the the reference links:
 
 - 2020-03-25 20:57: The WoM reference link shows 554 active
   cases on this date. However, the MoHFW website showed 553 active cases

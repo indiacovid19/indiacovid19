@@ -34,7 +34,8 @@ import re
 
 # Reference metadata.
 dates = []
-links = []
+ref_dates = []
+ref_links = []
 
 # Cumulative totals until each date (directly available in indiacovid19.json).
 active_cases = []
@@ -56,6 +57,7 @@ total_growth = [-1]
 
 # Date and time as Python objects instead of strings.
 datetimes = []
+ref_datetimes = []
 
 
 def load():
@@ -65,14 +67,18 @@ def load():
 
     # Populate cumulative totals directly available in JSON.
     for i, entry in enumerate(entries):
-        date, active, cured, death, migrated, link = entry
+        date, active, cured, death, migrated, ref_date, ref_link = entry
+
         dates.append(date)
-        datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d %H:%M'))
         active_cases.append(active)
         cured_cases.append(cured + migrated)
         death_cases.append(death)
         total_cases.append(active + cured + death + migrated)
-        links.append(link)
+        ref_dates.append(ref_date)
+        ref_links.append(ref_link)
+
+        datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d'))
+        ref_datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d'))
 
     # Populate increment/decrement in numbers for each date.
     for i in range(1, len(entries)):

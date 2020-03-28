@@ -26,8 +26,7 @@ h3 a:link, h3 a:visited,
 h4 a:link, h4 a:visited,
 h5 a:link, h5 a:visited,
 h6 a:link, h6 a:visited,
-.links a:link, .links a:visited,
-.time a:link, .time a:visited {
+.links a:link, .links a:visited {
   color: #333;
 }
 
@@ -37,8 +36,7 @@ h3 a:hover, h3 a:active,
 h4 a:hover, h4 a:active,
 h5 a:hover, h5 a:active,
 h6 a:hover, h6 a:active,
-.links a:hover, .links a:active,
-.time a:hover, .time a:active {
+.links a:hover, .links a:active {
   color: #555;
 }
 
@@ -138,6 +136,10 @@ table.grid th, table.grid td {
   padding: 0.3em 0.4em;
 }
 
+.date {
+  text-align: center;
+}
+
 .total {
   color: #06c;
 }
@@ -152,6 +154,23 @@ table.grid th, table.grid td {
 
 .death {
   color: #c33;
+}
+
+.ref {
+  text-align: center;
+  color: #666;
+}
+
+.ref a {
+  font-size: small;
+}
+
+.ref a:link, .ref a:visited {
+  color: #666;
+}
+
+.ref a:hover, .ref a:active {
+  color: #999;
 }
 
 

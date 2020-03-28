@@ -64,17 +64,17 @@ def case_rows():
     """Create HTML to display row of case numbers in a table."""
     output = ''
     for i, entry in enumerate(zip(data.dates,
-                                  data.links,
                                   data.total_cases,
                                   data.total_diff,
                                   data.total_growth,
                                   data.active_cases,
                                   data.cured_cases,
-                                  data.death_cases)):
+                                  data.death_cases,
+                                  data.ref_dates,
+                                  data.ref_links)):
 
-        date, link, total, new, growth, active, cured, deaths = entry
-
-        date, time = date.split()
+        (date, total, new, growth, active, cured, deaths,
+         ref_date, ref_link) = entry
 
         if growth == -1:
             growth = '-'
@@ -83,13 +83,14 @@ def case_rows():
 
         output += '  <tr>'
         output += '    <td class="date">{}</td>'.format(date)
-        output += '    <td class="time"><a href="{}">{}</a></td>'.format(link, time)
         output += '    <td class="total">{}</td>'.format(total)
         output += '    <td class="total">{:+}</td>'.format(new)
         output += '    <td class="total">{}</td>'.format(growth)
         output += '    <td class="active">{}</td>'.format(active)
         output += '    <td class="cured">{}</td>'.format(cured)
         output += '    <td class="death">{}</td>'.format(deaths)
+        output += '    <td class="ref"><a href="{}">{}</a></td>'.format(
+                   ref_link, ref_date.replace(' ', '&nbsp;'))
         output += '  </tr>'
     return output
 
