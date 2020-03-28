@@ -90,7 +90,7 @@ def case_rows():
         output += '    <td class="cured">{}</td>'.format(cured)
         output += '    <td class="death">{}</td>'.format(deaths)
         output += '    <td class="ref"><a href="{}">{}</a></td>'.format(
-                   ref_link, ref_date.replace(' ', '&nbsp;'))
+                   ref_link, ref_date)
         output += '  </tr>'
     return output
 

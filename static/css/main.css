@@ -136,6 +136,10 @@ table.grid th, table.grid td {
   padding: 0.3em 0.4em;
 }
 
+td {
+  white-space: nowrap;
+}
+
 .date {
   text-align: center;
 }
