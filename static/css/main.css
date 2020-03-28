@@ -26,7 +26,8 @@ h3 a:link, h3 a:visited,
 h4 a:link, h4 a:visited,
 h5 a:link, h5 a:visited,
 h6 a:link, h6 a:visited,
-.links a:link, .links a:visited {
+.links a:link, .links a:visited,
+.date a:link, .date a:visited {
   color: #333;
 }
 
@@ -36,7 +37,8 @@ h3 a:hover, h3 a:active,
 h4 a:hover, h4 a:active,
 h5 a:hover, h5 a:active,
 h6 a:hover, h6 a:active,
-.links a:hover, .links a:active {
+.links a:hover, .links a:active,
+.date a:link, .date a:visited {
   color: #555;
 }
 

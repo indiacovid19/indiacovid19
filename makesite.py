@@ -81,8 +81,8 @@ def case_rows():
         else:
             growth = '{:+.0f}%'.format(100 * (growth - 1))
 
-        output += '  <tr>'
-        output += '    <td class="date">{}</td>'.format(date)
+        output += '  <tr id="{}">'.format(date)
+        output += '    <td class="date"><a href="#{}">{}</a></td>'.format(date, date)
         output += '    <td class="total">{}</td>'.format(total)
         output += '    <td class="total">{:+}</td>'.format(new)
         output += '    <td class="total">{}</td>'.format(growth)
