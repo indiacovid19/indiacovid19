@@ -1,8 +1,9 @@
 India COVID-19 Data Archive
 ===========================
 
-This repository contains the source code for the COVID-19 India
-data page at <https://covid19in.github.io/>.
+This repository contains the source code for the COVID-19 India data
+archive website at <https://indiacovid19.github.io/>. The website can
+also be reached using the short link <https://git.io/indiacovid19>.
 
 The data page at the above URL is generated from the following JSON
 file: [`indiacovid19.json`][1].

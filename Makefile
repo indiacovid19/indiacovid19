@@ -2,8 +2,8 @@ makesite:
 	. ./venv && python3 makesite.py
 
 venv:
-	python3 -m venv ~/.venv/covid19in
-	echo . ~/.venv/covid19in/bin/activate > venv
+	python3 -m venv ~/.venv/indiacovid19
+	echo . ~/.venv/indiacovid19/bin/activate > venv
 	. ./venv && pip3 install matplotlib==3.2.1
 
 favicon:
