@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>India COVID-19 Data Archive Project</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script src="js/tex.js"></script>
+</head>
+
+<body>
+<main>
+
+
+<h1><a href="./">India COVID-19 Data Archive</a></h1>
+
+<p>
+This page archives datewise case numbers for COVID-19 cases in India
+along with links to archived snapshots of official sources as supporting
+evidence.
+</p>
+
+
+<h2 id="contents"><a href="#contents">Contents</a></h2>
+
+<ul>
+  <li><a href="#total-cases-graph-linear">Total Cases Graph</a></li>
+  <li><a href="#new-cases-graph">New Cases Graph</a></li>
+  <li><a href="#case-numbers">Case Numbers</a></li>
+  <li><a href="#json">JSON Data</a></li>
+  <li><a href="#faq">Questions and Answers</a></li>
+</ul>
+
+
+<h2 id="total-cases-graph-linear"><a
+ href="#total-cases-graph-linear">Total Cases Graph</a></h2>
+
+<a href="img/all-cases.png"><img src="img/all-cases.png"
+  alt="India COVID-19 total cases graph in linear scale"></a>
+
+
+<h2 id="new-cases-graph"><a href="#new-cases-graph">New Cases Graph</a></h2>
+
+<a href="img/new-cases.png"><img src="img/new-cases.png"
+  alt="India COVID-19 new cases graph"></a>
+
+
+<h2 id="case-numbers"><a href="#case-numbers">Case Numbers</a></h2>
+
+<table class="grid">
+  <tr>
+    <th class="date">Date</th>
+    <th class="time">Time<a href="#footnote1">*</a> (IST)</th>
+    <th class="total">Total Cases</th>
+    <th class="total">New Cases</th>
+    <th class="total">Growth</th>
+    <th class="active">Active Cases</th>
+    <th class="cured">Cured Cases</th>
+    <th class="death">Death Cases</th>
+  </tr>
+  {{ case_rows }}
+</table>
+
+<p class="footnote" id="footnote1">
+* Click on any time in the time column to visit an archived reference
+that contains the numbers used in the corresponding row. There are a few
+exceptions to this, though. See <a
+href="https://github.com/indiacovid19/indiacovid19#exceptions">exceptions</a> for
+more details on this.
+</p>
+
+
+<h2 id="json"><a href="#json">JSON Data</a></h2>
+
+<p>
+Click on the following link to view/download the raw JSON data from
+which this page is generated:
+</p>
+
+<p class="textcenter">
+<a href="indiacovid19.json"><strong>indiacovid19.json</strong></a>
+</p>
+
+<p>
+This JSON file contains a list of list entries (6-tuples). Each inner
+list entry is a 6-tuple consisting of 6 values. Here is an example
+entry:
+</p>
+
+<pre><code>[ "2020-03-20 17:00", 196, 22, 4, 1, "https://web.archive.org/web/20200320173607/https://www.mohfw.gov.in/" ]</code></pre>
+
+<p>
+Here is a description of these 6 values in the order they appear in the
+file:
+</p>
+
+<ol>
+  <li>Date and time in "YYYY-MM-DD HH:MM" format</li>
+  <li>Number of active cases</li>
+  <li>Number of cured cases</li>
+  <li>Number of death cases</li>
+  <li>Number of migrated cases</li>
+  <li>Reference archive link as supporting evidence</li>
+</ol>
+
+<p>
+If we add the four numbers in an entry for a specific date and time, we
+get the total number of cases for that date and time.
+</p>
+
+<p>
+In this page, the sum of the number of cured cases and that of the
+migrated cases is reported as the number of cured cases.
+</p>
+
+<p>
+If you find discrepancies in the data, please create <a
+href="https://github.com/indiacovid19/indiacovid19/issues">new
+issues</a> to report it or send pull requests to the corresponding <a
+href="https://github.com/indiacovid19/indiacovid19/">GitHub project</a>.
+</p>
+
+
+<h2 id="faq"><a href="#faq">Questions and Answers</a></h2>
+
+<ol>
+  <li id="faq1">
+    <p class="question">
+      Why was this project created when other similar projects already
+      exist?
+    </p>
+    <p>
+      Different projects have different conventions for reporting the
+      numbers. Some projects follow the latest updates appearing in news
+      to estimate the case numbers in real time. This project does not
+      attempt to provide case numbers in real time. Instead, this
+      project is an attempt to document the case numbers from official
+      sources only as much as reasonably possible. Further, for each
+      entry of case numbers, a reference archive URL is provided that
+      points to an archived snapshot of an official source like <a
+      href="https://www.mohfw.gov.in/">MoHFW</a> or an unofficial source
+      like <a href="https://www.worldometers.info/coronavirus/">WoM</a>
+      that supports the numbers used in this project.
+    </p>
+    <p>
+      As a convention, this project attempts to archive the last updated
+      case numbers found in an official source for each date.
+    </p>
+  </li>
+  <li id="faq2">
+    <p class="question">
+      Are all case numbers used in this project from official sources
+      only?
+    </p>
+    <p>
+      Most numbers used in this project are from an official source like
+      <a href="https://www.mohfw.gov.in/">MoHFW</a>. However, for some
+      dates, no archived snapshot of the MoHFW website is available. For
+      such dates, an unofficial source like <a
+      href="https://www.worldometers.info/coronavirus/">WoM</a> has been
+      used.
+    </p>
+  </li>
+  <li id="faq3">
+    <p class="question">
+      Where can I ask more questions or provide feedback about this
+      project?
+    </p>
+    <p>
+      To ask questions or provide feedback either
+      <a
+      href="https://github.com/indiacovid19/indiacovid19/issues">post
+      new issues</a> to this project or
+      <a href="https://twitter.com/compose/tweet?text=@susam+Hi!">send a
+      tweet</a> to the author.
+    </p>
+  </li>
+</ol>
+
+</main>
+
+<footer>
+  <div>
+    <div>
+      <a href="https://twitter.com/susam"
+         class="twitter-follow-button"
+         data-show-count="true">Follow @susam</a>
+      <script async src="https://platform.twitter.com/widgets.js"></script>
+    </div>
+    <div>
+    <p>
+      &copy; 2020 Susam Pal
+    </p>
+    <p>
+      This is free and open source website.
+      The source code of this website is available on
+      <a href="https://github.com/indiacovid19/indiacovid19">GitHub</a>.
+      You are welcome to modify and improve this website under the terms
+      of the <a href="https://github.com/indiacovid19/indiacovid19/blob/master/LICENSE.md">MIT License</a>.
+    </p>
+    <p>
+      To report bugs, suggest improvements, or ask questions,
+      <a href="https://github.com/indiacovid19/indiacovid19/issues">create issues</a>.
+    </p>
+    </div>
+    <div class="footerlinks">
+      <a href="https://github.com/indiacovid19/indiacovid19">Source</a>
+      <a href="https://github.com/indiacovid19/indiacovid19/issues">Issues</a>
+      <a href="https://twitter.com/susam">Twitter</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
