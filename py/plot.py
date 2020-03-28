@@ -71,7 +71,7 @@ def new_cases():
     plt.clf()
     plt.bar(dates, data.total_diff,
              color='#06c', label='New Cases', zorder=4)
-    for index, value in enumerate(data.total_diff):
+    for index, value in enumerate(data.total_diff[1:], 1):
         plt.text(index, value + 2, value, ha='center', fontsize='x-small')
 
     ax = plt.gca()
