@@ -85,7 +85,7 @@ under the terms of the MIT License. See [LICENSE.md][L] for details.
 This software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND,
 express or implied. See [LICENSE.md][L] for details.
 
-The [favicon.png](favicon.png) is generated from
+The [favicon.png](static/favicon.png) is generated from
 <https://publicdomainvectors.org/en/free-clipart/Graph-icon/45340.html>
 which is available in public domain.
 
