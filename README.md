@@ -7,12 +7,26 @@ data page at <https://covid19in.github.io/>.
 The data page at the above URL is generated from the following JSON
 file: [`indiacovid19.json`][1].
 
-This JSON file contains a list of lists (6-tuples). Each 6-tuple
-contains a date string in `YYYY-MM-DD HH:MM` format format followed by
-five numbers and a reference archive link. The five numbers are in the
-following order: the number of active cases, the number of recoveries,
-the number of deaths, and the number of migrated cases. If we add these
-five numbers, we get the number of total cases for each day.
+This JSON file contains a list of list entries. Each inner list entry is
+a septuple (7-tuple) consisting of 7 values. Here is an example entry:
+
+```json
+[ "2020-03-20", 196, 22, 4, 1, "2020-03-20 17:00",
+  "https://web.archive.org/web/20200320173607/https://www.mohfw.gov.in/" ]
+```
+
+Here is a description of these 7 values in the order they appear in each
+septuple:
+
+ 1. Date (in "YYYY-MM-DD" format)
+ 2. Number of active cases
+ 3. Number of cured cases
+ 4. Number of death cases
+ 5. Number of migrated cases
+ 6. Last updated time as found in the source of the data
+    (in "YYYY-MM-DD HH:MM" format)
+ 7. Reference archive link of the source of the data as supporting
+    evidence
 
 To contribute to this repository, please update [`indiacovid19.json`][1]
 and send a pull request.
@@ -23,7 +37,7 @@ and send a pull request.
 Reference Archive Links
 -----------------------
 
-The last value in each 6-tuple occurring in [`indiacovid19.json`][1] is
+The last value in each septuple occurring in [`indiacovid19.json`][1] is
 a reference archive link. These links point to reliable archives
 (snapshots) of either <https://www.mohfw.gov.in/> (MoHFW) or
 <https://www.worldometers.info/coronavirus/> (WoM) for the corresponding

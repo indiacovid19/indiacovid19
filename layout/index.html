@@ -89,41 +89,45 @@ which this page is generated:
 </p>
 
 <p>
-This JSON file contains a list of list entries (6-tuples). Each inner
-list entry is a 6-tuple consisting of 6 values. Here is an example
-entry:
+This JSON file contains a list of list entries. Each inner list entry is
+a septuple (7-tuple) consisting of 7 values. Here is an example entry:
 </p>
 
-<pre><code>[ "2020-03-20 17:00", 196, 22, 4, 1, "https://web.archive.org/web/20200320173607/https://www.mohfw.gov.in/" ]</code></pre>
+<pre>
+<code>[ "2020-03-20", 196, 22, 4, 1, "2020-03-20 17:00",
+  "https://web.archive.org/web/20200320173607/https://www.mohfw.gov.in/" ]</code>
+</pre>
 
 <p>
-Here is a description of these 6 values in the order they appear in the
-file:
+Here is a description of these 7 values in the order they appear in each
+septuple:
 </p>
 
 <ol>
-  <li>Date and time in "YYYY-MM-DD HH:MM" format</li>
+  <li>Date (in "YYYY-MM-DD" format)</li>
   <li>Number of active cases</li>
   <li>Number of cured cases</li>
   <li>Number of death cases</li>
   <li>Number of migrated cases</li>
-  <li>Reference archive link as supporting evidence</li>
+  <li>Last updated time as found in the source of the data (in "YYYY-MM-DD HH:MM" format)</li>
+  <li>Reference archive link of the source of the data as supporting evidence</li>
 </ol>
 
 <p>
-If we add the four numbers in an entry for a specific date and time, we
-get the total number of cases for that date and time.
+If we add the four numbers in an entry for a specific date, we get the
+total number of cases for that date.
 </p>
 
 <p>
 In this page, the sum of the number of cured cases and that of the
-migrated cases is reported as the number of cured cases.
+migrated cases is reported as the number of cured cases because the
+MoHFW website too clubs them together in the statewise status tables.
 </p>
 
 <p>
 If you find discrepancies in the data, please create <a
 href="https://github.com/indiacovid19/indiacovid19/issues">new
-issues</a> to report it or send pull requests to the corresponding <a
+issues</a> to report them or send pull requests to the corresponding <a
 href="https://github.com/indiacovid19/indiacovid19/">GitHub project</a>.
 </p>
 
