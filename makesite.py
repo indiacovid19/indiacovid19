@@ -107,7 +107,8 @@ def main():
     data.load()
 
     # Plot graphs.
-    plot.all_cases()
+    plot.all_cases_linear()
+    plot.all_cases_logarithmic()
     plot.new_cases()
 
     # Render home page.
