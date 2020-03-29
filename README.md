@@ -43,10 +43,9 @@ a reference archive link. These links point to reliable archives
 (snapshots) of either <https://www.mohfw.gov.in/> (MoHFW) or
 <https://www.worldometers.info/coronavirus/> (WoM) for the corresponding
 date. Archive URLs of MoHFW is preferred if available. Archive URLs of
-WoM is used only if a suitable one for MoHFW is unavailable. The entries
-in this file are written with the following syntax:
+WoM is used only if a suitable one for MoHFW is unavailable.
 
-The date and time for each entry is picked from the content of the
+The last updated time for each entry is picked from the content of the
 snapshot.
 
 The intention of this project is to ensure that every piece of data in
