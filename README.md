@@ -51,28 +51,7 @@ snapshot.
 
 The intention of this project is to ensure that every piece of data in
 [`indiacovid19.json`][1] can be justified with evidence archived in the
-archive URLs. However, a few exceptions have been made where the data in
-the JSON file differs slightly from the one in the reference link. Such
-exceptions are described in the [Exceptions](#exceptions) section below.
-
-
-Exceptions
-----------
-
-In the following cases, the numbers in [`indiacovid19.json`][1]
-differs slightly from the the reference links:
-
-- 2020-03-25 20:57: The WoM reference link shows 554 active
-  cases on this date. However, the MoHFW website showed 553 active cases
-  as the latest update on the same day. It appeared that this
-  discrepancy was due to an error in the WoM data which was likely
-  caused by the fact that the 1 migrated case (as per MoHFW) had not
-  been counted as a recovered case in the WoM data. Unfortunately, there
-  is no archive URL for the MoHFW website for this date. The number of
-  active cases in the JSON file has been copied from the MoHFW website
-  after manually verifying it at 23:59 IST on the same date. There was
-  no discrepancy with respect to this total number of cases because this
-  number was 606 on both websites.
+archive URLs.
 
 
 License
