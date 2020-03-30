@@ -44,6 +44,7 @@ def all_cases_linear():
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
     plt.clf()
+    plt.gcf().set_size_inches(6.4, 6.4)
     plt.plot(dates, data.total_cases,
              color=total_color, label='Total Cases', zorder=4)
     plt.plot(dates, data.active_cases,
@@ -64,7 +65,7 @@ def all_cases_linear():
     plt.ylabel('Count')
     plt.xlim(left=0, right=len(dates) - 1)
     plt.ylim(bottom=0)
-    plt.title('COVID-19 Cases in India', x=0.6, y=0.9)
+    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/all-cases-linear.png',
                 dpi=300, bbox_inches='tight')
@@ -79,6 +80,7 @@ def all_cases_logarithmic():
     cured_cases = [float('nan') if y == 0 else y for y in data.cured_cases]
     death_cases = [float('nan') if y == 0 else y for y in data.death_cases]
     plt.clf()
+    plt.gcf().set_size_inches(6.4, 6.4)
     plt.plot(dates, total_cases,
              color=total_color, label='Total Cases', zorder=4)
     plt.plot(dates, active_cases,
@@ -103,7 +105,7 @@ def all_cases_logarithmic():
     plt.ylabel('Count')
     plt.xlim(left=0, right=len(dates) - 1)
     plt.ylim(bottom=1)
-    plt.title('COVID-19 Cases in India', x=0.6, y=0.9)
+    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/all-cases-logarithmic.png',
                 dpi=300, bbox_inches='tight')
@@ -120,6 +122,7 @@ def new_cases():
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
     plt.clf()
+    plt.gcf().set_size_inches(6.4, 6.4)
     plt.bar(dates, data.total_diff,
              color=total_color, label='New Cases', zorder=4)
     for index, value in enumerate(data.total_diff[1:], 1):
@@ -128,6 +131,7 @@ def new_cases():
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(bar_label_formatter))
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
     plt.tick_params(which='major', length=0)
@@ -138,9 +142,15 @@ def new_cases():
     plt.ylabel('Count')
     plt.xlim(left=0, right=len(dates))
     plt.ylim(bottom=0)
-    plt.title('COVID-19 Cases in India', x=0.55, y=0.9)
+    plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/new-cases.png', dpi=300, bbox_inches='tight')
+
+
+def bar_label_formatter(x, pos):
+    """Return tick label for bar chart."""
+    if x % 10 == 0:
+        return int(x)
 
 
 def formatted_dates():
