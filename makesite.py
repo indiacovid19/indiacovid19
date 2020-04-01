@@ -70,11 +70,12 @@ def case_rows():
                                   data.active_cases,
                                   data.cured_cases,
                                   data.death_cases,
-                                  data.ref_dates,
-                                  data.ref_links)):
+                                  data.refs)):
 
-        (date, total, new, growth, active, cured, deaths,
-         ref_date, ref_link) = entry
+        (date, total, new, growth, active, cured, deaths, refs) = entry
+
+        ref_date = refs[0][1]
+        ref_link = refs[0][2]
 
         if growth == -1:
             growth = '-'

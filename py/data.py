@@ -32,10 +32,13 @@ import json
 import re
 
 
+# Master data map.
+data = {
+}
+
 # Reference metadata.
 dates = []
-ref_dates = []
-ref_links = []
+refs = []
 
 # Cumulative totals until each date (directly available in indiacovid19.json).
 active_cases = []
@@ -44,10 +47,10 @@ death_cases = []
 total_cases = []
 
 # Increment or decrement w.r.t. previous day for each date.
-active_diff = [0]
-cured_diff = [0]
-death_diff = [0]
-total_diff = [0]
+active_diff = []
+cured_diff = []
+death_diff = []
+total_diff = []
 
 # Growth w.r.t previous day for each date.
 active_growth = [-1]
@@ -65,23 +68,37 @@ def load():
     with open('indiacovid19.json') as f:
         entries = json.load(f)
 
-    # Populate cumulative totals directly available in JSON.
+    # Load entries into a dict to map each date to its entry and references.
     for i, entry in enumerate(entries):
-        date, active, cured, death, migrated, ref_date, ref_link = entry
+        (date, active, cured, death, migrated,
+         ref_date, ref_link, ref_summary) = entry
 
-        dates.append(date)
-        active_cases.append(active)
-        cured_cases.append(cured + migrated)
-        death_cases.append(death)
-        total_cases.append(active + cured + death + migrated)
-        ref_dates.append(ref_date)
-        ref_links.append(ref_link)
+        if date not in data:
+            dates.append(date)
+            datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d'))
+            data[date] = {'refs': []}
 
-        datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d'))
-        ref_datetimes.append(datetime.datetime.strptime(date, '%Y-%m-%d'))
+        data[date]['active'] = active
+        data[date]['cured'] = cured
+        data[date]['migrated'] = migrated
+        data[date]['death'] = death
+        data[date]['refs'].append([i + 1, ref_date, ref_link, ref_summary])
+
+    # Split the dict into separate lists for use with matplotlib.pyplot.
+    for date in dates:
+        active_cases.append(data[date]['active'])
+        cured_cases.append(data[date]['cured'] + data[date]['migrated'])
+        death_cases.append(data[date]['death'])
+        total_cases.append(data[date]['active'] + data[date]['cured'] +
+                           data[date]['death'] + data[date]['migrated'])
+        refs.append(data[date]['refs'])
 
     # Populate increment/decrement in numbers for each date.
-    for i in range(1, len(entries)):
+    active_diff.append(active_cases[0])
+    cured_diff.append(cured_cases[0])
+    death_diff.append(death_cases[0])
+    total_diff.append(total_cases[0])
+    for i in range(1, len(dates)):
         active_diff.append(active_cases[i] - active_cases[i - 1])
         cured_diff.append(cured_cases[i] - cured_cases[i - 1])
         death_diff.append(death_cases[i] - death_cases[i - 1])

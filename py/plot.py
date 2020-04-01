@@ -125,7 +125,7 @@ def new_cases():
     plt.gcf().set_size_inches(6.4, 6.4)
     plt.bar(dates, data.total_diff,
              color=total_color, label='New Cases', zorder=4)
-    for index, value in enumerate(data.total_diff[1:], 1):
+    for index, value in enumerate(data.total_diff):
         plt.text(index, value + 2, value, ha='center', fontsize='x-small')
 
     ax = plt.gca()
@@ -140,7 +140,7 @@ def new_cases():
     plt.yticks(fontsize='small')
     plt.xlabel('Date')
     plt.ylabel('Count')
-    plt.xlim(left=0, right=len(dates))
+    plt.xlim(left=-1, right=len(dates))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt.legend(shadow=True)

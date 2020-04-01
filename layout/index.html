@@ -17,24 +17,15 @@
 
 <p>
 This website archives datewise case numbers for COVID-19 cases in India.
-There is a reference link as supporting evidence for every entry on this
-page.
+These case numbers are obtained only from official sources such as <a
+href="https://pib.gov.in/">PIB</a> and <a
+href="https://www.mohfw.gov.in/">mohfw.gov.in</a>. There are reference
+links as supporting evidence for every entry on this page.
 </p>
 
 <p>
-Since 10 Mar 2020, these reference links point to archived
-snapshots of <a href="https://www.mohfw.gov.in/">mohfw.gov.in</a>
-(MoHFW), the official source of the case numbers for India. Prior to
-that date, there is no archived official source of case numbers, so the
-reference links point to archived snapshots of <a
-href="https://www.worldometers.info/coronavirus/">worldometers.info</a>
-(WoM) which had the case numbers updated as per the latest media
-reports.
-</p>
-
-<p>
-This website can be also be reached using
-<a href="https://git.io/indiacovid19"><strong>git.io/indiacovid19</strong></a>
+This website can be also be reached using <a
+href="https://git.io/indiacovid19"><strong>git.io/indiacovid19</strong></a>
 (a short link).
 </p>
 
@@ -105,7 +96,7 @@ which this page is generated:
 
 <p>
 This JSON file contains a list of list entries. Each inner list entry is
-a septuple (7-tuple) consisting of 7 values. Here is an example entry:
+a octuple (8-tuple) consisting of 8 values. Here is an example entry:
 </p>
 
 <pre>
@@ -114,18 +105,38 @@ a septuple (7-tuple) consisting of 7 values. Here is an example entry:
 </pre>
 
 <p>
-Here is a description of these 7 values in the order they appear in each
-septuple:
+Here is a description of these 8 values in the order they appear in each
+octuple:
 </p>
 
 <ol>
-  <li>Date (in "YYYY-MM-DD" format)</li>
-  <li>Number of active cases</li>
-  <li>Number of cured cases</li>
-  <li>Number of death cases</li>
-  <li>Number of migrated cases</li>
-  <li>Last updated time as found in the source of the data (in "YYYY-MM-DD HH:MM" format)</li>
-  <li>Reference archive link of the source of the data as supporting evidence</li>
+  <li>
+    Date (in "YYYY-MM-DD" format as per Indian Standard Time)
+  </li>
+  <li>
+    Number of active cases
+  </li>
+  <li>
+    Number of cured cases
+  </li>
+  <li>
+    Number of death cases
+  </li>
+  <li>
+    Number of migrated cases
+  </li>
+  <li>
+    Date and time at which the data was collected/published by the
+    source of the data (in "YYYY-MM-DD HH:MM" format as per Indian
+    Standard Time)
+  </li>
+  <li>
+    Reference archive link of the source of the data as supporting
+    evidence
+  </li>
+  <li>
+    Any additional comment or note about the entry
+  </li>
 </ol>
 
 <p>
