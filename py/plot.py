@@ -44,7 +44,8 @@ def all_cases_linear():
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
     plt.clf()
-    plt.gcf().set_size_inches(6.4, 6.4)
+    plt.gcf().set_size_inches(6.4, 4.8)
+    print(plt.gcf().get_size_inches())
     plt.plot(dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(dates, data.active_cases,
@@ -86,7 +87,7 @@ def all_cases_logarithmic():
     cured_cases, active_cases = shift(cured_cases, active_cases, 0, -0.1)
 
     plt.clf()
-    plt.gcf().set_size_inches(6.4, 6.4)
+    plt.gcf().set_size_inches(6.4, 4.8)
     plt.plot(dates, total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(dates, active_cases,
@@ -122,7 +123,7 @@ def new_cases():
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
     plt.clf()
-    plt.gcf().set_size_inches(6.4, 6.4)
+    plt.gcf().set_size_inches(6.4, 4.8)
     plt.bar(dates, data.total_diff,
              color=total_color, label='New Cases', zorder=4)
     for index, value in enumerate(data.total_diff):
