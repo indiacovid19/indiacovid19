@@ -52,5 +52,7 @@
   [ "2020-03-30",  1117,  101,    32,     1,  "2020-03-31 18:29",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1609627",                 "1251 confirmed, 32 deaths, 227 new, 3 new deaths (contradiction)" ],
   [ "2020-03-31",  1238,  123,    35,     1,  "2020-03-31 20:30",  "https://indiacovid19.github.io/webarchive/mohfw/2020-03-31_2030/",      "" ],
   [ "2020-04-01",  1466,  132,    38,     1,  "2020-04-01 17:37",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1609942",                 "1637 confirmed, 38 deaths, 376 new (contradiction), 3 new deaths, 132 discharged" ],
-  [ "2020-04-01",  1649,  143,    41,     1,  "2020-04-01 19:30",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-01_1930/",      "" ]
+  [ "2020-04-01",  1649,  143,    41,     1,  "2020-04-01 19:30",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-01_1930/",      "" ],
+  [ "2020-04-02",  1763,  151,    50,     1,  "2020-04-02 18:35",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1610417",                 "151 recovered, 1965 infected, 50 died, 328 new, 12 new deaths" ],
+  [ "2020-04-02",  1860,  155,    53,     1,  "2020-04-02 18:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-02_1800/",      "" ]
 ]
