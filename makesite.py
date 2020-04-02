@@ -69,6 +69,7 @@ def render(template, **params):
 
 
 def case_links():
+    """Create HTML to display navigation links for case numbers table."""
     prev_month = None
     months = []
     for date in data.dates:
@@ -88,11 +89,11 @@ def case_links():
 
 
 def case_head(month):
-    """Create HTML to display table heading for case numbers in a table."""
+    """Create HTML to display table heading for case numbers table."""
     th_date = datetime.datetime.strptime(month, '%Y-%m').strftime('%b&nbsp;%Y')
     out = [
         '  <tr id="{}">'.format(month),
-        '    <th class="date"><a href="#{}">Dates ({})</a></th>'
+        '    <th class="date"><a href="#{}">Date ({})</a></th>'
         .format(month, th_date),
         '    <th class="total">Total Cases</th>',
         '    <th class="total">New Cases</th>',
@@ -100,17 +101,31 @@ def case_head(month):
         '    <th class="active">Active Cases</th>',
         '    <th class="cured">Cured Cases</th>',
         '    <th class="death">Death Cases</th>',
-        '    <th class="ref">Ref.<sup><a href="#footnote1">*</a></sup></th>',
+        '    <th class="ref">References<sup><a href="#footnote1">*</a></sup></th>',
         '  </tr>',
     ]
     return '\n'.join(out) + '\n'
 
 
-def case_data(entry):
-    (date, total, new, growth, active, cured, deaths, refs) = entry
+def case_refs(date, refs):
+    """Create HTML to display a list of refs in case numbers table."""
+    out = []
+    for ref_num, ref_date, ref_link, ref_comment in refs:
+        ref_date, ref_time = ref_date[:10], ref_date[11:]
+        ref_day = ''
+        if date != ref_date:
+            entry_datetime = datetime.datetime.strptime(date, '%Y-%m-%d')
+            ref_datetime = datetime.datetime.strptime(ref_date, '%Y-%m-%d')
+            plus = (ref_datetime - entry_datetime).days
+            ref_day = '<a href="#footnote2"><sup>+{}d</sup></a>'.format(plus)
+        out.extend([
+            '{}<a href="{}">{}</a>'.format(ref_day, ref_link, ref_time)
+        ])
+    return ', '.join(out)
 
-    ref_date = refs[0][1]
-    ref_link = refs[0][2]
+def case_data(entry):
+    """Create HTML to display a row of entry in case numbers table."""
+    (date, total, new, growth, active, cured, deaths, refs) = entry
 
     if growth == -1:
         growth = '-'
@@ -126,8 +141,7 @@ def case_data(entry):
         '    <td class="active">{}</td>'.format(active),
         '    <td class="cured">{}</td>'.format(cured),
         '    <td class="death">{}</td>'.format(deaths),
-        '    <td class="ref"><a href="{}">{}</a></td>'.format(
-             ref_link, ref_date),
+        '    <td class="ref">{}</td>'.format(case_refs(date, refs)),
         '  </tr>',
     ]
     return '\n'.join(out) + '\n'
@@ -164,6 +178,12 @@ def main():
     # Load COVID-19 data.
     data.load()
 
+    # Render home page.
+    log('Rendering home page ...')
+    layout = fread('layout/index.html')
+    output = render(layout, case_links=case_links(), case_rows=case_rows())
+    fwrite('_site/index.html', output)
+
     # Plot graphs.
     log('Rendering linear plot ...')
     plot.all_cases_linear()
@@ -171,12 +191,6 @@ def main():
     plot.all_cases_logarithmic()
     log('Rendering bar plot ...')
     plot.new_cases()
-
-    # Render home page.
-    log('Rendering home page ...')
-    layout = fread('layout/index.html')
-    output = render(layout, case_links=case_links(), case_rows=case_rows())
-    fwrite('_site/index.html', output)
     log('Done')
 
 

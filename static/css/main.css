@@ -167,12 +167,14 @@ td {
 }
 
 .ref {
-  text-align: center;
   color: #666;
 }
 
 .ref a {
   font-size: small;
+}
+.ref sup {
+  font-size: x-small;
 }
 
 .ref a:link, .ref a:visited {

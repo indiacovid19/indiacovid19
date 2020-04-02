@@ -71,7 +71,7 @@ def load():
     # Load entries into a dict to map each date to its entry and references.
     for i, entry in enumerate(entries):
         (date, active, cured, death, migrated,
-         ref_date, ref_link, ref_summary) = entry
+         ref_date, ref_link, ref_comment) = entry
 
         if date not in data:
             dates.append(date)
@@ -82,7 +82,7 @@ def load():
         data[date]['cured'] = cured
         data[date]['migrated'] = migrated
         data[date]['death'] = death
-        data[date]['refs'].append([i + 1, ref_date, ref_link, ref_summary])
+        data[date]['refs'].append([i + 1, ref_date, ref_link, ref_comment])
 
     # Split the dict into separate lists for use with matplotlib.pyplot.
     for date in dates:
