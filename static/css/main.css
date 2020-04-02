@@ -52,11 +52,15 @@ a:hover, a:active {
   text-decoration: underline;
 }
 
-.footerlinks a {
+.caselinks {
+  margin-bottom: 1em;
+}
+
+.caselinks span, .footerlinks a {
   margin-right: 1em;
 }
 
-.footerlinks a:last-child {
+.caselinks span:last-child, .footerlinks a:last-child {
   margin-right: 0;
 }
 

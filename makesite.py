@@ -31,9 +31,12 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+
+import datetime
 import os
 import re
 import shutil
+import sys
 
 from py import data, plot
 
@@ -53,6 +56,11 @@ def fwrite(filename, text):
         f.write(text)
 
 
+def log(msg, *args):
+    """Log message with specified arguments."""
+    sys.stderr.write(msg.format(*args) + '\n')
+
+
 def render(template, **params):
     """Replace placeholders in template with values from params."""
     return re.sub(r'{{\s*([^}\s]+)\s*}}',
@@ -60,9 +68,75 @@ def render(template, **params):
                   template)
 
 
+def case_links():
+    prev_month = None
+    months = []
+    for date in data.dates:
+        curr_month = date[:7]
+        if curr_month != prev_month:
+            months.append(curr_month)
+        prev_month = curr_month
+
+    out = []
+    for month in months:
+        text = datetime.datetime.strptime(month, '%Y-%m').strftime('%b')
+        out.append(
+            '<span>[&nbsp;<a href="#{}">{}</a>&nbsp;]</span>'
+            .format(month, text)
+        )
+    return '\n'.join(out) + '\n'
+
+
+def case_head(month):
+    """Create HTML to display table heading for case numbers in a table."""
+    th_date = datetime.datetime.strptime(month, '%Y-%m').strftime('%b&nbsp;%Y')
+    out = [
+        '  <tr id="{}">'.format(month),
+        '    <th class="date"><a href="#{}">Dates ({})</a></th>'
+        .format(month, th_date),
+        '    <th class="total">Total Cases</th>',
+        '    <th class="total">New Cases</th>',
+        '    <th class="total">Growth</th>',
+        '    <th class="active">Active Cases</th>',
+        '    <th class="cured">Cured Cases</th>',
+        '    <th class="death">Death Cases</th>',
+        '    <th class="ref">Ref.<sup><a href="#footnote1">*</a></sup></th>',
+        '  </tr>',
+    ]
+    return '\n'.join(out) + '\n'
+
+
+def case_data(entry):
+    (date, total, new, growth, active, cured, deaths, refs) = entry
+
+    ref_date = refs[0][1]
+    ref_link = refs[0][2]
+
+    if growth == -1:
+        growth = '-'
+    else:
+        growth = '{:+.0f}%'.format(100 * (growth - 1))
+
+    out = [
+        '  <tr id="{}">'.format(date),
+        '    <td class="date"><a href="#{}">{}</a></td>'.format(date, date),
+        '    <td class="total">{}</td>'.format(total),
+        '    <td class="total">{:+}</td>'.format(new),
+        '    <td class="total">{}</td>'.format(growth),
+        '    <td class="active">{}</td>'.format(active),
+        '    <td class="cured">{}</td>'.format(cured),
+        '    <td class="death">{}</td>'.format(deaths),
+        '    <td class="ref"><a href="{}">{}</a></td>'.format(
+             ref_link, ref_date),
+        '  </tr>',
+    ]
+    return '\n'.join(out) + '\n'
+
+
 def case_rows():
     """Create HTML to display row of case numbers in a table."""
-    output = ''
+    prev_month = None
+    out = ''
     for i, entry in enumerate(zip(data.dates,
                                   data.total_cases,
                                   data.total_diff,
@@ -71,29 +145,12 @@ def case_rows():
                                   data.cured_cases,
                                   data.death_cases,
                                   data.refs)):
-
-        (date, total, new, growth, active, cured, deaths, refs) = entry
-
-        ref_date = refs[0][1]
-        ref_link = refs[0][2]
-
-        if growth == -1:
-            growth = '-'
-        else:
-            growth = '{:+.0f}%'.format(100 * (growth - 1))
-
-        output += '  <tr id="{}">'.format(date)
-        output += '    <td class="date"><a href="#{}">{}</a></td>'.format(date, date)
-        output += '    <td class="total">{}</td>'.format(total)
-        output += '    <td class="total">{:+}</td>'.format(new)
-        output += '    <td class="total">{}</td>'.format(growth)
-        output += '    <td class="active">{}</td>'.format(active)
-        output += '    <td class="cured">{}</td>'.format(cured)
-        output += '    <td class="death">{}</td>'.format(deaths)
-        output += '    <td class="ref"><a href="{}">{}</a></td>'.format(
-                   ref_link, ref_date)
-        output += '  </tr>'
-    return output
+        curr_month = entry[0][:7]
+        if curr_month != prev_month:
+            out += case_head(curr_month)
+        out += case_data(entry)
+        prev_month = curr_month
+    return out
 
 
 def main():
@@ -108,14 +165,19 @@ def main():
     data.load()
 
     # Plot graphs.
+    log('Rendering linear plot ...')
     plot.all_cases_linear()
+    log('Rendering logarithmic plot ...')
     plot.all_cases_logarithmic()
+    log('Rendering bar plot ...')
     plot.new_cases()
 
     # Render home page.
+    log('Rendering home page ...')
     layout = fread('layout/index.html')
-    output = render(layout, case_rows=case_rows())
+    output = render(layout, case_links=case_links(), case_rows=case_rows())
     fwrite('_site/index.html', output)
+    log('Done')
 
 
 if __name__ == '__main__':
