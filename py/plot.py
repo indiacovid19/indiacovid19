@@ -76,10 +76,15 @@ def all_cases_logarithmic():
     """Plot line chart for all case numbers (logarithmic scale)."""
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
-    total_cases = [float('nan') if y == 0 else y for y in data.total_cases]
-    active_cases = [float('nan') if y == 0 else y for y in data.active_cases]
-    cured_cases = [float('nan') if y == 0 else y for y in data.cured_cases]
-    death_cases = [float('nan') if y == 0 else y for y in data.death_cases]
+    total_cases = data.total_cases
+    active_cases = data.active_cases
+    cured_cases = data.cured_cases
+    death_cases = data.death_cases
+
+    total_cases, active_cases = shift(total_cases, active_cases, 0.05, -0.05)
+    total_cases, cured_cases = shift(total_cases, cured_cases, 0.05, -0.05)
+    cured_cases, active_cases = shift(cured_cases, active_cases, 0, -0.1)
+
     plt.clf()
     plt.gcf().set_size_inches(6.4, 6.4)
     plt.plot(dates, total_cases,
@@ -162,6 +167,17 @@ def bar_label_formatter(x, pos):
 def formatted_dates():
     """Date strings to use as X-axis tick labels."""
     return [d.strftime('%d %b') for d in data.datetimes]
+
+
+def shift(a, b, shift_a, shift_b):
+    """Shift overlapping values in lists a and b to make them different."""
+    new_a = a[:]
+    new_b = b[:]
+    for i, (total, active) in enumerate(zip(a, b)):
+        if total == active:
+            new_a[i] += shift_a
+            new_b[i] += shift_b
+    return new_a, new_b
 
 
 def main():
