@@ -46,16 +46,17 @@ def all_cases_linear():
     plt.clf()
     plt.gcf().set_size_inches(6.4, 6.4)
     plt.plot(dates, data.total_cases,
-             color=total_color, label='Total Cases', zorder=4)
+             marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(dates, data.active_cases,
-             color=active_color, label='Active Cases', zorder=3)
+             marker='.', color=active_color, label='Active Cases', zorder=4)
     plt.plot(dates, data.cured_cases,
-             color=cured_color, label='Cured Cases', zorder=2)
+             marker='.', color=cured_color, label='Cured Cases', zorder=3)
     plt.plot(dates, data.death_cases,
-             color=death_color,label='Death Cases', zorder=1)
+             marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(linear_label_formatter))
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
     plt.tick_params(which='both', length=0)
@@ -63,7 +64,7 @@ def all_cases_linear():
     plt.yticks(fontsize='small')
     plt.xlabel('Date')
     plt.ylabel('Count')
-    plt.xlim(left=0, right=len(dates) - 1)
+    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt.legend(shadow=True)
@@ -82,13 +83,13 @@ def all_cases_logarithmic():
     plt.clf()
     plt.gcf().set_size_inches(6.4, 6.4)
     plt.plot(dates, total_cases,
-             color=total_color, label='Total Cases', zorder=4)
+             marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(dates, active_cases,
-             color=active_color, label='Active Cases', zorder=3)
+             marker='.', color=active_color, label='Active Cases', zorder=4)
     plt.plot(dates, cured_cases,
-             color=cured_color, label='Cured Cases', zorder=2)
+             marker='.', color=cured_color, label='Cured Cases', zorder=3)
     plt.plot(dates, death_cases,
-             color=death_color,label='Death Cases', zorder=1)
+             marker='.', color=death_color,label='Death Cases', zorder=2)
     plt.yscale('log')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.LogLocator())
@@ -103,18 +104,12 @@ def all_cases_logarithmic():
     plt.yticks(fontsize='small')
     plt.xlabel('Date')
     plt.ylabel('Count')
-    plt.xlim(left=0, right=len(dates) - 1)
+    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=1)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/all-cases-logarithmic.png',
                 dpi=300, bbox_inches='tight')
-
-
-def log_label_formatter(x, pos):
-    """Return tick label for logarithmic scale."""
-    if str(x)[0] != '9':
-        return int(x)
 
 
 def new_cases():
@@ -129,8 +124,8 @@ def new_cases():
         plt.text(index, value + 2, value, ha='center', fontsize='x-small')
 
     ax = plt.gca()
-    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
-    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(bar_label_formatter))
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
@@ -140,17 +135,28 @@ def new_cases():
     plt.yticks(fontsize='small')
     plt.xlabel('Date')
     plt.ylabel('Count')
-    plt.xlim(left=-1, right=len(dates))
+    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/new-cases.png', dpi=300, bbox_inches='tight')
 
 
+def linear_label_formatter(x, pos):
+    """Return tick label for linear scale."""
+    if x % 100 == 0:
+        return int(x)
+
+
+def log_label_formatter(x, pos):
+    """Return tick label for logarithmic scale."""
+    if str(x)[0] != '9':
+        return int(x)
+
+
 def bar_label_formatter(x, pos):
     """Return tick label for bar chart."""
-    if x % 10 == 0:
-        return int(x)
+    return int(x)
 
 
 def formatted_dates():
