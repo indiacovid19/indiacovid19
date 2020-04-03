@@ -45,7 +45,6 @@ def all_cases_linear():
     dates = formatted_dates()
     plt.clf()
     plt.gcf().set_size_inches(6.4, 4.8)
-    print(plt.gcf().get_size_inches())
     plt.plot(dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(dates, data.active_cases,
