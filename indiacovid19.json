@@ -70,5 +70,7 @@
   [ "2020-04-04",  2660,  183,    68,     1,  "2020-04-04 09:00",  "https://web.archive.org/web/20200404082738/https://www.mohfw.gov.in/",                              "" ],
   [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 18:40",  "https://web.archive.org/web/20200404152511/https://pib.gov.in/PressReleasePage.aspx?PRID=1611125",  "183 reovered, 2902 infected, 601 new, 68 deaths, 12 new deaths" ],
   [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 19:11",  "https://web.archive.org/web/20200404153548/https://pib.gov.in/PressReleasePage.aspx?PRID=1611137",  "2902 confirmed, 68 deaths, 183 cured" ],
-  [ "2020-04-04",  2784,  212,    75,     1,  "2020-04-04 18:00",  "https://web.archive.org/web/20200404202327/https://www.mohfw.gov.in/",                              "" ]
+  [ "2020-04-04",  2784,  212,    75,     1,  "2020-04-04 18:00",  "https://web.archive.org/web/20200404202327/https://www.mohfw.gov.in/",                              "" ],
+
+  [ "2020-04-05",  3030,  266,    77,     1,  "2020-04-05 09:00",  "https://web.archive.org/web/20200405050013/https://www.mohfw.gov.in/",                              "" ]
 ]
