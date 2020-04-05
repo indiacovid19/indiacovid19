@@ -142,7 +142,7 @@ table.grid th, table.grid td {
   padding: 0.3em 0.4em;
 }
 
-td {
+table.grid td {
   white-space: nowrap;
 }
 
@@ -183,6 +183,46 @@ td {
 
 .ref a:hover, .ref a:active {
   color: #999;
+}
+
+/* Latest Update */
+.latest {
+  display: flex;
+  justify-content: space-between;
+}
+
+.latest .total, .latest .active, .latest .cured, .latest .death {
+  font-size: large;
+  width: 23%;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 0.5em;
+  border: thin solid;
+}
+
+.latest .total {
+  background: #6cf;
+  border-color: #39c;
+  color: #006;
+}
+
+.latest .active {
+  background: #fc6;
+  border-color: #c93;
+  color: #900;
+}
+
+.latest .cured {
+  background: #9f9;
+  border-color: #6c6;
+  color: #030;
+}
+
+.latest .death {
+  background: #f99;
+  border-color: #c66;
+  color: #600;
 }
 
 

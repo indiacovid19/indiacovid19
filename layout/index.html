@@ -30,9 +30,27 @@ href="https://git.io/indiacovid19"><strong>git.io/indiacovid19</strong></a>
 </p>
 
 
+<h2 id="latest"><a href="#latest">Latest Update</a></h1>
+
+<div class="latest">
+  <div class="total">{{ latest_total }}<br>Total Cases</div>
+  <div class="active">{{ latest_active }}<br>Active Cases</div>
+  <div class="cured">{{ latest_cured }}<br>Cured</div>
+  <div class="death">{{ latest_death }}<br>Deaths</div>
+</div>
+<p>
+Last updated on {{ last_updated }}.
+</p>
+<p>
+The total number of cases has doubled in the last {{ doubled_days }}
+days.
+</p>
+
+
 <h2 id="contents"><a href="#contents">Contents</a></h2>
 
 <ul>
+  <li><a href="#latest-update">Latest Update</a></li>
   <li><a href="#total-cases-graph-linear">Total Cases Graph (Linear Scale)</a></li>
   <li><a href="#total-cases-graph-logarithmic">Total Cases Graph (Logarithmic Scale)</a></li>
   <li><a href="#new-cases-graph">New Cases Graph</a></li>

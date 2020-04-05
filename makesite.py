@@ -188,11 +188,22 @@ def main():
 
     # Load COVID-19 data.
     data.load()
+    last_updated = data.refs[-1][-1][1]
+    last_updated = datetime.datetime.strptime(last_updated, '%Y-%m-%d %H:%M')
+    last_updated = last_updated.strftime('%d %b %Y at %I:%M %p IST')
 
     # Render home page.
     log('Rendering home page ...')
     layout = fread('layout/index.html')
-    output = render(layout, case_links=case_links(), case_rows=case_rows())
+    output = render(layout,
+                    latest_total=data.total_cases[-1],
+                    latest_active=data.active_cases[-1],
+                    latest_cured=data.cured_cases[-1],
+                    latest_death=data.death_cases[-1],
+                    last_updated=last_updated,
+                    doubled_days='{:.1f}'.format(data.doubling_days[-1]),
+                    case_links=case_links(),
+                    case_rows=case_rows())
     fwrite('_site/index.html', output)
 
     # Plot graphs.
