@@ -188,20 +188,27 @@ def main():
 
     # Load COVID-19 data.
     data.load()
+
+    # Format placeholder values.
     last_updated = data.refs[-1][-1][1]
     last_updated = datetime.datetime.strptime(last_updated, '%Y-%m-%d %H:%M')
-    last_updated = last_updated.strftime('%d %b %Y at %I:%M %p IST')
+    last_updated = last_updated.strftime('%d %b %Y %I:%M %p IST')
+    new_growth = '{:+.0f}%'.format(100 * (data.total_growth[-1] - 1))
+    doubled_days = '{:.1f}'.format(data.doubling_days[-1])
 
     # Render home page.
     log('Rendering home page ...')
     layout = fread('layout/index.html')
     output = render(layout,
-                    latest_total=data.total_cases[-1],
-                    latest_active=data.active_cases[-1],
-                    latest_cured=data.cured_cases[-1],
-                    latest_death=data.death_cases[-1],
+                    last_total=data.total_cases[-1],
+                    last_active=data.active_cases[-1],
+                    last_cured=data.cured_cases[-1],
+                    last_death=data.death_cases[-1],
+                    last_date=data.dates[-1],
                     last_updated=last_updated,
-                    doubled_days='{:.1f}'.format(data.doubling_days[-1]),
+                    new_cases=data.total_diff[-1],
+                    new_growth=new_growth,
+                    doubled_days=doubled_days,
                     case_links=case_links(),
                     case_rows=case_rows())
     fwrite('_site/index.html', output)
