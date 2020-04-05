@@ -1,11 +1,13 @@
 [
   [ "2020-01-30",     1,    0,     0,     0,  "2020-01-30 13:33",  "https://web.archive.org/web/20200130084948/https://pib.gov.in/PressReleasePage.aspx?PRID=1601095",  "1 positive" ],
   [ "2020-01-30",     1,    0,     0,     0,  "2020-01-30 18:43",  "https://web.archive.org/web/20200305181101/https://pib.gov.in/PressReleasePage.aspx?PRID=1601169",  "1 positive" ],
+
   [ "2020-02-02",     2,    0,     0,     0,  "2020-02-02 10:39",  "https://web.archive.org/web/20200330190838/https://pib.gov.in/PressReleasePage.aspx?PRID=1601625",  "2 positive" ],
   [ "2020-02-03",     3,    0,     0,     0,  "2020-02-03 12:13",  "https://web.archive.org/web/20200221001929/https://pib.gov.in/PressReleasePage.aspx?PRID=1601681",  "3 positive" ],
   [ "2020-02-04",     3,    0,     0,     0,  "2020-02-04 15:47",  "https://web.archive.org/web/20200401073535/https://pib.gov.in/PressReleasePage.aspx?PRID=1601857",  "3 positive" ],
   [ "2020-02-21",     0,    3,     0,     0,  "2020-02-21 17:19",  "https://web.archive.org/web/20200310152451/https://pib.gov.in/PressReleasePage.aspx?PRID=1603957",  "3 positive/discharged, 0 new" ],
   [ "2020-02-27",     0,    3,     0,     0,  "2020-02-27 13:02",  "https://web.archive.org/web/20200401033904/https://pib.gov.in/PressReleasePage.aspx?PRID=1604508",  "3 positive/recovered" ],
+
   [ "2020-03-02",     2,    3,     0,     0,  "2020-03-02 14:28",  "https://web.archive.org/web/20200303160557/https://pib.gov.in/PressReleasePage.aspx?PRID=1604813",  "2 new" ],
   [ "2020-03-03",     3,    3,     0,     0,  "2020-03-03 19:36",  "https://web.archive.org/web/20200313070447/https://pib.gov.in/PressReleasePage.aspx?PRID=1605046",  "1 new" ],
   [ "2020-03-03",     3,    3,     0,     0,  "2020-03-03 19:57",  "https://web.archive.org/web/20200401035046/https://pib.gov.in/PressReleasePage.aspx?PRID=1605049",  "3 positive, 3 recovered" ],
@@ -51,18 +53,22 @@
   [ "2020-03-30",  1117,  101,    32,     1,  "2020-03-30 21:30",  "https://web.archive.org/web/20200330202152/https://www.mohfw.gov.in/",                              "" ],
   [ "2020-03-30",  1117,  101,    32,     1,  "2020-03-31 18:29",  "https://web.archive.org/web/20200401185311/https://pib.gov.in/PressReleasePage.aspx?PRID=1609627",  "1251 confirmed, 32 deaths, 227 new, 3 new deaths (contradiction)" ],
   [ "2020-03-31",  1238,  123,    35,     1,  "2020-03-31 20:30",  "https://web.archive.org/web/20200331193625/https://www.mohfw.gov.in/",                              "" ],
+
   [ "2020-04-01",  1466,  132,    38,     1,  "2020-04-01 09:00",  "https://web.archive.org/web/20200401084513/https://www.mohfw.gov.in/",                              "" ],
   [ "2020-04-01",  1466,  132,    38,     1,  "2020-04-01 17:37",  "https://web.archive.org/web/20200401190611/https://pib.gov.in/PressReleasePage.aspx?PRID=1609942",  "1637 confirmed, 38 deaths, 376 new (contradiction), 3 new deaths, 132 discharged" ],
   [ "2020-04-01",  1649,  143,    41,     1,  "2020-04-01 19:30",  "https://web.archive.org/web/20200401200654/https://www.mohfw.gov.in/",                              "" ],
-  [ "2020-04-02",  1764,  150,    50,     1,  "2020-04-02 09:00", "https://web.archive.org/web/20200402050813/https://www.mohfw.gov.in/", "" ],
-  [ "2020-04-02",  1764,  150,    50,     1,  "2020-04-02 18:35",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1610417",                                             "151 recovered, 1965 infected, 50 died, 328 new, 12 new deaths" ],
-  [ "2020-04-02",  1860,  155,    53,     1,  "2020-04-02 18:00",  "https://web.archive.org/web/20200402145528/https://www.mohfw.gov.in/",                              "" ],
-  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 09:00",  "https://web.archive.org/web/20200403063324/https://www.mohfw.gov.in/",                              "" ],
-  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 18:43",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1610749",                                            "2301 confirmed, 56 deaths, 156 cured" ],
-  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 19:50",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1610784",                                            "2301 confirmed, 157 recovered, 56 deaths, 12 deaths yesterday" ],
-  [ "2020-04-03",  2322,  162,    62,     1,  "2020-04-03 18:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-03_1800/",                                  "" ],
-  [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 18:40",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1611125", "183 reovered, 2902 infected, 601 new, 68 deaths, 12 new deaths" ],
-  [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 19:11",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1611137", "2902 confirmed, 68 deaths, 183 cured" ],
-  [ "2020-04-04",  2784,  212,    75,     1,  "2020-04-04 18:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-04_1800/",                                  "" ]
 
+  [ "2020-04-02",  1764,  150,    50,     1,  "2020-04-02 09:00",  "https://web.archive.org/web/20200402050813/https://www.mohfw.gov.in/", "" ],
+  [ "2020-04-02",  1764,  150,    50,     1,  "2020-04-02 18:35",  "https://web.archive.org/web/20200403134150/https://pib.gov.in/PressReleasePage.aspx?PRID=1610417",  "151 recovered, 1965 infected, 50 died, 328 new, 12 new deaths" ],
+  [ "2020-04-02",  1860,  155,    53,     1,  "2020-04-02 18:00",  "https://web.archive.org/web/20200402145528/https://www.mohfw.gov.in/",                              "" ],
+
+  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 09:00",  "https://web.archive.org/web/20200403063324/https://www.mohfw.gov.in/",                              "" ],
+  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 18:43",  "https://web.archive.org/web/20200404132500/https://pib.gov.in/PressReleasePage.aspx?PRID=1610749",  "2301 confirmed, 56 deaths, 156 cured" ],
+  [ "2020-04-03",  2088,  156,    56,     1,  "2020-04-03 19:50",  "https://web.archive.org/web/20200404132354/https://pib.gov.in/PressReleasePage.aspx?PRID=1610784",  "2301 confirmed, 157 recovered, 56 deaths, 12 deaths yesterday" ],
+  [ "2020-04-03",  2322,  162,    62,     1,  "2020-04-03 18:00",  "https://web.archive.org/web/20200403195723/https://www.mohfw.gov.in/",                              "" ],
+
+  [ "2020-04-04",  2660,  183,    68,     1,  "2020-04-04 09:00",  "https://web.archive.org/web/20200404082738/https://www.mohfw.gov.in/",                              "" ],
+  [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 18:40",  "https://web.archive.org/web/20200404152511/https://pib.gov.in/PressReleasePage.aspx?PRID=1611125",  "183 reovered, 2902 infected, 601 new, 68 deaths, 12 new deaths" ],
+  [ "2020-04-04",  2650,  183,    68,     1,  "2020-04-04 19:11",  "https://web.archive.org/web/20200404153548/https://pib.gov.in/PressReleasePage.aspx?PRID=1611137",  "2902 confirmed, 68 deaths, 183 cured" ],
+  [ "2020-04-04",  2784,  212,    75,     1,  "2020-04-04 18:00",  "https://web.archive.org/web/20200404202327/https://www.mohfw.gov.in/",                              "" ]
 ]
