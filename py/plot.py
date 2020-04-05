@@ -151,9 +151,10 @@ def doubling_time():
     """Plot line chart for all case numbers (linear scale)."""
     os.makedirs('_site/img/', exist_ok=True)
     dates = formatted_dates()
+    days = [float('nan') if x == -1 else x for x in data.doubling_days]
     plt.clf()
     plt.gcf().set_size_inches(6.4, 4.8)
-    plt.plot(dates, data.doubling_days,
+    plt.plot(dates, days,
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
