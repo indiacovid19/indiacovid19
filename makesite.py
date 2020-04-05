@@ -98,10 +98,13 @@ def case_head(month):
         '    <th class="total">Total Cases</th>',
         '    <th class="total">New Cases</th>',
         '    <th class="total">Growth</th>',
+        '    <th class="total">Doubling Time' +
+        '<sup><a href="#footnote1">*</a></sup></th>',
         '    <th class="active">Active Cases</th>',
         '    <th class="cured">Cured Cases</th>',
         '    <th class="death">Death Cases</th>',
-        '    <th class="ref">References<sup><a href="#footnote1">*</a></sup></th>',
+        '    <th class="ref">References' +
+        '<sup><a href="#footnote2">&dagger;</a></sup></th>',
         '  </tr>',
     ]
     return '\n'.join(out) + '\n'
@@ -117,20 +120,26 @@ def case_refs(date, refs):
             entry_datetime = datetime.datetime.strptime(date, '%Y-%m-%d')
             ref_datetime = datetime.datetime.strptime(ref_date, '%Y-%m-%d')
             plus = (ref_datetime - entry_datetime).days
-            ref_day = '<a href="#footnote2"><sup>+{}d</sup></a>'.format(plus)
+            ref_day = '<a href="#footnote3"><sup>+{}d</sup></a>'.format(plus)
         out.extend([
             '{}<a href="{}">{}</a>'.format(ref_day, ref_link, ref_time)
         ])
     return ', '.join(out)
 
+
 def case_data(entry):
     """Create HTML to display a row of entry in case numbers table."""
-    (date, total, new, growth, active, cured, deaths, refs) = entry
+    (date, total, new, growth, days, active, cured, deaths, refs) = entry
 
     if growth == -1:
         growth = '-'
     else:
         growth = '{:+.0f}%'.format(100 * (growth - 1))
+
+    if days == -1:
+        days = '-'
+    else:
+        days = '{:.1f}d'.format(days)
 
     out = [
         '  <tr id="{}">'.format(date),
@@ -138,6 +147,7 @@ def case_data(entry):
         '    <td class="total">{}</td>'.format(total),
         '    <td class="total">{:+}</td>'.format(new),
         '    <td class="total">{}</td>'.format(growth),
+        '    <td class="total">{}</td>'.format(days),
         '    <td class="active">{}</td>'.format(active),
         '    <td class="cured">{}</td>'.format(cured),
         '    <td class="death">{}</td>'.format(deaths),
@@ -155,6 +165,7 @@ def case_rows():
                                   data.total_cases,
                                   data.total_diff,
                                   data.total_growth,
+                                  data.doubling_days,
                                   data.active_cases,
                                   data.cured_cases,
                                   data.death_cases,
@@ -191,6 +202,8 @@ def main():
     plot.all_cases_logarithmic()
     log('Rendering bar plot ...')
     plot.new_cases()
+    log('Rendering doubling-time plot ...')
+    plot.doubling_time()
     log('Done')
 
 

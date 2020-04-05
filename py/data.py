@@ -29,6 +29,7 @@
 
 import datetime
 import json
+import math
 import re
 
 
@@ -57,6 +58,7 @@ active_growth = [-1]
 cured_growth = [-1]
 death_growth = [-1]
 total_growth = [-1]
+doubling_days = [-1]
 
 # Date and time as Python objects instead of strings.
 datetimes = []
@@ -80,8 +82,9 @@ def load():
 
         data[date]['active'] = active
         data[date]['cured'] = cured
-        data[date]['migrated'] = migrated
         data[date]['death'] = death
+        data[date]['migrated'] = migrated
+        data[date]['total'] = active + cured + death + migrated
         data[date]['refs'].append([i + 1, ref_date, ref_link, ref_comment])
 
     # Split the dict into separate lists for use with matplotlib.pyplot.
@@ -89,8 +92,7 @@ def load():
         active_cases.append(data[date]['active'])
         cured_cases.append(data[date]['cured'] + data[date]['migrated'])
         death_cases.append(data[date]['death'])
-        total_cases.append(data[date]['active'] + data[date]['cured'] +
-                           data[date]['death'] + data[date]['migrated'])
+        total_cases.append(data[date]['total'])
         refs.append(data[date]['refs'])
 
     # Populate increment/decrement in numbers for each date.
@@ -107,6 +109,7 @@ def load():
         cured_growth.append(calc_growth(cured_cases[i - 1], cured_cases[i]))
         death_growth.append(calc_growth(death_cases[i - 1], death_cases[i]))
         total_growth.append(calc_growth(total_cases[i - 1], total_cases[i]))
+        doubling_days.append(calc_doubling_time(dates[i]))
 
 
 def calc_growth(previous_number, current_number):
@@ -117,10 +120,29 @@ def calc_growth(previous_number, current_number):
         return current_number / previous_number
 
 
+def calc_doubling_time(date):
+    """Calculate the number of days it took for total cases to double."""
+    n_half = data[date]['total'] / 2
+    for d1 in reversed(dates):
+        n1 = data[d1]['total']
+        if n1 <= n_half:
+            break
+        d2 = d1
+        n2 = n1
+    else:
+        return -1
+    t1 = datetime.datetime.strptime(d1, '%Y-%m-%d')
+    t2 = datetime.datetime.strptime(d2, '%Y-%m-%d')
+    t3 = datetime.datetime.strptime(date, '%Y-%m-%d')
+    days = (t3 - t2).days + (t2 - t1).days * (n2 - n_half) / (n2 - n1)
+    return days
+
+
 def main():
     load()
-    for a, b, c in zip(total_cases, total_diff, total_growth):
-        print('{:4} {:+4} ({:+4.2f})'.format(a, b, c))
+    for a, b, c, d, e in zip(dates, total_cases, total_diff,
+                             total_growth, doubling_days):
+        print('{} {:5} {:+4} ({:+4.2f}) ({:2.1f} d)'.format(a, b, c, d, e))
 
 
 if __name__ == '__main__':

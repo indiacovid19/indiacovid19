@@ -139,12 +139,40 @@ def new_cases():
     plt.xticks(rotation='vertical', fontsize='x-small')
     plt.yticks(fontsize='small')
     plt.xlabel('Date')
-    plt.ylabel('Count')
+    plt.ylabel('New Cases')
     plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt.legend(shadow=True)
     plt.savefig('_site/img/new-cases.png', dpi=300, bbox_inches='tight')
+
+
+def doubling_time():
+    """Plot line chart for all case numbers (linear scale)."""
+    os.makedirs('_site/img/', exist_ok=True)
+    dates = formatted_dates()
+    plt.clf()
+    plt.gcf().set_size_inches(6.4, 4.8)
+    plt.plot(dates, data.doubling_days,
+             marker='.', color=total_color,
+             label='Number of days it took for the number of\n'
+                   'total COVID-19 cases in India to double')
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
+    plt.grid(which='major', linewidth='0.4')
+    plt.grid(which='minor', linewidth='0.1')
+    plt.tick_params(which='both', length=0)
+    plt.xticks(rotation='vertical', fontsize='x-small')
+    plt.yticks(fontsize='small')
+    plt.xlabel('Date')
+    plt.ylabel('Days')
+    plt.xlim(left=-0.8, right=len(dates) - 0.2)
+    plt.ylim(bottom=0)
+    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
+    plt.legend(shadow=True)
+    plt.savefig('_site/img/doubling-time.png',
+                dpi=300, bbox_inches='tight')
 
 
 def linear_label_formatter(x, pos):
@@ -185,6 +213,7 @@ def main():
     all_cases_linear()
     all_cases_logarithmic()
     new_cases()
+    doubling_time()
 
 
 if __name__ == '__main__':
