@@ -38,7 +38,7 @@ h4 a:hover, h4 a:active,
 h5 a:hover, h5 a:active,
 h6 a:hover, h6 a:active,
 .links a:hover, .links a:active,
-.date a:link, .date a:visited {
+.date a:hover, .date a:active {
   color: #666;
 }
 
@@ -189,7 +189,7 @@ table.grid td {
   color: #999;
 }
 
-/* Latest Update */
+/* Latest Update Boxes */
 .latest {
   display: flex;
   justify-content: space-between;
@@ -201,29 +201,25 @@ table.grid td {
   text-align: center;
   padding: 1em 0.1em;
   border-radius: 0.5em;
-  border: thin solid;
 }
 
 .latest .total {
-  background: #6cf;
-  border-color: #39c;
+  background: linear-gradient(#39e, #6cf);
 }
 
 .latest .active {
-  background: #fc6;
-  border-color: #c93;
+  background: linear-gradient(#e93, #fc6);
 }
 
 .latest .cured {
-  background: #9f9;
-  border-color: #6c6;
+  background: linear-gradient(#4a4, #7d7);
 }
 
 .latest .death {
-  background: #f99;
-  border-color: #c66;
+  background: linear-gradient(#e66, #f99);
 }
 
+/* Latest Update Counts */
 .latest .total a:link, .latest .total a:visited {
   color: #006;
 }
