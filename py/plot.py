@@ -54,9 +54,8 @@ def all_cases_linear():
     plt.plot(dates, data.death_cases,
              marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
-    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
-    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
-    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(linear_label_formatter))
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(500))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(100))
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
     plt.tick_params(which='both', length=0)
