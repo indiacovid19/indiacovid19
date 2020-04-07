@@ -1,5 +1,8 @@
-makesite:
+site:
 	. ./venv && python3 makesite.py
+
+wiki:
+	. ./venv && python3 -m py.wiki
 
 venv:
 	python3 -m venv ~/.venv/indiacovid19
