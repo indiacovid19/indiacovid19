@@ -24,7 +24,7 @@ WEB_URL = https://indiacovid19.github.io/
 TMP_GIT = /tmp/tmpgit
 README  = $(TMP_GIT)/README.md
 
-publish: makesite
+publish: site
 	#
 	# Stage website.
 	rm -rf $(TMP_GIT)
