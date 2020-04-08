@@ -122,19 +122,23 @@ def calc_growth(previous_number, current_number):
 
 def calc_doubling_time(date):
     """Calculate the number of days it took for total cases to double."""
-    n_half = data[date]['total'] / 2
+    n3 = data[date]['total']
+    t3 = data[date]['refs'][-1][1]
     for d1 in reversed(dates):
+        t1 = data[d1]['refs'][-1][1]
         n1 = data[d1]['total']
-        if n1 <= n_half:
+        if n1 <= n3/2:
             break
-        d2 = d1
+        t2 = t1
         n2 = n1
     else:
-        return -1
-    t1 = datetime.datetime.strptime(d1, '%Y-%m-%d')
-    t2 = datetime.datetime.strptime(d2, '%Y-%m-%d')
-    t3 = datetime.datetime.strptime(date, '%Y-%m-%d')
-    days = (t3 - t2).days + (t2 - t1).days * (n2 - n_half) / (n2 - n1)
+        return -1  # -1 represents undefined doubling time.
+    t1 = datetime.datetime.strptime(t1, '%Y-%m-%d %H:%M')
+    t2 = datetime.datetime.strptime(t2, '%Y-%m-%d %H:%M')
+    t3 = datetime.datetime.strptime(t3, '%Y-%m-%d %H:%M')
+    seconds = ((t3 - t2).total_seconds() +
+               (t2 - t1).total_seconds() * (n2 - n3/2) / (n2 - n1))
+    days = seconds / 86400
     return days
 
 
