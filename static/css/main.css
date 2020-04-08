@@ -68,6 +68,7 @@ a:hover, a:active {
 /* Graphs */
 img {
   max-height: 75vh;
+  max-width: 125%;
 }
 
 

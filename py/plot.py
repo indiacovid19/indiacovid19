@@ -39,42 +39,52 @@ cured_color = '#393'
 death_color = '#c33'
 
 
+def plt_begin():
+    """Set up a new plot."""
+    global formatted_dates
+    formatted_dates = [d.strftime('%d %b') for d in data.datetimes]
+    plt.clf()
+
+
+def plt_end(image_name):
+    """Configure current plot and export it to an image file."""
+    plt.gcf().set_size_inches(7.2, 4.8)
+    plt.grid(which='major', linewidth='0.4')
+    plt.grid(which='minor', linewidth='0.1')
+    plt.xlabel('Date')
+    plt.xlim(left=-0.8, right=len(formatted_dates) - 0.2)
+    plt.xticks(rotation='vertical', fontsize='x-small')
+    plt.yticks(fontsize='small')
+    plt.tick_params(which='both', length=0)
+    plt.legend(shadow=True)
+    plt.savefig('_site/img/' + image_name,
+                dpi=300, bbox_inches='tight')
+
+
 def all_cases_linear():
     """Plot line chart for all case numbers (linear scale)."""
     os.makedirs('_site/img/', exist_ok=True)
-    dates = formatted_dates()
-    plt.clf()
-    plt.gcf().set_size_inches(6.4, 4.8)
-    plt.plot(dates, data.total_cases,
+    plt_begin()
+    plt.plot(formatted_dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
-    plt.plot(dates, data.active_cases,
+    plt.plot(formatted_dates, data.active_cases,
              marker='.', color=active_color, label='Active Cases', zorder=4)
-    plt.plot(dates, data.cured_cases,
+    plt.plot(formatted_dates, data.cured_cases,
              marker='.', color=cured_color, label='Cured Cases', zorder=3)
-    plt.plot(dates, data.death_cases,
+    plt.plot(formatted_dates, data.death_cases,
              marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(500))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(100))
-    plt.grid(which='major', linewidth='0.4')
-    plt.grid(which='minor', linewidth='0.1')
-    plt.tick_params(which='both', length=0)
-    plt.xticks(rotation='vertical', fontsize='x-small')
-    plt.yticks(fontsize='small')
-    plt.xlabel('Date')
     plt.ylabel('Count')
-    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt.legend(shadow=True)
-    plt.savefig('_site/img/all-cases-linear.png',
-                dpi=300, bbox_inches='tight')
+    plt_end('all-cases-linear.png')
 
 
 def all_cases_logarithmic():
     """Plot line chart for all case numbers (logarithmic scale)."""
     os.makedirs('_site/img/', exist_ok=True)
-    dates = formatted_dates()
     total_cases = data.total_cases
     active_cases = data.active_cases
     cured_cases = data.cured_cases
@@ -84,95 +94,64 @@ def all_cases_logarithmic():
     total_cases, cured_cases = shift(total_cases, cured_cases, 0.05, -0.05)
     cured_cases, active_cases = shift(cured_cases, active_cases, 0, -0.1)
 
-    plt.clf()
-    plt.gcf().set_size_inches(6.4, 4.8)
-    plt.plot(dates, total_cases,
-             marker='.', color=total_color, label='Total Cases', zorder=5)
-    plt.plot(dates, active_cases,
-             marker='.', color=active_color, label='Active Cases', zorder=4)
-    plt.plot(dates, cured_cases,
-             marker='.', color=cured_color, label='Cured Cases', zorder=3)
-    plt.plot(dates, death_cases,
-             marker='.', color=death_color,label='Death Cases', zorder=2)
+    plt_begin()
     plt.yscale('log')
+    plt.plot(formatted_dates, total_cases,
+             marker='.', color=total_color, label='Total Cases', zorder=5)
+    plt.plot(formatted_dates, active_cases,
+             marker='.', color=active_color, label='Active Cases', zorder=4)
+    plt.plot(formatted_dates, cured_cases,
+             marker='.', color=cured_color, label='Cured Cases', zorder=3)
+    plt.plot(formatted_dates, death_cases,
+             marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.LogLocator())
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(log_label_formatter))
     ax.yaxis.set_minor_formatter(mpl.ticker.FuncFormatter(log_label_formatter))
-    plt.grid(which='major', linewidth='0.4')
-    plt.grid(which='minor', linewidth='0.1')
-    locs, labels = plt.xticks()
-    plt.tick_params(which='both', length=0)
-    plt.tick_params(which='minor', length=0, labelsize='xx-small')
-    plt.xticks(rotation='vertical', fontsize='x-small')
-    plt.yticks(fontsize='small')
-    plt.xlabel('Date')
+    plt.tick_params(which='minor', labelsize='xx-small')
     plt.ylabel('Count')
-    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=1)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt.legend(shadow=True)
-    plt.savefig('_site/img/all-cases-logarithmic.png',
-                dpi=300, bbox_inches='tight')
+    plt_end('all-cases-logarithmic.png')
 
 
 def new_cases():
     """Plot bar chart for new cases on each day."""
     os.makedirs('_site/img/', exist_ok=True)
-    dates = formatted_dates()
-    plt.clf()
-    plt.gcf().set_size_inches(6.4, 4.8)
-    plt.bar(dates, data.total_diff,
-             color=total_color, label='New Cases', zorder=4)
+    plt_begin()
+    plt.bar(formatted_dates, data.total_diff,
+            color=total_color, label='New Cases', zorder=4)
+
     for index, value in enumerate(data.total_diff):
-        plt.text(index, value + 2, value, ha='center', fontsize='x-small')
+        plt.text(index, value + 10, value, ha='center', fontsize='xx-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
-    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(bar_label_formatter))
-    plt.grid(which='major', linewidth='0.4')
-    plt.grid(which='minor', linewidth='0.1')
-    plt.tick_params(which='major', length=0)
-    plt.tick_params(which='minor', length=0)
-    plt.xticks(rotation='vertical', fontsize='x-small')
-    plt.yticks(fontsize='small')
-    plt.xlabel('Date')
     plt.ylabel('New Cases')
-    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
-    plt.legend(shadow=True)
     plt.savefig('_site/img/new-cases.png', dpi=300, bbox_inches='tight')
+    plt_end('new-cases.png')
 
 
 def doubling_time():
     """Plot line chart for all case numbers (linear scale)."""
     os.makedirs('_site/img/', exist_ok=True)
-    dates = formatted_dates()
     days = [float('nan') if x == -1 else x for x in data.doubling_days]
-    plt.clf()
+    plt_begin()
     plt.gcf().set_size_inches(6.4, 4.8)
-    plt.plot(dates, days,
+    plt.plot(formatted_dates, days,
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
-    plt.grid(which='major', linewidth='0.4')
-    plt.grid(which='minor', linewidth='0.1')
-    plt.tick_params(which='both', length=0)
-    plt.xticks(rotation='vertical', fontsize='x-small')
-    plt.yticks(fontsize='small')
-    plt.xlabel('Date')
     plt.ylabel('Days')
-    plt.xlim(left=-0.8, right=len(dates) - 0.2)
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt.legend(shadow=True)
-    plt.savefig('_site/img/doubling-time.png',
-                dpi=300, bbox_inches='tight')
+    plt_end('doubling-time.png')
 
 
 def linear_label_formatter(x, pos):
@@ -183,18 +162,13 @@ def linear_label_formatter(x, pos):
 
 def log_label_formatter(x, pos):
     """Return tick label for logarithmic scale."""
-    if str(x)[0] != '9':
+    if str(x)[0] in ['1', '2', '4', '6', '8']:
         return int(x)
 
 
 def bar_label_formatter(x, pos):
     """Return tick label for bar chart."""
     return int(x)
-
-
-def formatted_dates():
-    """Date strings to use as X-axis tick labels."""
-    return [d.strftime('%d %b') for d in data.datetimes]
 
 
 def shift(a, b, shift_a, shift_b):
