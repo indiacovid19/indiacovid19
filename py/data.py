@@ -62,7 +62,7 @@ doubling_days = [-1]
 
 # Date and time as Python objects instead of strings.
 datetimes = []
-ref_datetimes = []
+last_ref_datetimes = []
 
 
 def load():
@@ -89,11 +89,20 @@ def load():
 
     # Split the dict into separate lists for use with matplotlib.pyplot.
     for date in dates:
+        # Case numbers.
         active_cases.append(data[date]['active'])
         cured_cases.append(data[date]['cured'] + data[date]['migrated'])
         death_cases.append(data[date]['death'])
         total_cases.append(data[date]['total'])
+        # List of references for each date.
         refs.append(data[date]['refs'])
+        # Last reference time for each date.
+        last_ref_time = data[date]['refs'][-1][1]
+        if last_ref_time[:10] != date:
+            last_ref_time = date + ' 23:59'
+        last_ref_datetime = datetime.datetime.strptime(last_ref_time,
+                                                       '%Y-%m-%d %H:%M')
+        last_ref_datetimes.append(last_ref_datetime)
 
     # Populate increment/decrement in numbers for each date.
     active_diff.append(active_cases[0])
@@ -122,20 +131,18 @@ def calc_growth(previous_number, current_number):
 
 def calc_doubling_time(date):
     """Calculate the number of days it took for total cases to double."""
-    n3 = data[date]['total']
-    t3 = data[date]['refs'][-1][1]
-    for d1 in reversed(dates):
-        t1 = data[d1]['refs'][-1][1]
-        n1 = data[d1]['total']
+    i = dates.index(date)
+    n3 = total_cases[i]
+    t3 = last_ref_datetimes[i]
+    for d1, n1, t1 in zip(dates[i::-1],
+                          total_cases[i::-1],
+                          last_ref_datetimes[i::-1]):
         if n1 <= n3/2:
             break
-        t2 = t1
         n2 = n1
+        t2 = t1
     else:
         return -1  # -1 represents undefined doubling time.
-    t1 = datetime.datetime.strptime(t1, '%Y-%m-%d %H:%M')
-    t2 = datetime.datetime.strptime(t2, '%Y-%m-%d %H:%M')
-    t3 = datetime.datetime.strptime(t3, '%Y-%m-%d %H:%M')
     seconds = ((t3 - t2).total_seconds() +
                (t2 - t1).total_seconds() * (n2 - n3/2) / (n2 - n1))
     days = seconds / 86400
