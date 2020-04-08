@@ -87,5 +87,8 @@
   [ "2020-04-07",  3978,  325,   117,     1,  "2020-04-07 18:21",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1612010",                                             "4421 confirmed, 117 deaths, 326 cured" ],
   [ "2020-04-07",  4312,  352,   124,     1,  "2020-04-07 18:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-07_1800/",                                  "" ],
 
-  [ "2020-04-08",  4643,  401,   149,     1,  "2020-04-08 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-08_0800/",                                  "" ]
+  [ "2020-04-08",  4643,  401,   149,     1,  "2020-04-08 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-08_0800/",                                  "" ],
+  [ "2020-04-08",  4643,  401,   149,     1,  "2020-04-08 18:10",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1612289",                                             "5194 total, 149 died, 773 new, 32 new deaths, 402 recovered" ],
+  [ "2020-04-08",  4643,  401,   149,     1,  "2020-04-08 18:27",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1612300",                                             "5194 confirmed, 149 deaths, 402 cured" ],
+  [ "2020-04-08",  4714,  410,   149,     1,  "2020-04-08 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-08_1700/",                                  "" ]
 ]
