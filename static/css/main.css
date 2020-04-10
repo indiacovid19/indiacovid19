@@ -206,51 +206,26 @@ table.grid td {
 
 .latest .total {
   background: linear-gradient(#4ae, #7df);
+  color: #006;
 }
 
 .latest .active {
   background: linear-gradient(#ea4, #fd7);
+  color: #900;
 }
 
 .latest .cured {
   background: linear-gradient(#5b5, #8e8);
+  color: #030;
 }
 
 .latest .death {
   background: linear-gradient(#e77, #faa);
-}
-
-/* Latest Update Counts */
-.latest .total a:link, .latest .total a:visited {
-  color: #006;
-}
-
-.latest .total a:hover, .latest .total a:active {
-  color: #039;
-}
-
-.latest .active a:link, .latest .active a:visited {
-  color: #900;
-}
-
-.latest .active a:hover, .latest .active a:active {
-  color: #c30;
-}
-
-.latest .cured a:link, .latest .cured a:visited {
-  color: #030;
-}
-
-.latest .cured a:hover, .latest .cured a:active {
-  color: #060;
-}
-
-.latest .death a:link, .latest .death a:visited {
   color: #600;
 }
 
-.latest .death a:hover, .latest .death a:active {
-  color: #900;
+.latest a:hover, .latest a:active {
+  opacity: 0.8;
 }
 
 /* FAQ */
