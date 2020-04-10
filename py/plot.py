@@ -57,13 +57,13 @@ def plt_end(image_name):
     plt.yticks(fontsize='small')
     plt.tick_params(which='both', length=0)
     plt.legend(shadow=True)
+    os.makedirs('_site/img/', exist_ok=True)
     plt.savefig('_site/img/' + image_name,
                 dpi=300, bbox_inches='tight')
 
 
 def all_cases_linear():
     """Plot line chart for all case numbers (linear scale)."""
-    os.makedirs('_site/img/', exist_ok=True)
     plt_begin()
     plt.plot(formatted_dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
@@ -84,7 +84,6 @@ def all_cases_linear():
 
 def all_cases_logarithmic():
     """Plot line chart for all case numbers (logarithmic scale)."""
-    os.makedirs('_site/img/', exist_ok=True)
     total_cases = data.total_cases
     active_cases = data.active_cases
     cured_cases = data.cured_cases
@@ -117,7 +116,6 @@ def all_cases_logarithmic():
 
 def new_cases():
     """Plot bar chart for new cases on each day."""
-    os.makedirs('_site/img/', exist_ok=True)
     plt_begin()
     plt.bar(formatted_dates, data.total_diff,
             color=total_color, label='New Cases', zorder=2)
@@ -143,7 +141,6 @@ def growth_percent():
     growth_with_nan = [float('nan') if g == -1 else g
                        for g in growth_percents]
 
-    os.makedirs('_site/img/', exist_ok=True)
     plt_begin()
     plt.plot(formatted_dates, growth_with_nan,
              marker='.', color=total_color,
@@ -151,11 +148,10 @@ def growth_percent():
                    'in India on each day compared to previous day')
 
     for index, value in enumerate(growth_percents):
-        if value == -1:
-            continue
-        v = '{:.0f}%'.format(value)
-        plt.text(index, value + 12, v, ha='center',
-                 rotation='vertical', fontsize='xx-small')
+        if value != -1:
+            v = '{:.0f}%'.format(value)
+            plt.text(index, value + 12, v, ha='center',
+                     rotation='vertical', fontsize='xx-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
@@ -169,20 +165,17 @@ def growth_percent():
 
 def doubling_time():
     """Plot line chart for all case numbers (linear scale)."""
-    os.makedirs('_site/img/', exist_ok=True)
     days = [float('nan') if x == -1 else x for x in data.doubling_days]
     plt_begin()
-    plt.gcf().set_size_inches(6.4, 4.8)
     plt.plot(formatted_dates, days,
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
     for index, value in enumerate(data.doubling_days):
-        if value == -1:
-            continue
-        v = '{:.1f}'.format(value)
-        plt.text(index, value + 1, v, ha='center',
-                 rotation='vertical', fontsize='xx-small')
+        if value != -1:
+            v = '{:.1f}'.format(value)
+            plt.text(index, value + 1, v, ha='center',
+                     rotation='vertical', fontsize='xx-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
@@ -191,6 +184,57 @@ def doubling_time():
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt_end('doubling-time.png')
+
+
+def cured_percent():
+    """Plot line chart for cured and death percents."""
+    cured_nan = [float('nan') if x == -1 else x for x in data.cured_percents]
+    death_nan = [float('nan') if x == -1 else x for x in data.death_percents]
+    plt_begin()
+    plt.plot(formatted_dates, cured_nan,
+             marker='.', color=cured_color,
+             label='Percent of closed cases that are cured cases')
+    plt.plot(formatted_dates, death_nan,
+             marker='.', color=death_color,
+             label='Percent of closed cases that are death cases')
+    for index, (cured, death) in enumerate(zip(data.cured_percents,
+                                               data.death_percents)):
+        if cured != -1:
+            c = '{:.0f}%'.format(cured)
+            d = '{:.0f}%'.format(death)
+            plt.text(index, cured - 7, c, ha='center',
+                     rotation='vertical', fontsize='xx-small')
+            plt.text(index, death + 3, d, ha='center',
+                     rotation='vertical', fontsize='xx-small')
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
+    plt.ylabel('Days')
+    plt.ylim(top=100)
+    plt.ylim(bottom=0)
+    plt_end('cured-percent.png')
+
+
+def cured_ratio():
+    """Plot line chart for cured ratio."""
+    cured_nan = [float('nan') if x == -1 else x for x in data.cured_ratios]
+    plt_begin()
+    plt.plot(formatted_dates, cured_nan,
+             marker='.', color=cured_color,
+             label='Number of cured cases per death case')
+    for index, value in enumerate(data.cured_ratios):
+        if value != -1:
+            c = '{:.1f}'.format(value)
+            plt.text(index, value + 0.2, c, ha='center',
+                     rotation='vertical', fontsize='xx-small')
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.5))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(0.1))
+    plt.ylabel('Days')
+    plt.ylim(top=top_ylim(data.cured_ratios, 2, 1))
+    plt.ylim(bottom=0)
+    plt_end('cured-ratio.png')
 
 
 def linear_label_formatter(x, pos):

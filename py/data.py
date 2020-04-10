@@ -53,6 +53,12 @@ cured_diff = []
 death_diff = []
 total_diff = []
 
+# Cured and death percents within closed cases.
+cured_percents = []
+death_percents = []
+cured_ratios = []
+
+
 # Growth w.r.t previous day for each date.
 active_growth = [-1]
 cured_growth = [-1]
@@ -81,23 +87,37 @@ def load():
             data[date] = {'refs': []}
 
         data[date]['active'] = active
-        data[date]['cured'] = cured
+        data[date]['cured'] = cured + migrated
         data[date]['death'] = death
-        data[date]['migrated'] = migrated
+        data[date]['closed'] = cured + death + migrated
         data[date]['total'] = active + cured + death + migrated
         data[date]['refs'].append([i + 1, ref_date, ref_link, ref_comment])
 
     # Split the dict into separate lists for use with matplotlib.pyplot.
     for date in dates:
+        entry = data[date]
         # Case numbers.
-        active_cases.append(data[date]['active'])
-        cured_cases.append(data[date]['cured'] + data[date]['migrated'])
-        death_cases.append(data[date]['death'])
-        total_cases.append(data[date]['total'])
+        active_cases.append(entry['active'])
+        cured_cases.append(entry['cured'])
+        death_cases.append(entry['death'])
+        total_cases.append(entry['total'])
+        # Cured and death percents within closed cases.
+        if entry['closed'] == 0:
+            cured_percents.append(-1)
+            death_percents.append(-1)
+        else:
+            cured_percents.append(100 * entry['cured'] / entry['closed'])
+            death_percents.append(100 * entry['death'] / entry['closed'])
+            assert cured_percents[-1] + death_percents[-1] == 100
+        # Cured ratio.
+        if entry['death'] == 0:
+            cured_ratios.append(-1)
+        else:
+            cured_ratios.append(entry['cured'] / entry['death'])
         # List of references for each date.
-        refs.append(data[date]['refs'])
+        refs.append(entry['refs'])
         # Last reference time for each date.
-        last_ref_time = data[date]['refs'][-1][1]
+        last_ref_time = entry['refs'][-1][1]
         if last_ref_time[:10] != date:
             last_ref_time = date + ' 23:59'
         last_ref_datetime = datetime.datetime.strptime(last_ref_time,

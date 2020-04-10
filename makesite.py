@@ -195,6 +195,9 @@ def main():
     last_updated = last_updated.strftime('%d %b %Y %I:%M %p IST')
     new_growth = '{:+.0f}%'.format(100 * (data.total_growth[-1] - 1))
     doubled_days = '{:.1f}'.format(data.doubling_days[-1])
+    cured_percent = '{:.0f}%'.format(data.cured_percents[-1])
+    death_percent = '{:.0f}%'.format(data.death_percents[-1])
+    cured_ratio = '{:.1f}'.format(data.cured_ratios[-1])
 
     # Render home page.
     log('Rendering home page ...')
@@ -209,6 +212,9 @@ def main():
                     new_cases=data.total_diff[-1],
                     new_growth=new_growth,
                     doubled_days=doubled_days,
+                    cured_percent=cured_percent,
+                    death_percent=death_percent,
+                    cured_ratio=cured_ratio,
                     case_links=case_links(),
                     case_rows=case_rows())
     fwrite('_site/index.html', output)
@@ -224,6 +230,10 @@ def main():
     plot.growth_percent()
     log('Rendering doubling-time plot ...')
     plot.doubling_time()
+    log('Rendering cured-percent plot ...')
+    plot.cured_percent()
+    log('Rendering cured-ratio plot ...')
+    plot.cured_ratio()
     log('Done')
 
 

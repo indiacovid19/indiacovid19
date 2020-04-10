@@ -155,20 +155,20 @@ table.grid td {
   color: #06c;
 }
 
-.total a:hover, .total a:active {
-  color: #39f;
-}
-
-.active {
+.active, .active a:link, .active a:visited {
   color: #f60;
 }
 
-.cured {
+.cured, .cured a:link, .cured a:visited {
   color: #393;
 }
 
-.death {
+.death, .death a:link, .death a:visited {
   color: #c33;
+}
+
+.neutral {
+  color: #333;
 }
 
 .ref {
