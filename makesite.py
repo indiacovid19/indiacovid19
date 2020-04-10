@@ -220,6 +220,8 @@ def main():
     plot.all_cases_logarithmic()
     log('Rendering bar plot ...')
     plot.new_cases()
+    log('Rendering growth plot ...')
+    plot.growth_percent()
     log('Rendering doubling-time plot ...')
     plot.doubling_time()
     log('Done')

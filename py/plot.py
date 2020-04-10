@@ -28,6 +28,7 @@
 
 
 import os
+import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from py import data
@@ -120,7 +121,7 @@ def new_cases():
     os.makedirs('_site/img/', exist_ok=True)
     plt_begin()
     plt.bar(formatted_dates, data.total_diff,
-            color=total_color, label='New Cases', zorder=4)
+            color=total_color, label='New Cases', zorder=2)
 
     for index, value in enumerate(data.total_diff):
         plt.text(index, value + 10, value, ha='center', fontsize='xx-small')
@@ -131,8 +132,36 @@ def new_cases():
     plt.ylabel('New Cases')
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
-    plt.savefig('_site/img/new-cases.png', dpi=300, bbox_inches='tight')
     plt_end('new-cases.png')
+
+
+def growth_percent():
+    """Plot growth rate for each day."""
+    growth = [float('nan') if g == -1 else 100 * (g - 1)
+              for g in data.total_growth]
+
+    os.makedirs('_site/img/', exist_ok=True)
+    plt_begin()
+    plt.plot(formatted_dates, growth,
+             marker='.', color=total_color,
+             label='Growth percent in number of total COVID-19 cases\n'
+                   'in India on each day compared to previous day')
+
+    for index, value in enumerate(growth):
+        if math.isnan(value):
+            continue
+        v = '{:.0f}%'.format(value)
+        plt.text(index, value + 12, v,
+                 rotation='vertical', ha='center', fontsize='xx-small')
+
+    ax = plt.gca()
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
+    plt.ylabel('Growth percent')
+    plt.ylim(top=420)
+    plt.ylim(bottom=0)
+    plt_end('growth-percent.png')
 
 
 def doubling_time():
@@ -169,6 +198,11 @@ def log_label_formatter(x, pos):
 def bar_label_formatter(x, pos):
     """Return tick label for bar chart."""
     return int(x)
+
+
+def percent_formatter(x, pos):
+    """Return tick label for growth percent graph."""
+    return str(int(x)) + '%'
 
 
 def shift(a, b, shift_a, shift_b):
