@@ -28,7 +28,6 @@
 
 
 import os
-import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from py import data
@@ -124,12 +123,14 @@ def new_cases():
             color=total_color, label='New Cases', zorder=2)
 
     for index, value in enumerate(data.total_diff):
-        plt.text(index, value + 10, value, ha='center', fontsize='xx-small')
+        plt.text(index, value + 10, value, ha='center',
+                 rotation='vertical', fontsize='xx-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
     plt.ylabel('New Cases')
+    plt.ylim(top=top_ylim(data.total_diff, 50, 10))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt_end('new-cases.png')
@@ -137,29 +138,31 @@ def new_cases():
 
 def growth_percent():
     """Plot growth rate for each day."""
-    growth = [float('nan') if g == -1 else 100 * (g - 1)
-              for g in data.total_growth]
+    growth_percents = [-1 if g == -1 else 100 * (g - 1)
+                       for g in data.total_growth]
+    growth_with_nan = [float('nan') if g == -1 else g
+                       for g in growth_percents]
 
     os.makedirs('_site/img/', exist_ok=True)
     plt_begin()
-    plt.plot(formatted_dates, growth,
+    plt.plot(formatted_dates, growth_with_nan,
              marker='.', color=total_color,
              label='Growth percent in number of total COVID-19 cases\n'
                    'in India on each day compared to previous day')
 
-    for index, value in enumerate(growth):
-        if math.isnan(value):
+    for index, value in enumerate(growth_percents):
+        if value == -1:
             continue
         v = '{:.0f}%'.format(value)
-        plt.text(index, value + 12, v,
-                 rotation='vertical', ha='center', fontsize='xx-small')
+        plt.text(index, value + 12, v, ha='center',
+                 rotation='vertical', fontsize='xx-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
     plt.ylabel('Growth percent')
-    plt.ylim(top=420)
+    plt.ylim(top=top_ylim(growth_percents, 50, 10))
     plt.ylim(bottom=0)
     plt_end('growth-percent.png')
 
@@ -174,10 +177,17 @@ def doubling_time():
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
+    for index, value in enumerate(data.doubling_days):
+        if value == -1:
+            continue
+        v = '{:.1f}'.format(value)
+        plt.text(index, value + 2, v, ha='center',
+                 rotation='vertical', fontsize='xx-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
     plt.ylabel('Days')
+    plt.ylim(top=top_ylim(data.doubling_days, 50, 10))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt_end('doubling-time.png')
@@ -203,6 +213,13 @@ def bar_label_formatter(x, pos):
 def percent_formatter(x, pos):
     """Return tick label for growth percent graph."""
     return str(int(x)) + '%'
+
+
+def top_ylim(data, padding, round_to):
+    """Calculate top ylim by adding padding to max data value."""
+    y = max(data) + padding
+    y = y - (y % round_to)
+    return y
 
 
 def shift(a, b, shift_a, shift_b):
