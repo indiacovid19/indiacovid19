@@ -95,5 +95,7 @@
   [ "2020-04-09",  5095,  472,   166,     1,  "2020-04-09 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-09_0800/",                                  "" ],
   [ "2020-04-09",  5095,  472,   166,     1,  "2020-04-09 18:35",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1612598",                                             "5734 total, 166 died, 540 new, 17 new deaths, 473 recovered" ],
   [ "2020-04-09",  5095,  472,   166,     1,  "2020-04-09 19:16",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1612639",                                             "5734 confirmed, 166 deaths, 473 cured" ],
-  [ "2020-04-09",  5218,  477,   169,     1,  "2020-04-09 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-09_1700/",                                  "" ]
+  [ "2020-04-09",  5218,  477,   169,     1,  "2020-04-09 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-09_1700/",                                  "" ],
+
+  [ "2020-04-10",  5709,  503,   199,     1,  "2020-04-10 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-10_0800/",                                  "" ]
 ]
