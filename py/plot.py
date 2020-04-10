@@ -181,13 +181,13 @@ def doubling_time():
         if value == -1:
             continue
         v = '{:.1f}'.format(value)
-        plt.text(index, value + 2, v, ha='center',
+        plt.text(index, value + 1, v, ha='center',
                  rotation='vertical', fontsize='xx-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
     plt.ylabel('Days')
-    plt.ylim(top=top_ylim(data.doubling_days, 50, 10))
+    plt.ylim(top=top_ylim(data.doubling_days, 5, 1))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
     plt_end('doubling-time.png')
