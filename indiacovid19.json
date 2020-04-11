@@ -100,5 +100,7 @@
   [ "2020-04-10",  5709,  503,   199,     1,  "2020-04-10 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-10_0800/",                                  "" ],
   [ "2020-04-10",  5709,  503,   199,     1,  "2020-04-10 18:39",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613047",                                             "6412 positive, 503 recovered, 199 died, 678 new, 33 new deaths" ],
   [ "2020-04-10",  5709,  503,   199,     1,  "2020-04-10 19:42",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613084",                                             "6412 confirmed, 199 deaths, 503 cured" ],
-  [ "2020-04-10",  6039,  515,   206,     1,  "2020-04-10 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-10_1700/",                                  "" ]
+  [ "2020-04-10",  6039,  515,   206,     1,  "2020-04-10 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-10_1700/",                                  "" ],
+
+  [ "2020-04-11",  6565,  642,   239,     1,  "2020-04-11 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_0800/",                                  "" ]
 ]
