@@ -48,7 +48,7 @@ def plt_begin():
 
 def plt_end(image_name):
     """Configure current plot and export it to an image file."""
-    plt.gcf().set_size_inches(7.2, 4.8)
+    plt.gcf().set_size_inches(7.68, 4.8)
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
     plt.xlabel('Date')
@@ -107,7 +107,7 @@ def all_cases_logarithmic():
     ax.yaxis.set_major_locator(mpl.ticker.LogLocator())
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(log_label_formatter))
     ax.yaxis.set_minor_formatter(mpl.ticker.FuncFormatter(log_label_formatter))
-    plt.tick_params(which='minor', labelsize='xx-small')
+    plt.tick_params(which='minor', labelsize='x-small')
     plt.ylabel('Count')
     plt.ylim(bottom=1)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
@@ -121,14 +121,14 @@ def new_cases():
             color=total_color, label='New Cases', zorder=2)
 
     for index, value in enumerate(data.total_diff):
-        plt.text(index, value + 10, value, ha='center',
-                 rotation='vertical', fontsize='xx-small')
+        plt.text(index, value + 20, value, ha='center',
+                 rotation='vertical', fontsize='x-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
     plt.ylabel('New Cases')
-    plt.ylim(top=top_ylim(data.total_diff, 50, 10))
+    plt.ylim(top=top_ylim(data.total_diff, 80, 10))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt_end('new-cases.png')
@@ -151,7 +151,7 @@ def growth_percent():
         if value != -1:
             v = '{:.0f}%'.format(value)
             plt.text(index, value + 12, v, ha='center',
-                     rotation='vertical', fontsize='xx-small')
+                     rotation='vertical', fontsize='x-small')
 
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
@@ -175,7 +175,7 @@ def doubling_time():
         if value != -1:
             v = '{:.1f}'.format(value)
             plt.text(index, value + 1, v, ha='center',
-                     rotation='vertical', fontsize='xx-small')
+                     rotation='vertical', fontsize='x-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
@@ -202,10 +202,10 @@ def cured_percent():
         if cured != -1:
             c = '{:.0f}%'.format(cured)
             d = '{:.0f}%'.format(death)
-            plt.text(index, cured - 7, c, ha='center',
-                     rotation='vertical', fontsize='xx-small')
+            plt.text(index, cured - 8, c, ha='center',
+                     rotation='vertical', fontsize='x-small')
             plt.text(index, death + 3, d, ha='center',
-                     rotation='vertical', fontsize='xx-small')
+                     rotation='vertical', fontsize='x-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
@@ -227,7 +227,7 @@ def cured_ratio():
         if value != -1:
             c = '{:.1f}'.format(value)
             plt.text(index, value + 0.2, c, ha='center',
-                     rotation='vertical', fontsize='xx-small')
+                     rotation='vertical', fontsize='x-small')
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(0.1))
