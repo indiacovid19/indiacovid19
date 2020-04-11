@@ -20,36 +20,23 @@ h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
 
 
 /* Links */
-h1 a:link, h1 a:visited,
-h2 a:link, h2 a:visited,
-h3 a:link, h3 a:visited,
-h4 a:link, h4 a:visited,
-h5 a:link, h5 a:visited,
-h6 a:link, h6 a:visited,
-.links a:link, .links a:visited,
-.date a:link, .date a:visited {
-  color: #333;
-}
-
-h1 a:hover, h1 a:active,
-h2 a:hover, h2 a:active,
-h3 a:hover, h3 a:active,
-h4 a:hover, h4 a:active,
-h5 a:hover, h5 a:active,
-h6 a:hover, h6 a:active,
-.links a:hover, .links a:active,
-.date a:hover, .date a:active {
-  color: #666;
-}
-
-a:link, a:visited {
+a {
   color: #03c;
   text-decoration: none;
 }
 
 a:hover, a:active {
-  color: #03f;
+  opacity: 0.8;
   text-decoration: underline;
+}
+
+a.imglink:hover, a.imglink:active {
+  opacity: 2.0;
+  text-decoration: none;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .links a, .date a {
+  color: #333;
 }
 
 .caselinks {
@@ -151,19 +138,19 @@ table.grid td {
   text-align: center;
 }
 
-.total, .total a:link, .total a:visited {
+.total, .total a {
   color: #06c;
 }
 
-.active, .active a:link, .active a:visited {
+.active, .active a {
   color: #f60;
 }
 
-.cured, .cured a:link, .cured a:visited {
+.cured, .cured a {
   color: #393;
 }
 
-.death, .death a:link, .death a:visited {
+.death, .death a {
   color: #c33;
 }
 
@@ -182,12 +169,8 @@ table.grid td {
   font-size: x-small;
 }
 
-.ref a:link, .ref a:visited {
+.ref a {
   color: #666;
-}
-
-.ref a:hover, .ref a:active {
-  color: #999;
 }
 
 /* Latest Update Boxes */
@@ -222,10 +205,6 @@ table.grid td {
 .latest .death {
   background: linear-gradient(#e77, #faa);
   color: #600;
-}
-
-.latest a:hover, .latest a:active {
-  opacity: 0.8;
 }
 
 /* FAQ */
