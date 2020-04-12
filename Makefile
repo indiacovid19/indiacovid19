@@ -28,7 +28,7 @@ publish: site
 	#
 	# Stage website.
 	rm -rf $(TMP_GIT)
-	mv _site $(TMP_GIT)
+	cp -R _site $(TMP_GIT)
 	git rev-parse --short HEAD > $(TMP_REV) || echo 0000000 > $(TMP_REV)
 	echo indiacovid19.github.io >> $(README)
 	echo ====================== >> $(README)
