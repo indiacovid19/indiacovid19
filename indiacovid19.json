@@ -107,5 +107,6 @@
   [ "2020-04-11",  6565,  642,   239,     1,  "2020-04-11 18:22",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613376",  "7447 positive, 239 died, 1035 new, 40 new deaths" ],
   [ "2020-04-11",  6634,  652,   242,     1,  "2020-04-11 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_1700/",                                  "" ],
 
-  [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_0800/",                                  "" ]
+  [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_0800/",                                  "" ],
+  [ "2020-04-12",  7409,  764,   273,     1,  "2020-04-12 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_1700/",                                  "" ]
 ]
