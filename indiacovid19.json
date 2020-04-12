@@ -103,5 +103,9 @@
   [ "2020-04-10",  6039,  515,   206,     1,  "2020-04-10 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-10_1700/",                                  "" ],
 
   [ "2020-04-11",  6565,  642,   239,     1,  "2020-04-11 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_0800/",                                  "" ],
-  [ "2020-04-11",  6634,  652,   242,     1,  "2020-04-11 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_1700/",                                  "" ]
+  [ "2020-04-11",  6565,  642,   239,     1,  "2020-04-11 18:22",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613367",  "1035 new, 855 new active, 239 deaths, 642 cured, 7447 confirmed" ],
+  [ "2020-04-11",  6565,  642,   239,     1,  "2020-04-11 18:22",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613376",  "7447 positive, 239 died, 1035 new, 40 new deaths" ],
+  [ "2020-04-11",  6634,  652,   242,     1,  "2020-04-11 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_1700/",                                  "" ],
+
+  [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_0800/",                                  "" ]
 ]
