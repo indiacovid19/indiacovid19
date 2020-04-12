@@ -108,5 +108,7 @@
   [ "2020-04-11",  6634,  652,   242,     1,  "2020-04-11 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-11_1700/",                                  "" ],
 
   [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_0800/",                                  "" ],
+  [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 18:35",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613674",                                             "8356 total, 273 died, 909 new, 34 new deaths, 716 recovered, 74 new cured" ],
+  [ "2020-04-12",  7367,  715,   273,     1,  "2020-04-12 18:38",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1613669",                                             "909 new, 716 cured, 273 deaths, 8356 cases" ],
   [ "2020-04-12",  7409,  764,   273,     1,  "2020-04-12 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-12_1700/",                                  "" ]
 ]
