@@ -62,7 +62,12 @@ img {
 /* Code */
 pre, code, samp, kbd {
   font-family: monospace,monospace;
+  font-size: 0.9em;
   color: #006;
+}
+
+pre code, pre samp, pre kbd {
+  font-size: 1em;
 }
 
 pre {
