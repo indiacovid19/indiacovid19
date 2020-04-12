@@ -35,7 +35,7 @@ a.imglink:hover, a.imglink:active {
   text-decoration: none;
 }
 
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .links a, .date a {
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .links a, .date a, .faq a {
   color: #333;
 }
 
@@ -213,7 +213,7 @@ table.grid td {
 }
 
 /* FAQ */
-.question {
+.faq {
   font-weight: bold;
 }
 
