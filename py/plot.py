@@ -116,6 +116,7 @@ def all_cases_logarithmic():
 
 def new_cases():
     """Plot bar chart for new cases on each day."""
+    tick_gap = 20
     plt_begin()
     plt.bar(formatted_dates, data.total_diff,
             color=total_color, label='New Cases', zorder=2)
@@ -123,10 +124,10 @@ def new_cases():
         plt.text(i, value + 20, value, ha='center',
                  rotation='vertical', size='x-small', color=total_color)
     ax = plt.gca()
-    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(50))
-    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(10))
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('New Cases')
-    plt.ylim(top=top_ylim(data.total_diff, 80, 10))
+    plt.ylim(top=top_ylim(data.total_diff, tick_gap * 7, tick_gap))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
     plt_end('new-cases.png')
