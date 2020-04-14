@@ -38,7 +38,7 @@ import re
 import shutil
 import sys
 
-from py import data, plot
+from py import archive, log, plot
 
 
 def fread(filename):
@@ -56,11 +56,6 @@ def fwrite(filename, text):
         f.write(text)
 
 
-def log(msg, *args):
-    """Log message with specified arguments."""
-    sys.stderr.write(msg.format(*args) + '\n')
-
-
 def render(template, **params):
     """Replace placeholders in template with values from params."""
     return re.sub(r'{{\s*([^}\s]+)\s*}}',
@@ -68,7 +63,7 @@ def render(template, **params):
                   template)
 
 
-def case_links():
+def case_links(data):
     """Create HTML to display navigation links for case numbers table."""
     prev_month = None
     months = []
@@ -113,7 +108,7 @@ def case_head(month):
 def case_refs(date, refs):
     """Create HTML to display a list of refs in case numbers table."""
     out = []
-    for ref_num, ref_date, ref_link, ref_comment in refs:
+    for ref_date, ref_link, ref_comment in refs:
         ref_date, ref_time = ref_date[:10], ref_date[11:]
         ref_day = ''
         if date != ref_date:
@@ -121,9 +116,8 @@ def case_refs(date, refs):
             ref_datetime = datetime.datetime.strptime(ref_date, '%Y-%m-%d')
             plus = (ref_datetime - entry_datetime).days
             ref_day = '<a href="#footnote3"><sup>+{}d</sup></a>'.format(plus)
-        out.extend([
-            '{}<a href="{}">{}</a>'.format(ref_day, ref_link, ref_time)
-        ])
+        out.extend(['{}<a href="{}">{}</a>'
+                    .format(ref_day, ref_link, ref_time)])
     return ', '.join(out)
 
 
@@ -134,7 +128,7 @@ def case_data(entry):
     if growth == -1:
         growth = '-'
     else:
-        growth = '{:+.0f}%'.format(100 * (growth - 1))
+        growth = '{:+.0f}%'.format(growth)
 
     if days == -1:
         days = '-'
@@ -157,15 +151,15 @@ def case_data(entry):
     return '\n'.join(out) + '\n'
 
 
-def case_rows():
+def case_rows(data):
     """Create HTML to display row of case numbers in a table."""
     prev_month = None
     out = ''
     for i, entry in enumerate(zip(data.dates,
                                   data.total_cases,
-                                  data.total_diff,
-                                  data.total_growth,
-                                  data.doubling_days,
+                                  data.total_diffs,
+                                  data.total_growths,
+                                  data.doubling_times,
                                   data.active_cases,
                                   data.cured_cases,
                                   data.death_cases,
@@ -186,21 +180,19 @@ def main():
     shutil.copytree('static', '_site')
     shutil.copy('indiacovid19.json', '_site')
 
-    # Load COVID-19 data.
-    data.load()
+    # Load COVID-19 archive data.
+    data = archive.load()
 
     # Format placeholder values.
-    last_updated = data.refs[-1][-1][1]
-    last_updated = datetime.datetime.strptime(last_updated, '%Y-%m-%d %H:%M')
-    last_updated = last_updated.strftime('%d %b %Y %I:%M %p IST')
-    new_growth = '{:+.0f}%'.format(100 * (data.total_growth[-1] - 1))
-    doubled_days = '{:.1f}'.format(data.doubling_days[-1])
+    last_updated = data.last_ref_datetimes[-1].strftime('%d %b %Y %H:%M IST')
+    new_growth = '{:+.0f}%'.format(data.total_growths[-1])
+    doubling_time = '{:.1f}'.format(data.doubling_times[-1])
     cured_percent = '{:.0f}%'.format(data.cured_percents[-1])
     death_percent = '{:.0f}%'.format(data.death_percents[-1])
     cured_ratio = '{:.1f}'.format(data.cured_ratios[-1])
 
     # Render home page.
-    log('Rendering home page ...')
+    log.log('Rendering home page ...')
     layout = fread('layout/index.html')
     output = render(layout,
                     last_total=data.total_cases[-1],
@@ -209,32 +201,19 @@ def main():
                     last_death=data.death_cases[-1],
                     last_date=data.dates[-1],
                     last_updated=last_updated,
-                    new_cases=data.total_diff[-1],
+                    new_cases=data.total_diffs[-1],
                     new_growth=new_growth,
-                    doubled_days=doubled_days,
+                    doubling_time=doubling_time,
                     cured_percent=cured_percent,
                     death_percent=death_percent,
                     cured_ratio=cured_ratio,
-                    case_links=case_links(),
-                    case_rows=case_rows())
+                    case_links=case_links(data),
+                    case_rows=case_rows(data))
     fwrite('_site/index.html', output)
 
     # Plot graphs.
-    log('Rendering linear plot ...')
-    plot.all_cases_linear()
-    log('Rendering logarithmic plot ...')
-    plot.all_cases_logarithmic()
-    log('Rendering bar plot ...')
-    plot.new_cases()
-    log('Rendering growth plot ...')
-    plot.growth_percent()
-    log('Rendering doubling-time plot ...')
-    plot.doubling_time()
-    log('Rendering cured-percent plot ...')
-    plot.cured_percent()
-    log('Rendering cured-ratio plot ...')
-    plot.cured_ratio()
-    log('Done')
+    plot.plot_all(data)
+    log.log('Done')
 
 
 if __name__ == '__main__':

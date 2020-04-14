@@ -30,7 +30,7 @@
 import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from py import data
+from py import archive, log
 
 
 total_color = '#06c'
@@ -39,14 +39,14 @@ cured_color = '#393'
 death_color = '#c33'
 
 
-def plt_begin():
+def plot_begin(data):
     """Set up a new plot."""
     global formatted_dates
     formatted_dates = [d.strftime('%d %b') for d in data.datetimes]
     plt.clf()
 
 
-def plt_end(image_name):
+def plot_end(image_name):
     """Configure current plot and export it to an image file."""
     plt.gcf().set_size_inches(7.68, 4.8)
     plt.grid(which='major', linewidth='0.4')
@@ -62,9 +62,9 @@ def plt_end(image_name):
                 dpi=300, bbox_inches='tight')
 
 
-def all_cases_linear():
+def plot_all_cases_linear(data):
     """Plot line chart for all case numbers (linear scale)."""
-    plt_begin()
+    plot_begin(data)
     plt.plot(formatted_dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
     plt.plot(formatted_dates, data.active_cases,
@@ -79,10 +79,10 @@ def all_cases_linear():
     plt.ylabel('Count')
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt_end('all-cases-linear.png')
+    plot_end('all-cases-linear.png')
 
 
-def all_cases_logarithmic():
+def plot_all_cases_logarithmic(data):
     """Plot line chart for all case numbers (logarithmic scale)."""
     total_cases = data.total_cases
     active_cases = data.active_cases
@@ -93,7 +93,7 @@ def all_cases_logarithmic():
     total_cases, cured_cases = shift(total_cases, cured_cases, 0.05, -0.05)
     cured_cases, active_cases = shift(cured_cases, active_cases, 0, -0.1)
 
-    plt_begin()
+    plot_begin(data)
     plt.yscale('log')
     plt.plot(formatted_dates, total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
@@ -111,36 +111,35 @@ def all_cases_logarithmic():
     plt.ylabel('Count')
     plt.ylim(bottom=1)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt_end('all-cases-logarithmic.png')
+    plot_end('all-cases-logarithmic.png')
 
 
-def new_cases():
+def plot_new_cases(data):
     """Plot bar chart for new cases on each day."""
     tick_gap = 20
-    plt_begin()
-    plt.bar(formatted_dates, data.total_diff,
+    plot_begin(data)
+    plt.bar(formatted_dates, data.total_diffs,
             color=total_color, label='New Cases', zorder=2)
-    for i, value in enumerate(data.total_diff):
+    for i, value in enumerate(data.total_diffs):
         plt.text(i, value + 20, value, ha='center',
                  rotation='vertical', size='x-small', color=total_color)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('New Cases')
-    plt.ylim(top=top_ylim(data.total_diff, tick_gap * 7, tick_gap))
+    plt.ylim(top=top_ylim(data.total_diffs, tick_gap * 7, tick_gap))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
-    plt_end('new-cases.png')
+    plot_end('new-cases.png')
 
 
-def growth_percent():
+def plot_growth_percents(data):
     """Plot growth rate for each day."""
-    growth_val = [-1 if g == -1 else 100 * (g - 1) for g in data.total_growth]
-    growth_nan = [float('nan') if g == -1 else g for g in growth_val]
+    growth_nan = [float('nan') if g == -1 else g for g in data.total_growths]
     tick_gap = 10
 
     # Plot graph.
-    plt_begin()
+    plot_begin(data)
     plt.plot(formatted_dates, growth_nan,
              marker='.', color=total_color,
              label='Growth percent in number of total COVID-19 cases\n'
@@ -155,7 +154,7 @@ def growth_percent():
     tweaks[data.dates.index('2020-03-16')] = (+0.1, +0.0)
     tweaks[data.dates.index('2020-03-22')] = (+0.1, +0.0)
     prev_val = -1
-    for i, val in enumerate(growth_val):
+    for i, val in enumerate(data.total_growths):
         if val != -1 and abs(val - prev_val) > 0.001:
             x = i + tweaks[i][0]
             y = val + (1.2 + tweaks[i][1]) * tick_gap
@@ -170,18 +169,18 @@ def growth_percent():
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
     plt.ylabel('Growth percent')
-    plt.ylim(top=top_ylim(growth_val, tick_gap * 5, tick_gap))
+    plt.ylim(top=top_ylim(data.total_growths, tick_gap * 5, tick_gap))
     plt.ylim(bottom=0)
-    plt_end('growth-percent.png')
+    plot_end('growth-percent.png')
 
 
-def doubling_time():
+def plot_doubling_times(data):
     """Plot line chart for all case numbers (linear scale)."""
-    days_nan = [float('nan') if x == -1 else x for x in data.doubling_days]
+    days_nan = [float('nan') if x == -1 else x for x in data.doubling_times]
     tick_gap = 1
 
     # Plot graph.
-    plt_begin()
+    plot_begin(data)
     plt.plot(formatted_dates, days_nan,
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
@@ -195,7 +194,7 @@ def doubling_time():
     tweaks[data.dates.index('2020-03-03')] = (+0.8, -1.3)
     tweaks[data.dates.index('2020-03-04')] = (+0.3, +0.0)
     prev_val = -1
-    for i, val in enumerate(data.doubling_days):
+    for i, val in enumerate(data.doubling_times):
         if val != -1 and abs(val - prev_val) > 0.001:
             x = i + tweaks[i][0]
             y = val + (1.0 + tweaks[i][1]) * tick_gap
@@ -209,20 +208,20 @@ def doubling_time():
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Days')
-    plt.ylim(top=top_ylim(data.doubling_days, tick_gap * 5, tick_gap))
+    plt.ylim(top=top_ylim(data.doubling_times, tick_gap * 5, tick_gap))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plt_end('doubling-time.png')
+    plot_end('doubling-time.png')
 
 
-def cured_percent():
+def plot_cured_percents(data):
     """Plot line chart for cured and death percents."""
     cured_nan = [float('nan') if x == -1 else x for x in data.cured_percents]
     death_nan = [float('nan') if x == -1 else x for x in data.death_percents]
     tick_gap = 1
 
     # Plot graph.
-    plt_begin()
+    plot_begin(data)
     plt.plot(formatted_dates, cured_nan,
              marker='.', color=cured_color,
              label='Percent of closed cases that are cured cases')
@@ -265,16 +264,16 @@ def cured_percent():
     plt.ylabel('Days')
     plt.ylim(top=100)
     plt.ylim(bottom=0)
-    plt_end('cured-percent.png')
+    plot_end('cured-percent.png')
 
 
-def cured_ratio():
+def plot_cured_ratios(data):
     """Plot line chart for cured ratio."""
     cured_nan = [float('nan') if x == -1 else x for x in data.cured_ratios]
     tick_gap = 0.1
 
     # Plot graph.
-    plt_begin()
+    plot_begin(data)
     plt.plot(formatted_dates, cured_nan,
              marker='.', color=cured_color,
              label='Number of cured cases per death case')
@@ -308,7 +307,25 @@ def cured_ratio():
     plt.ylabel('Days')
     plt.ylim(top=top_ylim(data.cured_ratios, tick_gap * 6, tick_gap))
     plt.ylim(bottom=0)
-    plt_end('cured-ratio.png')
+    plot_end('cured-ratio.png')
+
+
+def plot_all(data):
+    """Plot all graphs."""
+    log.log('Rendering all-cases-linear plot ...')
+    plot_all_cases_linear(data)
+    log.log('Rendering all-cases-logarithmic plot ...')
+    plot_all_cases_logarithmic(data)
+    log.log('Rendering new-cases plot ...')
+    plot_new_cases(data)
+    log.log('Rendering growth-percents plot ...')
+    plot_growth_percents(data)
+    log.log('Rendering doubling-times plot ...')
+    plot_doubling_times(data)
+    log.log('Rendering cured-percents plot ...')
+    plot_cured_percents(data)
+    log.log('Rendering cured-ratios plot ...')
+    plot_cured_ratios(data)
 
 
 def linear_label_formatter(x, pos):
@@ -352,11 +369,8 @@ def shift(a, b, shift_a, shift_b):
 
 
 def main():
-    data.load()
-    all_cases_linear()
-    all_cases_logarithmic()
-    new_cases()
-    doubling_time()
+    data = archive.load()
+    plot_all(data)
 
 
 if __name__ == '__main__':
