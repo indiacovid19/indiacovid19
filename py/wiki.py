@@ -67,18 +67,45 @@ def medical_cases_chart_data():
     ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
     data = archive.load(ignore_dates=ignore_dates)
     out = []
-    for (date, death, cured,
-         total, new, growth) in zip(data.dates, data.death_cases,
-                                    data.cured_cases, data.total_cases,
-                                    data.total_diffs, data.total_growths):
 
-        if growth == -1:
-            growth = 'NA'
+    for i, (date, total, cured, death) in enumerate(zip(
+            data.dates, data.total_cases, data.cured_cases, data.death_cases)):
+
+        # Comma-delimited digit grouping.
+        total_comma = '' if total == 0 else '{:,}'.format(total)
+        death_comma = '' if death == 0 else '{:,}'.format(death)
+
+        # Previous numbers.
+        if i == 0:
+            prev_total = 0
+            prev_death = 0
         else:
-            growth = '{:+.0f}%'.format(growth)
+            prev_total = data.total_cases[i - 1]
+            prev_death = data.death_cases[i - 1]
 
-        out.append('{};{};{};{};;;{:,};{:+};;{}'
-                   .format(date, death, cured, total, total, new, growth))
+        # Growth percent expressions
+        growth_expr = '+{{{{#expr:({}/{} - 1)*100 round 0}}}}%'
+        if total != prev_total:
+            if prev_total == 0:
+                total_growth_expr = 'firstright1=y'
+            else:
+                total_growth_expr = growth_expr.format(total, prev_total)
+        else:
+            total_growth_expr = ''
+
+        if death != prev_death:
+            if prev_death == 0:
+                death_growth_expr = 'firstright2=y'
+            else:
+                death_growth_expr = growth_expr.format(death, prev_death)
+        else:
+            death_growth_expr = ''
+
+        # date;deaths;cured;total;;;total;%age;deaths;%age
+        out.append('{};{};{};{};;;{:};{};{:};{}'
+                   .format(date, death, cured, total,
+                           total_comma, total_growth_expr,
+                           death_comma, death_growth_expr))
 
         # Print continuation lines.
         curr_index = data.dates.index(date)
