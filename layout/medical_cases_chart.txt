@@ -1,0 +1,27 @@
+<noinclude>{{pp-template}}{{main|2020 coronavirus pandemic in India}}</noinclude>
+{{Medical cases chart
+|barwidth=wide
+|numwidth=mtnm
+|disease=COVID-19
+|location=India
+|outbreak=2019–20 coronavirus pandemic
+|togglesbar=
+<div class="nomobile" style="text-align:center">
+{{Medical cases chart/Month toggle button|jan}}
+{{Medical cases chart/Month toggle button|feb}}
+{{Medical cases chart/Month toggle button|mar}}
+{{Medical cases chart/Month toggle button|apr}}
+<span class="mw-collapsible mw-customtoggle-l15 mw-customtoggle-mar-l15 mw-customtoggle-apr-l15 mw-collapsed" id="mw-customcollapsible-l15" style="padding:0 8px">Last 15 days</span>
+<span class="mw-collapsible mw-customtoggle-l15 mw-customtoggle-mar-l15 mw-customtoggle-apr-l15" id="mw-customcollapsible-l15" style="border:2px solid lightblue; padding:0 8px">Last 15 days</span>
+</div>
+|recoveries=
+|collapsible=y
+|data=
+@@data@@
+|caption='''Source:''' [https://www.mohfw.gov.in/ MoHFW]
+}}<noinclude>
+{{clear}}
+{{2019-nCoV|state=expanded}}
+{{2020 coronavirus pandemic in India}}
+[[Category:2020 coronavirus pandemic in India templates]]
+</noinclude>

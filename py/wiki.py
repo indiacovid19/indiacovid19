@@ -24,55 +24,204 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+import argparse
 import datetime
-from py import data
+import sys
+
+from py import archive, mohfw
 
 
 """Generate Wikipedia markup code.
 
-Generate Wikipedia markup code for the case number entries used to draw
-https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/India_medical_cases_chart
+There are two templates used in the Wikipedia article
+https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_India
+to display charts related to case numbers.
 
-The above chart is used in the main article at
-https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_India under
-the heading "COVID-19 cases in India".
+  1. Template:2019–20 coronavirus pandemic data/India medical cases chart
+     [ https://w.wiki/Mxi ]
+  2. Template:2019–20 coronavirus pandemic data/India medical cases
+     [ https://w.wiki/Mxj ]
 
-Enter the following command at the top-level directory of this project
-to execute this script:
+This script generates Wikipedia markup code for both charts. Enter these
+commands at the top-level directory of this project to generate the
+corresponding markups:
 
-    python3 -m py.wiki
+    python3 -m py.wiki -1
+    python3 -m py.wiki -2
 
 """
 
 
-def main():
-    """Generate Wikipedia markup code."""
-    data.load()
-    months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-              'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+import datetime
+
+
+def medical_cases_chart():
+    """Generate Wikipedia markup code for medical cases chart template."""
+    output = open('layout/medical_cases_chart.txt').read()
+    output = output.replace('@@data@@', medical_cases_chart_data())
+    return output
+
+
+def medical_cases_chart_data():
+    """Generate data entries for medical cases chart template."""
+    ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
+    data = archive.load(ignore_dates=ignore_dates)
+    out = []
     for (date, death, cured,
          total, new, growth) in zip(data.dates, data.death_cases,
                                     data.cured_cases, data.total_cases,
-                                    data.total_diff, data.total_growth):
+                                    data.total_diffs, data.total_growths):
 
         if growth == -1:
             growth = 'NA'
         else:
-            growth = '{:+.0f}%'.format(100 * (growth - 1))
+            growth = '{:+.0f}%'.format(growth)
 
-        # Ignore entries not used in Wikipedia.
-        if date in ('2020-02-04', '2020-02-21', '2020-02-27'):
-            continue
-
-        print('{};{};{};{};;;{:,};{:+};;{}'.format(date, death, cured, total,
-                                                     total, new, growth))
+        out.append('{};{};{};{};;;{:,};{:+};;{}'
+                   .format(date, death, cured, total, total, new, growth))
 
         # Print continuation lines.
-        if date in ('2020-01-30', '2020-02-03'):
-            month = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%b')
-            month = months[(months.index(month.lower()) + 1) % len(months)]
-            print(';;;{};;;{};;;;divisor=4;collapsed=y;id={}'
-                  .format(total, total, month))
+        curr_index = data.dates.index(date)
+        if curr_index < len(data.dates) - 1:
+            curr_datetime = data.datetimes[curr_index]
+            next_datetime = data.datetimes[curr_index + 1]
+            if (next_datetime - curr_datetime).days != 1:
+                month = next_datetime.strftime('%b')
+                out.append(';{};{};{};;;{:,};;;;divisor=4;collapsed=y;id={}'
+                           .format('' if death == 0 else death,
+                                   '' if cured == 0 else cured,
+                                   total, total, month.lower()))
+    return '\n'.join(out)
+
+
+def medical_cases():
+    """Generate Wikipedia markup for medical cases template."""
+    data = mohfw.load()
+    output = open('layout/medical_cases.txt').read()
+    output = region_table_rows(data, output)
+    output = region_table_foot(data, output)
+
+    ignore_dates = ('2020-02-04', '2020-02-27')
+    data = archive.load(ignore_dates=ignore_dates)
+    output = medical_cases_plots(data, output)
+    return output
+
+
+def region_table_rows(data, layout):
+    """Generate table rows for state and union territory data table."""
+    out = []
+    for i, name in enumerate(sorted(data.regions), 1):
+        out.append('|-')
+        out.append('!{}'.format(i))
+        out.append('! scope="row" |\'\'\'{}\'\'\''.format(markup_region(name)))
+        out.append('|{}'.format(markup_num(data.regions[name][0])))  # Total
+        out.append('|{}'.format(markup_num(data.regions[name][3])))  # Death
+        out.append('|{}'.format(markup_num(data.regions[name][2])))  # Cured
+        out.append('|{}'.format(markup_num(data.regions[name][1])))  # Active
+    out = '\n'.join(out)
+    output = layout.replace('@@region_rows@@', out)
+    return output
+
+
+def region_table_foot(data, layout):
+    """Generate footer row for region table."""
+    output = (layout
+                .replace('@@regions_total@@', str(data.regions_total))
+                .replace('@@regions_death@@', str(data.regions_death))
+                .replace('@@regions_cured@@', str(data.regions_cured))
+                .replace('@@regions_active@@', str(data.regions_active))
+                .replace('@@foreign_cases@@', str(data.foreign))
+             )
+    return output
+
+
+def markup_region(name):
+    """Generate Wikipedia markup to display region name in region table."""
+    if name == 'Telengana':
+        name = 'Telangana'
+
+    if name in ('Assam', 'Delhi', 'Goa', 'Gujarat', 'Karnataka',
+                'Kerala', 'Maharashtra', 'Odisha', 'Tamil Nadu',
+                'Uttar Pradesh', 'West Bengal'):
+        return ('[[2020 coronavirus pandemic in {}|{}]]'
+                .format(name, name))
+
+    if name in ('Punjab'):
+        return ('[[2020 coronavirus pandemic in {}, India|{}]]'
+                .format(name, name))
+
+    return name
+
+
+def markup_num(n):
+    """Generate Wikipedia markup for case numbers in region table."""
+    return ' style="color:gray;" |0' if n == 0 else n
+
+
+def medical_cases_plots(data, layout):
+    """Generate Wikipedia markup to draw graph plots."""
+    dates = ', '.join(x.strftime('%d %b').lstrip('0') for x in data.datetimes)
+    total_cases = ', '.join(str(y) for y in data.total_cases)
+    active_cases = ', '.join(str(y) for y in data.active_cases)
+    cured_cases = ', '.join(str(y) for y in data.cured_cases)
+    death_cases = ', '.join(str(y) for y in data.death_cases)
+    total_diffs = ', '.join(str(y) for y in data.total_diffs)
+    cured_diffs = ', '.join(str(y) for y in data.cured_diffs)
+    death_diffs = ', '.join(str(y) for y in data.death_diffs)
+    exp_marker = get_exp_marker(data)
+    output = (layout
+                .replace('@@dates@@', dates)
+                .replace('@@total_cases@@', total_cases)
+                .replace('@@active_cases@@', active_cases)
+                .replace('@@cured_cases@@', cured_cases)
+                .replace('@@death_cases@@', death_cases)
+                .replace('@@exp_marker@@', exp_marker)
+                .replace('@@total_diffs@@', total_diffs)
+                .replace('@@cured_diffs@@', cured_diffs)
+                .replace('@@death_diffs@@', death_diffs)
+             )
+    return output
+
+
+def get_exp_marker(data):
+    """Generate Wikipedia markup code to show exponential growth."""
+    i = data.dates.index('2020-03-04')  # Index of reference point
+    j = len(data.dates) - 1  # Index of last element
+    n = (data.datetimes[j] - data.datetimes[i]).days
+    commas1 = (', ' * i).strip()
+    commas2 = (', ' * (j - i)).strip()
+    output = ('{} {}{} {{{{#expr:50*1.16^{}}}}}'
+              .format(commas1, 50, commas2, (j - i)))
+    return output
+
+
+def diffs():
+    """Generate Wikipedia markup code to plot new cases."""
+    print('\nNew cases per day:\n')
+    print('y =', ', '.join(str(y) for y in data.total_diffs))
+    print('\nNew recoveries per day:\n')
+    print('y =', ', '.join(str(y) for y in data.cured_diffs))
+    print('\nNew deaths per day:\n')
+    print('y =', ', '.join(str(y) for y in data.death_diffs))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-1', action='store_true',
+                        help='Markup for India medical cases chart')
+    parser.add_argument('-2', action='store_true',
+                        help='Markup for India medical cases')
+    args = vars(parser.parse_args())
+
+    if not any((args['1'], args['2'])):
+        parser.print_help()
+        sys.exit(1)
+
+    if args['1']:
+        print(medical_cases_chart(), end='')
+
+    if args['2']:
+        print(medical_cases(), end='')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,140 @@
+<noinclude>{{pp-template}}
+{{VEFriendly}}
+{{main|2020 coronavirus pandemic in India}}</noinclude>
+<templatestyles src="2019–20_coronavirus_pandemic_data/styles.css" />
+<!-- Only use MoHFW as source to avoid inconsistency in trends, wait for MoHFW to reflect state government updates -->
+{| class="wikitable plainrowheaders sortable mw-collapsible" style="text-align:right; font-size:90%; width:100px; clear:right; margin:0px 0px 0.5em 1em;"
+! colspan="6" |{{Navbar-collapsible|{{resize|95%|{{Nowrap|2020 coronavirus pandemic in India by state and union territory}}}}|Template:2019–20 coronavirus pandemic data/India medical cases}}
+|-
+!S.No.
+! scope="col" |State/Union Territory
+!Total cases
+! scope="col" |Deaths
+! data-sort-type="number" scope="col" |Recoveries
+! scope="col" |Active cases
+@@region_rows@@
+|- class="sortbottom"
+! colspan="2" |Total
+!@@regions_total@@*
+! scope="col" |@@regions_death@@
+! scope="col" |@@regions_cured@@
+! scope="col" |@@regions_active@@
+|- class="sortbottom" style="text-align:center;"
+| colspan="6" |<small>*''Inclusive of @@foreign_cases@@ foreign nationals''</small>
+|- class="sortbottom" style="text-align:center;"
+| colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=2020-03-25}}</ref>
+|}
+{{Graph:Chart  |height = 250
+  |width = 800
+  |type = line
+  | yGrid =
+  | xGrid =
+  |showValues =
+  |showSymbols=1
+  |legend =
+  |colors = #FF6347,#FFC000,#87CEEB,#343132
+  |xAxisTitle = Date
+  |xAxisAngle = -40
+  |yAxisTitle = Count
+  |y1Title = Total confirmed cases
+  |y2Title = Active cases
+  |y3Title = Recoveries
+  |y4Title = Deaths
+  |yAxisMin = 0
+  |x = @@dates@@
+  |y1 = @@total_cases@@
+  |y2 = @@active_cases@@
+  |y3 = @@cured_cases@@
+  |y4 = @@death_cases@@
+  }}
+{{Graph:Chart
+  |width = 800
+  |legend =
+  |xAxisTitle = Date
+  |xAxisAngle = -40
+  |yAxisTitle = No. of cases
+  |yAxisMin = 0
+  |y1Title = New cases per day
+  |type = rect
+  | yGrid =
+  | xGrid =
+  |showValues = offset:2
+  |x = @@dates@@
+  |y = @@total_diffs@@
+  |colors = #FF6347
+}}
+{{Graph:Chart
+  |width = 800
+  |legend =
+  |xAxisTitle = Date
+  |xAxisAngle = -40
+  |yAxisTitle = No. of Recoveries
+  |yAxisMin = 0
+  |y1Title = Recoveries per day
+  |type = rect
+  | yGrid =
+  | xGrid =
+  |showValues = offset:2
+  |x = @@dates@@
+  |y = @@cured_diffs@@
+  |colors = #87CEEB
+}}
+{{Graph:Chart
+  |width = 800
+  |legend =
+  |xAxisTitle = Date
+  |xAxisAngle = -40
+  |yAxisTitle = No. of deaths
+  |yAxisMin = 0
+  |y1Title = New deaths per day
+  |type = rect
+  | yGrid =
+  | xGrid =
+  |showValues = offset:2
+  |x = @@dates@@
+  |y = @@death_diffs@@
+  |colors = #343132
+}}
+{{Side box
+ |metadata=No<!--The value 'No' apparently makes the box display on the mobile site-->
+ | position = left<!--To align with the other graphs on the page.-->
+ | above = '''[[Semi-log plot]] of SARS-CoV-2 cases and COVID-19 deaths in India'''
+ | abovestyle = text-align:center
+ | text =
+{{Graph:Chart
+  |height = 400
+  |width = 900
+  |type = line 
+  | showSymbols = 1
+  | yGrid =
+  | xGrid =
+  |showValues =
+  |legend =
+  |colors = #FF6347,#FFC000,#87CEEB,#343132,#499562
+  |xAxisTitle = Date
+  |xAxisAngle = -40
+  |yAxisTitle = Count
+  |y1Title = Total confirmed cases
+  |y2Title = Active cases
+  |y3Title = Recoveries
+  |y4Title = Deaths
+  |y5Title = +16%/day <!-- trend line; do not modify this without discussion -->
+  |yScaleType = log
+  |yAxisMin = 1
+  |x = @@dates@@
+  |y1 = @@total_cases@@
+  |y2 = @@active_cases@@
+  |y3 = @@cured_cases@@
+  |y4 = @@death_cases@@
+  |y5= @@exp_marker@@<!-- this means 100 times (100%+16%) to the power of (number of days since 4 March) -->, , , , 
+}}
+|below = Semilog plot of the [[Exponential growth#Biology|spread]] of [[Severe acute respiratory syndrome coronavirus 2|SARS-CoV-2]] and of [[coronavirus disease 2019|COVID-19]] deaths in India. An exponential growth rate of a 16% increase in cases per day is shown.
+}}
+{{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
+<noinclude>
+{{clear}}
+{{2019-nCoV|state=expanded}}
+{{2020 coronavirus pandemic in India}}
+[[Category:2020 coronavirus pandemic in India templates]]
+[[Category:Templates that generate named references]]
+</noinclude>
