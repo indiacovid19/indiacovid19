@@ -24,7 +24,8 @@
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=2020-03-25}}</ref>
 |}
-{{Graph:Chart  |height = 250
+{{Graph:Chart
+  |height = 250
   |width = 800
   |type = line
   | yGrid =
@@ -103,8 +104,8 @@
  | text =
 {{Graph:Chart
   |height = 400
-  |width = 900
-  |type = line 
+  |width = 800
+  |type = line
   | showSymbols = 1
   | yGrid =
   | xGrid =
@@ -126,7 +127,7 @@
   |y2 = @@active_cases@@
   |y3 = @@cured_cases@@
   |y4 = @@death_cases@@
-  |y5= @@exp_marker@@<!-- this means 100 times (100%+16%) to the power of (number of days since 4 March) -->, , , , 
+  |y5= @@exp_marker@@<!-- this means 100 times (100%+16%) to the power of (number of days since 4 March) -->
 }}
 |below = Semilog plot of the [[Exponential growth#Biology|spread]] of [[Severe acute respiratory syndrome coronavirus 2|SARS-CoV-2]] and of [[coronavirus disease 2019|COVID-19]] deaths in India. An exponential growth rate of a 16% increase in cases per day is shown.
 }}
