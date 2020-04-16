@@ -31,7 +31,7 @@ a:hover, a:active {
 }
 
 a.imglink:hover, a.imglink:active {
-  opacity: 2.0;
+  opacity: 1.0;
   text-decoration: none;
 }
 
@@ -62,12 +62,11 @@ img {
 /* Code */
 pre, code, samp, kbd {
   font-family: monospace,monospace;
-  font-size: 0.9em;
   color: #006;
 }
 
 pre code, pre samp, pre kbd {
-  font-size: 1em;
+  font-size: 0.9em;
 }
 
 pre {
