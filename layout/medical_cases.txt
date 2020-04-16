@@ -96,12 +96,6 @@
   |y = @@death_diffs@@
   |colors = #343132
 }}
-{{Side box
- |metadata=No<!--The value 'No' apparently makes the box display on the mobile site-->
- | position = left<!--To align with the other graphs on the page.-->
- | above = '''[[Semi-log plot]] of SARS-CoV-2 cases and COVID-19 deaths in India'''
- | abovestyle = text-align:center
- | text =
 {{Graph:Chart
   |height = 400
   |width = 800
@@ -129,13 +123,16 @@
   |y4 = @@death_cases@@
   |y5= @@exp_marker@@<!-- this means 100 times (100%+16%) to the power of (number of days since 4 March) -->
 }}
-|below = Semilog plot of the [[Exponential growth#Biology|spread]] of [[Severe acute respiratory syndrome coronavirus 2|SARS-CoV-2]] and of [[coronavirus disease 2019|COVID-19]] deaths in India. An exponential growth rate of a 16% increase in cases per day is shown.
-}}
+Semilog plot of the [[Exponential growth#Biology|spread]] of [[Severe acute respiratory syndrome coronavirus 2|SARS-CoV-2]] and of [[coronavirus disease 2019|COVID-19]] deaths in India. An exponential growth rate of a 16% increase in cases per day is shown.
+
 {{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
 <noinclude>
 {{clear}}
 {{2019-nCoV|state=expanded}}
 {{2020 coronavirus pandemic in India}}
+
+{{template-reference-list}}
+
 [[Category:2020 coronavirus pandemic in India templates]]
 [[Category:Templates that generate named references]]
 </noinclude>
