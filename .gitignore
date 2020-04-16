@@ -3,3 +3,6 @@
 _site/
 __pycache__/
 venv
+wiki[1-9].txt
+wiki[1-9].diff
+wref[1-9].txt

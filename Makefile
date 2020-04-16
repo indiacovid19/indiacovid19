@@ -1,8 +1,20 @@
-site:
+site: wiki
 	. ./venv && python3 makesite.py
+	if [ -e wiki1.txt ]; then cp wiki1.txt _site/wiki1.txt; fi
+	if [ -e wiki2.txt ]; then cp wiki2.txt _site/wiki2.txt; fi
 
 wiki:
-	. ./venv && python3 -m py.wiki
+	python3 -m py.wiki -1 > wiki1.txt
+	python3 -m py.wiki -2 > wiki2.txt
+	if [ -e t1.txt ]; then diff -u t1.txt wiki1.txt > wiki1.diff; fi
+	if [ -e t2.txt ]; then diff -u t2.txt wiki2.txt > wiki2.diff; fi
+	@echo
+	@echo 'Written wiki1.txt with markup for "India medical cases chart"'
+	@echo 'Written wiki2.txt with markup for "India medical cases"'
+	@echo
+
+mohfw:
+	python3 -m py.mohfw
 
 venv:
 	python3 -m venv ~/.venv/indiacovid19
