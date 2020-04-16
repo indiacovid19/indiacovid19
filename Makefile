@@ -6,8 +6,8 @@ site: wiki
 wiki:
 	python3 -m py.wiki -1 > wiki1.txt
 	python3 -m py.wiki -2 > wiki2.txt
-	if [ -e wref1.txt ]; then diff -u wref1.txt wiki1.txt > wiki1.diff; fi
-	if [ -e wref2.txt ]; then diff -u wref2.txt wiki2.txt > wiki2.diff; fi
+	-if [ -e wref1.txt ]; then diff -u wref1.txt wiki1.txt > wiki1.diff; fi
+	-if [ -e wref2.txt ]; then diff -u wref2.txt wiki2.txt > wiki2.diff; fi
 	@echo
 	@echo 'Written wiki1.txt with markup for "India medical cases chart"'
 	@echo 'Written wiki2.txt with markup for "India medical cases"'
