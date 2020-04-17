@@ -168,8 +168,8 @@ def markup_region(name):
         name = 'Telangana'
 
     if name in ('Assam', 'Delhi', 'Goa', 'Gujarat', 'Karnataka',
-                'Kerala', 'Maharashtra', 'Odisha', 'Tamil Nadu',
-                'Uttar Pradesh', 'West Bengal'):
+                'Kerala', 'Maharashtra', 'Odisha', 'Rajasthan',
+                'Tamil Nadu', 'Uttar Pradesh', 'West Bengal'):
         return ('[[2020 coronavirus pandemic in {}|{}]]'
                 .format(name, name))
 
