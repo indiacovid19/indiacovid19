@@ -26,6 +26,7 @@
 
 import argparse
 import datetime
+import difflib
 import sys
 
 from py import archive, mohfw
@@ -136,15 +137,59 @@ def medical_cases():
 
 def region_table_rows(data, layout):
     """Generate table rows for state and union territory data table."""
+    region_names = [
+        'Andaman and Nicobar Islands',
+        'Andhra Pradesh',
+        'Arunachal Pradesh',
+        'Assam',
+        'Bihar',
+        'Chandigarh',
+        'Chhattisgarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Delhi',
+        'Goa',
+        'Gujarat',
+        'Haryana',
+        'Himachal Pradesh',
+        'Jammu and Kashmir',
+        'Jharkhand',
+        'Karnataka',
+        'Kerala',
+        'Ladakh',
+        'Lakshadweep',
+        'Madhya Pradesh',
+        'Maharashtra',
+        'Manipur',
+        'Meghalaya',
+        'Mizoram',
+        'Nagaland',
+        'Odisha',
+        'Puducherry',
+        'Punjab',
+        'Rajasthan',
+        'Sikkim',
+        'Tamil Nadu',
+        'Telengana',
+        'Tripura',
+        'Uttar Pradesh',
+        'Uttarakhand',
+        'West Bengal',
+    ]
     out = []
-    for i, name in enumerate(sorted(data.regions), 1):
+    for i, name in enumerate(sorted(region_names), 1):
+        matches = difflib.get_close_matches(name, list(data.regions), 1)
+        if len(matches) == 0:
+            total, active, cured, death = 0, 0, 0, 0
+        else:
+            name = matches[0]
+            total, active, cured, death = data.regions[name]
         out.append('|-')
         out.append('!{}'.format(i))
         out.append('! scope="row" |\'\'\'{}\'\'\''.format(markup_region(name)))
-        out.append('|{}'.format(markup_num(data.regions[name][0])))  # Total
-        out.append('|{}'.format(markup_num(data.regions[name][3])))  # Death
-        out.append('|{}'.format(markup_num(data.regions[name][2])))  # Cured
-        out.append('|{}'.format(markup_num(data.regions[name][1])))  # Active
+        out.append('|{}'.format(markup_num(total)))
+        out.append('|{}'.format(markup_num(death)))
+        out.append('|{}'.format(markup_num(cured)))
+        out.append('|{}'.format(markup_num(active)))
     out = '\n'.join(out)
     output = layout.replace('@@region_rows@@', out)
     return output
@@ -164,9 +209,6 @@ def region_table_foot(data, layout):
 
 def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
-    if name == 'Telengana':
-        name = 'Telangana'
-
     if name in ('Assam', 'Delhi', 'Goa', 'Gujarat', 'Karnataka',
                 'Kerala', 'Maharashtra', 'Odisha', 'Rajasthan',
                 'Tamil Nadu', 'Uttar Pradesh', 'West Bengal'):
