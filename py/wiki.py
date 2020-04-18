@@ -169,7 +169,7 @@ def region_table_rows(data, layout):
         'Rajasthan',
         'Sikkim',
         'Tamil Nadu',
-        'Telengana',
+        'Telangana',
         'Tripura',
         'Uttar Pradesh',
         'Uttarakhand',
@@ -181,8 +181,7 @@ def region_table_rows(data, layout):
         if len(matches) == 0:
             total, active, cured, death = 0, 0, 0, 0
         else:
-            name = matches[0]
-            total, active, cured, death = data.regions[name]
+            total, active, cured, death = data.regions[matches[0]]
         out.append('|-')
         out.append('!{}'.format(i))
         out.append('! scope="row" |\'\'\'{}\'\'\''.format(markup_region(name)))
