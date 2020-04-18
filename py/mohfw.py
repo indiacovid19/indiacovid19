@@ -133,44 +133,51 @@ def load():
     return data
 
 
-def print_term_entry(data):
+def make_summary(data):
     """Print summary of data on the terminal."""
-    print('ref_datetime: ', data.ref_datetime)
-    print()
-    print('total:          {:6}'.format(data.total))
-    print('active:         {:6}'.format(data.active))
-    print('cured:          {:6}'.format(data.cured))
-    print('death:          {:6}'.format(data.death))
-    print('migrated:       {:6}'.format(data.migrated))
-    print()
-    print('regions:', data.regions)
-    print()
-    print('foreign:        {:6}'.format(data.foreign))
-    print()
-    print('regions_total:  {:6}'.format(data.regions_total))
-    print('regions_active: {:6}'.format(data.regions_active))
-    print('regions_cured:  {:6}'.format(data.regions_cured))
-    print('regions_death:  {:6}'.format(data.regions_death))
+    out = []
+    out.append('ref_datetime: {}'.format(data.ref_datetime))
+    out.append('')
+    out.append('total:          {:6}'.format(data.total))
+    out.append('active:         {:6}'.format(data.active))
+    out.append('cured:          {:6}'.format(data.cured))
+    out.append('death:          {:6}'.format(data.death))
+    out.append('migrated:       {:6}'.format(data.migrated))
+    out.append('')
+    out.append('regions: {}'.format(data.regions))
+    out.append('')
+    out.append('foreign:        {:6}'.format(data.foreign))
+    out.append('')
+    out.append('regions_total:  {:6}'.format(data.regions_total))
+    out.append('regions_active: {:6}'.format(data.regions_active))
+    out.append('regions_cured:  {:6}'.format(data.regions_cured))
+    out.append('regions_death:  {:6}'.format(data.regions_death))
+    return '\n'.join(out)
+
+
+def make_json_entry(data):
+    """Return JSON entry to be added to indiacovid19.json."""
+    return ('  [ "{}", {:5}, {:5}, {:5}, {:5},  "{} {}",  '
+            '"https://indiacovid19.github.io/webarchive/mohfw/{}_{}/",'
+            '                                  "" ]'
+            .format(data.ref_date, data.active, data.cured, data.death,
+                    data.migrated, data.ref_date, data.ref_time,
+                    data.ref_date, data.ref_time.replace(':', '')))
 
 
 def print_json_entry(data):
     """Print JSON entry to be added to indiacovid19.json."""
-    print('JSON octuple for indiacovid19.json:')
-    print()
-    print('  [ "{}", {:5}, {:5}, {:5}, {:5},  "{} {}",  '
-          '"https://indiacovid19.github.io/webarchive/mohfw/{}_{}/",'
-          '                                  "" ]'
-          .format(data.ref_date, data.active, data.cured, data.death,
-                  data.migrated, data.ref_date, data.ref_time,
-                  data.ref_date, data.ref_time.replace(':', '')))
 
 
 def main():
     data = load()
+    print(make_summary(data))
     print()
-    print_term_entry(data)
+
+    json_entry = make_json_entry(data)
+    print('JSON octuple for indiacovid19.json:')
     print()
-    print_json_entry(data)
+    print(json_entry)
     print()
 
 
