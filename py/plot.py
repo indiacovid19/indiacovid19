@@ -64,6 +64,7 @@ def plot_end(image_name):
 
 def plot_all_cases_linear(data):
     """Plot line chart for all case numbers (linear scale)."""
+    tick_gap = 200
     plot_begin(data)
     plt.plot(formatted_dates, data.total_cases,
              marker='.', color=total_color, label='Total Cases', zorder=5)
@@ -74,8 +75,8 @@ def plot_all_cases_linear(data):
     plt.plot(formatted_dates, data.death_cases,
              marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
-    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(500))
-    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(100))
+    ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
+    ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Count')
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
