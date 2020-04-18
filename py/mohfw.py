@@ -179,11 +179,11 @@ def update_json(json_entry):
     print('Updating JSON archive ...')
     lines = j.splitlines()
     for i, line in enumerate(lines):
-        if 1 < i < len(lines) - 1 and not line.endswith(','):
-            line += ','
+        if 1 < i < len(lines) - 1 and line.endswith(']'):
+            lines[i] = line + ','
     lines[len(lines) - 1] = json_entry
     lines.append(']')
-    output = '\n'.join(lines)
+    output = '\n'.join(lines) + '\n'
     with open('indiacovid19.json', 'w') as f:
         f.write(output)
     print('Done')
