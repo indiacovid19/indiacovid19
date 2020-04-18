@@ -133,5 +133,7 @@
   [ "2020-04-16", 10824,  1514,   420,     1,  "2020-04-16 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-16_1700/",                                  "" ],
 
   [ "2020-04-17", 11201,  1748,   437,     1,  "2020-04-17 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-17_0800/",                                  "" ],
-  [ "2020-04-17", 11616,  1766,   452,     1,  "2020-04-17 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-17_1700/",                                  "" ]
+  [ "2020-04-17", 11616,  1766,   452,     1,  "2020-04-17 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-17_1700/",                                  "" ],
+
+  [ "2020-04-18", 11906,  1991,   480,     1,  "2020-04-18 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-18_0800/",                                  "" ]
 ]
