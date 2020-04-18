@@ -169,6 +169,26 @@ def print_json_entry(data):
     """Print JSON entry to be added to indiacovid19.json."""
 
 
+def update_json(json_entry):
+    """Update indiacovid19.json with the specified JSON entry."""
+    with open('indiacovid19.json') as f:
+        j = f.read()
+    if json_entry in j:
+        print('JSON archive is up-to-date')
+        return
+    print('Updating JSON archive ...')
+    lines = j.splitlines()
+    for i, line in enumerate(lines):
+        if 1 < i < len(lines) - 1 and not line.endswith(','):
+            line += ','
+    lines[len(lines) - 1] = json_entry
+    lines.append(']')
+    output = '\n'.join(lines)
+    with open('indiacovid19.json', 'w') as f:
+        f.write(output)
+    print('Done')
+
+
 def main():
     data = load()
     print(make_summary(data))
@@ -179,6 +199,10 @@ def main():
     print()
     print(json_entry)
     print()
+    update_json(json_entry)
+    print()
+
+
 
 
 if __name__ == '__main__':
