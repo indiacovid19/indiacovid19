@@ -3,7 +3,7 @@
 {{main|2020 coronavirus pandemic in India}}</noinclude>
 <templatestyles src="2019–20_coronavirus_pandemic_data/styles.css" />
 <!-- Only use MoHFW as source to avoid inconsistency in trends, wait for MoHFW to reflect state government updates -->
-{| class="wikitable plainrowheaders sortable mw-collapsible" style="text-align:right; font-size:90%; width:100px; clear:right; margin:0px 0px 0.5em 1em;"
+{| class="wikitable plainrowheaders sortable mw-collapsible" style="text-align:right; font-size:90%; width:100px; clear:right; margin:0px 0px 0em 0em;"
 ! colspan="6" |{{Navbar-collapsible|{{resize|95%|{{Nowrap|2020 coronavirus pandemic in India by state and union territory}}}}|Template:2019–20 coronavirus pandemic data/India medical cases}}
 |-
 !S.No.
@@ -24,6 +24,9 @@
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=2020-03-25}}</ref>
 |}
+==== Footnotes ====
+{{notelist}}
+=== Charts ===
 {{Graph:Chart
   |height = 250
   |width = 800

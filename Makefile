@@ -3,11 +3,15 @@ site: wiki
 	if [ -e wiki1.txt ]; then cp wiki1.txt _site/wiki1.txt; fi
 	if [ -e wiki2.txt ]; then cp wiki2.txt _site/wiki2.txt; fi
 
+COLOR_DIFF = sed "s/^-/$$(tput setaf 1)&/; s/^+/$$(tput setaf 2)&/; s/^@/$$(tput setaf 6)&/; s/$$/$$(tput sgr0)/"
+
 wiki:
 	python3 -m py.wiki -1 > wiki1.txt
 	python3 -m py.wiki -2 > wiki2.txt
 	-if [ -e wref1.txt ]; then diff -u wiki1.txt wref1.txt > wiki1.diff; fi
 	-if [ -e wref2.txt ]; then diff -u wiki2.txt wref2.txt > wiki2.diff; fi
+	$(COLOR_DIFF) wiki1.diff
+	$(COLOR_DIFF) wiki2.diff
 	@echo
 	@echo 'Written wiki1.txt with markup for "India medical cases chart"'
 	@echo 'Written wiki2.txt with markup for "India medical cases"'

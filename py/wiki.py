@@ -182,6 +182,8 @@ def region_table_rows(data, layout):
             total, active, cured, death = 0, 0, 0, 0
         else:
             total, active, cured, death = data.regions[matches[0]]
+        if name == 'Kerala':
+            death = str(death) + open('layout/fn1.txt').read().strip()
         out.append('|-')
         out.append('!{}'.format(i))
         out.append('! scope="row" |\'\'\'{}\'\'\''.format(markup_region(name)))
