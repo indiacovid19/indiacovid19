@@ -211,8 +211,8 @@ def region_table_foot(data, layout):
 def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
     if name in ('Assam', 'Delhi', 'Goa', 'Gujarat', 'Karnataka',
-                'Kerala', 'Maharashtra', 'Odisha', 'Rajasthan',
-                'Tamil Nadu', 'Uttar Pradesh', 'West Bengal'):
+                'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Odisha',
+                'Rajasthan', 'Tamil Nadu', 'Uttar Pradesh', 'West Bengal'):
         return ('[[2020 coronavirus pandemic in {}|{}]]'
                 .format(name, name))
 
