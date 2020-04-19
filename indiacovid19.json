@@ -142,5 +142,6 @@
   [ "2020-04-18", 11979,  1991,   480,     1,  "2020-04-18 18:45",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1615800",                                             "14378 positive, 1992 recovered, 991 new, 43 new deaths, 480 died" ],
   [ "2020-04-18", 12289,  2014,   488,     1,  "2020-04-18 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-18_1700/",                                  "" ],
 
-  [ "2020-04-19", 12974,  2230,   507,     1,  "2020-04-19 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-19_0800/",                                  "" ]
+  [ "2020-04-19", 12974,  2230,   507,     1,  "2020-04-19 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-19_0800/",                                  "" ],
+  [ "2020-04-19", 13295,  2301,   519,     1,  "2020-04-19 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-19_1700/",                                  "" ]
 ]

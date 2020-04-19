@@ -267,7 +267,8 @@ def plot_doubling_times(data, recent):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Days')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
-    plt.ylim(top=top_ylim(data.doubling_times[m:], tick_gap * 5, tick_gap))
+    ylim_pad = tick_gap * (10 if recent else 5)
+    plt.ylim(top=top_ylim(data.doubling_times[m:], ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'doubling-time', recent)
 
