@@ -53,9 +53,14 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .links a, .date a, .faq a {
 
 
 /* Graphs */
-img {
+img.alltime {
   max-height: 75vh;
   max-width: 125%;
+}
+
+img.recent {
+  max-height: 90vh;
+  max-width: 100%;
 }
 
 

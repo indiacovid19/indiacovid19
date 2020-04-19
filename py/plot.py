@@ -37,6 +37,7 @@ total_color = '#06c'
 active_color = '#f60'
 cured_color = '#393'
 death_color = '#c33'
+recent_days = 30
 
 
 def plot_begin(data):
@@ -46,45 +47,57 @@ def plot_begin(data):
     plt.clf()
 
 
-def plot_end(image_name):
+def plot_end(data, img_name, recent):
     """Configure current plot and export it to an image file."""
-    plt.gcf().set_size_inches(7.68, 4.8)
+    if recent:
+        plot_size = 4.8, 4.8
+        filename = img_name + '-recent.png'
+        legend_size = 'small'
+    else:
+        plot_size = 0.16 * len(data.dates), 4.8
+        filename = img_name + '.png'
+        legend_size = 'medium'
+
+    plt.gcf().set_size_inches(plot_size)
     plt.grid(which='major', linewidth='0.4')
     plt.grid(which='minor', linewidth='0.1')
     plt.xlabel('Date')
-    plt.xlim(left=-0.8, right=len(formatted_dates) - 0.2)
     plt.xticks(rotation='vertical', size='x-small')
     plt.yticks(size='small')
     plt.tick_params(which='both', length=0)
-    plt.legend(shadow=True)
+    plt.legend(shadow=True, fontsize=legend_size)
     os.makedirs('_site/img/', exist_ok=True)
-    plt.savefig('_site/img/' + image_name,
+    plt.savefig('_site/img/' + filename,
                 dpi=300, bbox_inches='tight')
 
 
-def plot_all_cases_linear(data):
+def plot_total_cases_linear(data, recent):
     """Plot line chart for all case numbers (linear scale)."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 200
     plot_begin(data)
-    plt.plot(formatted_dates, data.total_cases,
+    plt.plot(formatted_dates[m:], data.total_cases[m:],
              marker='.', color=total_color, label='Total Cases', zorder=5)
-    plt.plot(formatted_dates, data.active_cases,
+    plt.plot(formatted_dates[m:], data.active_cases[m:],
              marker='.', color=active_color, label='Active Cases', zorder=4)
-    plt.plot(formatted_dates, data.cured_cases,
+    plt.plot(formatted_dates[m:], data.cured_cases[m:],
              marker='.', color=cured_color, label='Cured Cases', zorder=3)
-    plt.plot(formatted_dates, data.death_cases,
+    plt.plot(formatted_dates[m:], data.death_cases[m:],
              marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Count')
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(bottom=0)
-    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plot_end('all-cases-linear.png')
+    x, y = (0.63, 0.9) if recent else (0.6, 0.9)
+    plt.title('COVID-19 Cases in India', x=x, y=y, size='medium')
+    plot_end(data, 'total-cases-linear', recent)
 
 
-def plot_all_cases_logarithmic(data):
-    """Plot line chart for all case numbers (logarithmic scale)."""
+def plot_total_cases_log(data, recent):
+    """Plot line chart for all case numbers (log scale)."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     total_cases = data.total_cases
     active_cases = data.active_cases
     cured_cases = data.cured_cases
@@ -96,13 +109,13 @@ def plot_all_cases_logarithmic(data):
 
     plot_begin(data)
     plt.yscale('log')
-    plt.plot(formatted_dates, total_cases,
+    plt.plot(formatted_dates[m:], total_cases[m:],
              marker='.', color=total_color, label='Total Cases', zorder=5)
-    plt.plot(formatted_dates, active_cases,
+    plt.plot(formatted_dates[m:], active_cases[m:],
              marker='.', color=active_color, label='Active Cases', zorder=4)
-    plt.plot(formatted_dates, cured_cases,
+    plt.plot(formatted_dates[m:], cured_cases[m:],
              marker='.', color=cured_color, label='Cured Cases', zorder=3)
-    plt.plot(formatted_dates, death_cases,
+    plt.plot(formatted_dates[m:], death_cases[m:],
              marker='.', color=death_color,label='Death Cases', zorder=2)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.LogLocator())
@@ -110,55 +123,84 @@ def plot_all_cases_logarithmic(data):
     ax.yaxis.set_minor_formatter(mpl.ticker.FuncFormatter(log_label_formatter))
     plt.tick_params(which='minor', labelsize='x-small')
     plt.ylabel('Count')
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(bottom=1)
-    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plot_end('all-cases-logarithmic.png')
+    x, y = (0.57, 0.9) if recent else (0.6, 0.9)
+    plt.title('COVID-19 cases in India', x=x, y=y, size='medium')
+    plot_end(data, 'total-cases-log', recent)
 
 
-def plot_new_cases(data):
+def plot_new_cases(data, recent):
     """Plot bar chart for new cases on each day."""
+    m = len(data.dates) - recent_days if recent else 0
     tick_gap = 20
     plot_begin(data)
-    plt.bar(formatted_dates, data.total_diffs,
-            color=total_color, label='New Cases', zorder=2)
-    for i, value in enumerate(data.total_diffs):
+    plt.bar(formatted_dates[m:], data.total_diffs[m:],
+            color=total_color, zorder=2,
+            label='New COVID-19 Cases in India on each day')
+    for i, value in enumerate(data.total_diffs[m:]):
         plt.text(i, value + 20, value, ha='center',
                  rotation='vertical', size='x-small', color=total_color)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
-    plt.ylabel('New Cases')
-    plt.ylim(top=top_ylim(data.total_diffs, tick_gap * 7, tick_gap))
+    plt.ylabel('Count')
+    plt.xlim(left=-0.8, right=len(data.dates[m:]) - 0.2)
+    plt.ylim(top=top_ylim(data.total_diffs[m:], tick_gap * 17, tick_gap))
     plt.ylim(bottom=0)
-    plt.title('COVID-19 Cases in India', x=0.55, y=0.92)
-    plot_end('new-cases.png')
+    x, y = (0.35, 0.93) if recent else (0.45, 0.93)
+    plot_end(data, 'new-cases', recent)
 
 
-def plot_growth_percents(data):
+def plot_growth_percents(data, recent):
     """Plot growth rate for each day."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     growth_nan = [float('nan') if g == -1 else g for g in data.total_growths]
-    tick_gap = 10
+    tick_gap = 1 if recent else 10
 
     # Plot graph.
     plot_begin(data)
-    plt.plot(formatted_dates, growth_nan,
+    plt.plot(formatted_dates[m:], growth_nan[m:],
              marker='.', color=total_color,
-             label='Growth percent in number of total COVID-19 cases\n'
-                   'in India on each day compared to previous day')
+             label='Growth percent in number of total\n'
+                   'COVID-19 cases in India on each day\n'
+                   'compared to the previous day')
 
-    # Print values on the graph.
+    # Position text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
-    tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
-    tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
-    tweaks[data.dates.index('2020-03-03')] = (+0.6, -0.5)
-    tweaks[data.dates.index('2020-03-05')] = (-0.6, -1.0)
-    tweaks[data.dates.index('2020-03-16')] = (+0.1, +0.0)
-    tweaks[data.dates.index('2020-03-22')] = (+0.1, +0.0)
+    if recent:
+        tweaks[data.dates.index('2020-03-20')] = (+0.7, -2.3)
+        tweaks[data.dates.index('2020-03-22')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-03-24')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-03-26')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-03-28')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-03-29')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-03-31')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-02')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-04')] = (+0.8, -1.5)
+        tweaks[data.dates.index('2020-04-05')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-07')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-09')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-11')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-13')] = (+0.0, -4.5)
+        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.5)
+        tweaks[data.dates.index('2020-04-16')] = (+0.0, -3.5)
+    else:
+        tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
+        tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
+        tweaks[data.dates.index('2020-03-03')] = (+0.6, -0.5)
+        tweaks[data.dates.index('2020-03-05')] = (-0.6, -1.0)
+        tweaks[data.dates.index('2020-03-16')] = (+0.1, +0.0)
+        tweaks[data.dates.index('2020-03-22')] = (+0.1, +0.0)
+
+    # Show text values on the graph.
     prev_val = -1
-    for i, val in enumerate(data.total_growths):
+    for i, val in enumerate(data.total_growths[m:]):
+        if m != 0 and i == 0:
+            continue
         if val != -1 and abs(val - prev_val) > 0.001:
-            x = i + tweaks[i][0]
-            y = val + (1.2 + tweaks[i][1]) * tick_gap
+            x = i + tweaks[m:][i][0]
+            y = val + (1.2 + tweaks[m:][i][1]) * tick_gap
             v = '{:.0f}%'.format(val)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=total_color)
@@ -170,35 +212,50 @@ def plot_growth_percents(data):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
     plt.ylabel('Growth percent')
-    plt.ylim(top=top_ylim(data.total_growths, tick_gap * 5, tick_gap))
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
+    plt.ylim(top=top_ylim(data.total_growths[m:], tick_gap * 5, tick_gap))
     plt.ylim(bottom=0)
-    plot_end('growth-percent.png')
+    plot_end(data, 'growth-percent', recent)
 
 
-def plot_doubling_times(data):
+def plot_doubling_times(data, recent):
     """Plot line chart for all case numbers (linear scale)."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     days_nan = [float('nan') if x == -1 else x for x in data.doubling_times]
-    tick_gap = 1
+    tick_gap = 0.2 if recent else 1
 
     # Plot graph.
     plot_begin(data)
-    plt.plot(formatted_dates, days_nan,
+    plt.plot(formatted_dates[m:], days_nan[m:],
              marker='.', color=total_color,
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
 
-    # Print values on the graph.
+    # Position text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
-    tweaks[data.dates.index('2020-02-04')] = (+0.8, -1.3)
-    tweaks[data.dates.index('2020-02-21')] = (+0.8, -1.3)
-    tweaks[data.dates.index('2020-02-27')] = (-0.1, +0.1)
-    tweaks[data.dates.index('2020-03-03')] = (+0.8, -1.3)
-    tweaks[data.dates.index('2020-03-04')] = (+0.3, +0.0)
+    if recent:
+        tweaks[data.dates.index('2020-03-21')] = (+0.0, -3.0)
+        tweaks[data.dates.index('2020-03-23')] = (+0.0, -3.0)
+        tweaks[data.dates.index('2020-04-01')] = (+0.0, -3.0)
+        tweaks[data.dates.index('2020-04-04')] = (-0.1, -0.0)
+        tweaks[data.dates.index('2020-04-06')] = (-0.1, -0.0)
+        tweaks[data.dates.index('2020-04-14')] = (+0.1, -0.0)
+        tweaks[data.dates.index('2020-04-15')] = (-0.1, -0.0)
+    else:
+        tweaks[data.dates.index('2020-02-04')] = (+0.8, -1.3)
+        tweaks[data.dates.index('2020-02-21')] = (+0.8, -1.3)
+        tweaks[data.dates.index('2020-02-27')] = (-0.1, +0.1)
+        tweaks[data.dates.index('2020-03-03')] = (+0.8, -1.3)
+        tweaks[data.dates.index('2020-03-04')] = (+0.3, +0.0)
+
+    # Show text values on the graph.
     prev_val = -1
-    for i, val in enumerate(data.doubling_times):
+    for i, val in enumerate(data.doubling_times[m:]):
+        if m != 0 and i == 0:
+            continue
         if val != -1 and abs(val - prev_val) > 0.001:
-            x = i + tweaks[i][0]
-            y = val + (1.0 + tweaks[i][1]) * tick_gap
+            x = i + tweaks[m:][i][0]
+            y = val + (1.0 + tweaks[m:][i][1]) * tick_gap
             v = '{:.1f}'.format(val)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=total_color)
@@ -209,49 +266,53 @@ def plot_doubling_times(data):
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Days')
-    plt.ylim(top=top_ylim(data.doubling_times, tick_gap * 5, tick_gap))
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
+    plt.ylim(top=top_ylim(data.doubling_times[m:], tick_gap * 5, tick_gap))
     plt.ylim(bottom=0)
-    plt.title('COVID-19 Cases in India', x=0.6, y=0.92)
-    plot_end('doubling-time.png')
+    plot_end(data, 'doubling-time', recent)
 
 
-def plot_cured_percents(data):
+def plot_cured_percents(data, recent):
     """Plot line chart for cured and death percents."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     cured_nan = [float('nan') if x == -1 else x for x in data.cured_percents]
     death_nan = [float('nan') if x == -1 else x for x in data.death_percents]
-    tick_gap = 1
+    tick_gap = 2
 
     # Plot graph.
     plot_begin(data)
-    plt.plot(formatted_dates, cured_nan,
+    plt.plot(formatted_dates[m:], cured_nan[m:],
              marker='.', color=cured_color,
              label='Percent of closed cases that are cured cases')
-    plt.plot(formatted_dates, death_nan,
+    plt.plot(formatted_dates[m:], death_nan[m:],
              marker='.', color=death_color,
              label='Percent of closed cases that are death cases')
 
-    # Tweaks for cured values.
+    # Position text values on the graph.
     cured_tweaks = [(0, 0)] * len(data.dates)
-    cured_tweaks[data.dates.index('2020-03-13')] = (+0.3, +0.0)
-
-    # Tweaks for death values.
     death_tweaks = [(0, 0)] * len(data.dates)
-    death_tweaks[data.dates.index('2020-03-13')] = (+0.3, +0.0)
+    if recent:
+        pass
+    else:
+        cured_tweaks[data.dates.index('2020-03-13')] = (+0.3, +0.0)
+        death_tweaks[data.dates.index('2020-03-13')] = (+0.3, +0.0)
 
-    # Print values on the graph.
+    # Show values on the graph.
     prev_cured = -1
-    for i, (cured, death) in enumerate(zip(data.cured_percents,
-                                               data.death_percents)):
+    for i, (cured, death) in enumerate(zip(data.cured_percents[m:],
+                                           data.death_percents[m:])):
+        if m != 0 and i == 0:
+            continue
         if cured != -1 and abs(cured - prev_cured) > 0.001:
             # Print cured value.
             x = i + cured_tweaks[i][0]
-            y = cured + (-8 + cured_tweaks[i][1]) * tick_gap
+            y = cured + (-4 + cured_tweaks[m:][i][1]) * tick_gap
             v = '{:.0f}%'.format(cured)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=cured_color)
             # Print death value.
             x = i + death_tweaks[i][0]
-            y = death + (+3 + death_tweaks[i][1]) * tick_gap
+            y = death + (+1.5 + death_tweaks[m:][i][1]) * tick_gap
             v = '{:.0f}%'.format(death)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=death_color)
@@ -263,19 +324,21 @@ def plot_cured_percents(data):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
     plt.ylabel('Days')
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=100)
     plt.ylim(bottom=0)
-    plot_end('cured-percent.png')
+    plot_end(data, 'cured-percent', recent)
 
 
-def plot_cured_ratios(data):
+def plot_cured_ratios(data, recent):
     """Plot line chart for cured ratio."""
+    m = len(data.dates) - recent_days - 1 if recent else 0
     cured_nan = [float('nan') if x == -1 else x for x in data.cured_ratios]
     tick_gap = 0.1
 
     # Plot graph.
     plot_begin(data)
-    plt.plot(formatted_dates, cured_nan,
+    plt.plot(formatted_dates[m:], cured_nan[m:],
              marker='.', color=cured_color,
              label='Number of cured cases per death case')
 
@@ -292,10 +355,12 @@ def plot_cured_ratios(data):
     tweaks[data.dates.index('2020-04-04')] = (-0.2, +0.0)
     tweaks[data.dates.index('2020-04-06')] = (+0.2, +0.0)
     prev_val = -1
-    for i, val in enumerate(data.cured_ratios):
+    for i, val in enumerate(data.cured_ratios[m:]):
+        if m != 0 and i == 0:
+            continue
         if val != -1 and abs(val - prev_val) > 0.001:
-            x = i + tweaks[i][0]
-            y = val + (2.0 + tweaks[i][1]) * tick_gap
+            x = i + tweaks[m:][i][0]
+            y = val + (2.0 + tweaks[m:][i][1]) * tick_gap
             v = '{:.1f}'.format(val)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=cured_color)
@@ -306,27 +371,42 @@ def plot_cured_ratios(data):
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Days')
-    plt.ylim(top=top_ylim(data.cured_ratios, tick_gap * 6, tick_gap))
+    plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
+    plt.ylim(top=top_ylim(data.cured_ratios[m:], tick_gap * 6, tick_gap))
     plt.ylim(bottom=0)
-    plot_end('cured-ratio.png')
+    plot_end(data, 'cured-ratio', recent)
 
 
 def plot_all(data):
     """Plot all graphs."""
-    log.log('Rendering all-cases-linear plot ...')
-    plot_all_cases_linear(data)
-    log.log('Rendering all-cases-logarithmic plot ...')
-    plot_all_cases_logarithmic(data)
+    log.log('Rendering total-cases-linear-recent plot ...')
+    plot_total_cases_linear(data, recent=True)
+    log.log('Rendering total-cases-linear plot ...')
+    plot_total_cases_linear(data, recent=False)
+    log.log('Rendering total-cases-log-recent plot ...')
+    plot_total_cases_log(data, recent=True)
+    log.log('Rendering total-cases-log plot ...')
+    plot_total_cases_log(data, recent=False)
+    log.log('Rendering new-cases-recent plot ...')
+    plot_new_cases(data, recent=True)
     log.log('Rendering new-cases plot ...')
-    plot_new_cases(data)
+    plot_new_cases(data, recent=False)
+    log.log('Rendering growth-percents-recent plot ...')
+    plot_growth_percents(data, recent=True)
     log.log('Rendering growth-percents plot ...')
-    plot_growth_percents(data)
+    plot_growth_percents(data, recent=False)
+    log.log('Rendering doubling-times-recent plot ...')
+    plot_doubling_times(data, recent=True)
     log.log('Rendering doubling-times plot ...')
-    plot_doubling_times(data)
+    plot_doubling_times(data, recent=False)
+    log.log('Rendering cured-percents-recent plot ...')
+    plot_cured_percents(data, recent=True)
     log.log('Rendering cured-percents plot ...')
-    plot_cured_percents(data)
+    plot_cured_percents(data, recent=False)
+    log.log('Rendering cured-ratios-percent plot ...')
+    plot_cured_ratios(data, recent=True)
     log.log('Rendering cured-ratios plot ...')
-    plot_cured_ratios(data)
+    plot_cured_ratios(data, recent=False)
 
 
 def linear_label_formatter(x, pos):
@@ -336,7 +416,7 @@ def linear_label_formatter(x, pos):
 
 
 def log_label_formatter(x, pos):
-    """Return tick label for logarithmic scale."""
+    """Return tick label for log scale."""
     if str(x)[0] in ['1', '2', '4', '6', '8']:
         return int(x)
 

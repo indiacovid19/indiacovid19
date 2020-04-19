@@ -44,21 +44,20 @@ Last updated on
 </p>
 
 <p>
-<strong class="total"><a href="#new-cases-graph">{{ new_cases }}</a></strong>
+<strong class="total"><a href="#new-cases-recent">{{ new_cases }}</a></strong>
 new cases
-(<strong class="total"><a href="#growth-percent-graph">{{ new_growth }}</a></strong>
+(<strong class="total"><a href="#growth-percent-recent">{{ new_growth }}</a></strong>
 increase) since the previous day.
 </p>
 
 <p>
 Total number of cases has doubled in the last
-<strong class="total"><a href="#doubling-time-graph">{{ doubling_time }}
-days</a></strong>.
+<strong class="total"><a href="#doubling-time-recent">{{ doubling_time }} days</a></strong>.
 </p>
 
 <p>
 The ratio of cured cases to that of death cases is
-<strong><a class="cured" href="#cured-ratio-graph">{{ cured_ratio }}
+<strong><a class="cured" href="#cured-ratio-recent">{{ cured_ratio }}
 <span class="neutral">:</span>
 <span class="death">1</span></a></strong>.
 </p>
@@ -68,65 +67,136 @@ The ratio of cured cases to that of death cases is
 
 <ul>
   <li><a href="#latest">Latest Update</a></li>
-  <li><a href="#total-cases-graph-linear">Total Cases Graph (Linear Scale)</a></li>
-  <li><a href="#total-cases-graph-logarithmic">Total Cases Graph (Logarithmic Scale)</a></li>
-  <li><a href="#new-cases-graph">New Cases Graph</a></li>
-  <li><a href="#growth-percent-graph">Growth Percent Graph</a></li>
-  <li><a href="#doubling-time-graph">Doubling Time Graph</a></li>
-  <li><a href="#cured-percent-graph">Cured Percent Graph</a></li>
-  <li><a href="#cured-ratio-graph">Cured Ratio Graph</a></li>
+  <li><a href="#graphs-alltime">Graphs (Last 30 Days)</a></li>
+    <ul>
+      <li><a href="#total-cases-linear-recent">Total Cases in Linear Scale</a></li>
+      <li><a href="#total-cases-log-recent">Total Cases in Logarithmic Scale</a></li>
+      <li><a href="#new-cases-recent">New Cases</a></li>
+      <li><a href="#growth-percent-recent">Growth Percent</a></li>
+      <li><a href="#doubling-time-recent">Doubling Time</a></li>
+      <li><a href="#cured-percent-recent">Cured Percent</a></li>
+      <li><a href="#cured-ratio-recent">Cured Ratio</a></li>
+    </ul>
+  </li>
+  <li><a href="#graphs-alltime">Graphs (All Time)</a></li>
+    <ul>
+      <li><a href="#total-cases-linear">Total Cases in Linear Scale</a></li>
+      <li><a href="#total-cases-log">Total Cases in Logarithmic Scale</a></li>
+      <li><a href="#new-cases">New Cases</a></li>
+      <li><a href="#growth-percent">Growth Percent</a></li>
+      <li><a href="#doubling-time">Doubling Time</a></li>
+      <li><a href="#cured-percent">Cured Percent</a></li>
+      <li><a href="#cured-ratio">Cured Ratio</a></li>
+    </ul>
+  </li>
   <li><a href="#case-numbers">Case Numbers</a></li>
   <li><a href="#json">JSON Data</a></li>
   <li><a href="#faq">Questions and Answers</a></li>
 </ul>
 
 
-<h2 id="total-cases-graph-linear"><a
- href="#total-cases-graph-linear">Total Cases Graph (Linear Scale)</a></h2>
-<a href="img/all-cases-linear.png" class="imglink"><img
-    src="img/all-cases-linear.png"
-    alt="India COVID-19 total cases graph in linear scale"></a>
+<!-- Recents -->
+<h2 id="graphs-last-30-days"><a
+ href="#graphs-last-30-days">Graphs (Last 30 Days)</a></h2>
 
 
-<h2 id="total-cases-graph-logarithmic"><a
- href="#total-cases-graph-logarithmic">Total Cases Graph (Logarithmic Scale)</a></h2>
-<a href="img/all-cases-logarithmic.png" class="imglink"><img
-    src="img/all-cases-logarithmic.png"
-    alt="India COVID-19 total cases graph in logarithmic scale"></a>
+<h3 id="total-cases-linear-recent"><a
+ href="#total-cases-linear-recent">Total Cases in Linear Scale (Last 30 Days)</a></h3>
+<a href="img/total-cases-linear-recent.png" class="imglink"><img
+  class="recent" src="img/total-cases-linear-recent.png"
+  alt="India COVID-19 total cases graph for the last 30 days in linear scale"></a>
 
 
-<h2 id="new-cases-graph"><a href="#new-cases-graph">New Cases Graph</a></h2>
+<h3 id="total-cases-log-recent"><a
+ href="#total-cases-log-recent">Total Cases in Logarithmic Scale (Last 30 Days)</a></h3>
+<a href="img/total-cases-log-recent.png" class="imglink"><img
+  class="recent" src="img/total-cases-log-recent.png"
+  alt="India COVID-19 total cases graph for the last 30 days in log scale"></a>
+
+
+<h3 id="new-cases-recent"><a
+ href="#new-cases-recent">New Cases (Last 30 Days)</a></h3>
+<a href="img/new-cases-recent.png" class="imglink"><img
+  class="recent" src="img/new-cases-recent.png"
+  alt="India COVID-19 new cases graph for the last 30 days in log scale"></a>
+
+
+<h3 id="growth-percent-recent"><a
+ href="#growth-percent-recent">Growth Percent (Last 30 Days)</a></h3>
+<a href="img/growth-percent-recent.png" class="imglink"><img
+  class="recent" src="img/growth-percent-recent.png"
+  alt="India COVID-19 growth percent graph for the last 30 days in log scale"></a>
+
+
+<h3 id="doubling-time-recent"><a
+  href="#doubling-time-recent">Doubling Time (Last 30 Days)</a></h3>
+<a href="img/doubling-time-recent.png" class="imglink"><img
+  class="recent" src="img/doubling-time-recent.png"
+  alt="India COVID-19 cases doubling time graph for the last 30 days"></a>
+
+
+<h3 id="cured-percent-recent"><a
+  href="#cured-percent-recent">Cured Percent (Last 30 Days)</a></h3>
+<a href="img/cured-percent-recent.png" class="imglink"><img
+  class="recent" src="img/cured-percent-recent.png"
+  alt="India COVID-19 cases cured percent graph for the last 30 days"></a>
+
+
+<h3 id="cured-ratio-recent"><a
+  href="#cured-ratio-recent">Cured Ratio (Last 30 Days)</a></h3>
+<a href="img/cured-ratio-recent.png" class="imglink"><img
+  class="recent" src="img/cured-ratio-recent.png"
+  alt="India COVID-19 cases cured ratio graph for the last 30 days"></a>
+
+
+<!-- All Time -->
+<h2 id="graphs-all-time"><a href="#graphs-all-time">Graphs (All Time)</a></h2>
+
+<h3 id="total-cases-linear"><a
+ href="#total-cases-linear">Total Cases in Linear Scale (All Time)</a></h3>
+<a href="img/total-cases-linear.png" class="imglink"><img
+  class="alltime" src="img/total-cases-linear.png"
+  alt="India COVID-19 total cases graph in linear scale"></a>
+
+
+<h3 id="total-cases-log"><a
+ href="#total-cases-log">Total Cases in Logarithmic Scale (All Time)</a></h3>
+<a href="img/total-cases-log.png" class="imglink"><img
+  class="alltime" src="img/total-cases-log.png"
+  alt="India COVID-19 total cases graph in log scale"></a>
+
+
+<h3 id="new-cases"><a href="#new-cases">New Cases (All Time)</a></h3>
 <a href="img/new-cases.png" class="imglink"><img
-    src="img/new-cases.png"
-    alt="India COVID-19 new cases graph"></a>
+  class="alltime" src="img/new-cases.png"
+  alt="India COVID-19 new cases graph"></a>
 
 
-<h2 id="growth-percent-graph"><a
-  href="#growth-percent-graph">Growth Percent Graph</a></h2>
+<h3 id="growth-percent"><a
+  href="#growth-percent">Growth Percent (All Time)</a></h3>
 <a href="img/growth-percent.png" class="imglink"><img
-    src="img/growth-percent.png"
-    alt="India COVID-19 growth percent graph"></a>
+  class="alltime" src="img/growth-percent.png"
+  alt="India COVID-19 growth percent graph"></a>
 
 
-<h2 id="doubling-time-graph"><a
- href="#doubling-time-graph">Doubling Time Graph</a></h2>
+<h3 id="doubling-time"><a
+  href="#doubling-time">Doubling Time (All Time)</a></h3>
 <a href="img/doubling-time.png" class="imglink"><img
-    src="img/doubling-time.png"
-    alt="India COVID-19 cases doubling time graph"></a>
+  class="alltime" src="img/doubling-time.png"
+  alt="India COVID-19 cases doubling time graph"></a>
 
 
-<h2 id="cured-percent-graph"><a
- href="#cured-percent-graph">Cured Percent Graph</a></h2>
+<h3 id="cured-percent"><a
+  href="#cured-percent">Cured Percent (All Time)</a></h3>
 <a href="img/cured-percent.png" class="imglink"><img
-    src="img/cured-percent.png"
-    alt="India COVID-19 cases cured percent graph"></a>
+  class="alltime" src="img/cured-percent.png"
+  alt="India COVID-19 cases cured percent graph"></a>
 
 
-<h2 id="cured-ratio-graph"><a
- href="#cured-ratio-graph">Cured Ratio Graph</a></h2>
+<h3 id="cured-ratio"><a href="#cured-ratio">Cured Ratio (All Time)</a></h3>
 <a href="img/cured-ratio.png" class="imglink"><img
-    src="img/cured-ratio.png"
-    alt="India COVID-19 cases cured ratio graph"></a>
+  class="alltime" src="img/cured-ratio.png"
+  alt="India COVID-19 cases cured ratio graph"></a>
 
 
 <h2 id="case-numbers"><a href="#case-numbers">Case Numbers</a></h2>
