@@ -181,7 +181,9 @@ def main():
     shutil.copy('indiacovid19.json', '_site')
 
     # Load COVID-19 archive data.
+    log.log('Loading archive ...')
     data = archive.load()
+    log.log('Found entries for {} days', len(data.dates))
 
     # Format placeholder values.
     last_updated = data.last_ref_datetimes[-1].strftime('%d %b %Y %H:%M IST')
@@ -190,6 +192,7 @@ def main():
     cured_percent = '{:.0f}%'.format(data.cured_percents[-1])
     death_percent = '{:.0f}%'.format(data.death_percents[-1])
     cured_ratio = '{:.1f}'.format(data.cured_ratios[-1])
+    img_max_width = round(len(data.dates) * 100 / 40)
 
     # Render home page.
     log.log('Rendering home page ...')
@@ -210,6 +213,12 @@ def main():
                     case_links=case_links(data),
                     case_rows=case_rows(data))
     fwrite('_site/index.html', output)
+
+    # Render CSS.
+    log.log('Rendering stylesheet ...')
+    layout = fread('layout/main.css')
+    output = render(layout, img_max_width=img_max_width)
+    fwrite('_site/main.css', output)
 
     # Plot graphs.
     plot.plot_all(data)
