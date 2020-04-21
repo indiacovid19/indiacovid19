@@ -125,7 +125,7 @@ def plot_total_cases_log(data, recent):
     plt.ylabel('Count')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(bottom=1)
-    x, y = (0.57, 0.9) if recent else (0.6, 0.9)
+    x, y = (0.57, 0.91) if recent else (0.6, 0.9)
     plt.title('COVID-19 cases in India', x=x, y=y, size='medium')
     plot_end(data, 'total-cases-log', recent)
 
@@ -213,7 +213,8 @@ def plot_growth_percents(data, recent):
     ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(percent_formatter))
     plt.ylabel('Growth percent')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
-    plt.ylim(top=top_ylim(data.total_growths[m:], tick_gap * 5, tick_gap))
+    ylim_pad = tick_gap * (11 if recent else 5)
+    plt.ylim(top=top_ylim(data.total_growths[m:], ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'growth-percent', recent)
 
@@ -373,7 +374,8 @@ def plot_cured_ratios(data, recent):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Ratio')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
-    plt.ylim(top=top_ylim(data.cured_ratios[m:], tick_gap * 6, tick_gap))
+    ylim_pad = tick_gap * (10 if recent else 6)
+    plt.ylim(top=top_ylim(data.cured_ratios[m:], ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'cured-ratio', recent)
 
