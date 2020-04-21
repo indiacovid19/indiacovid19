@@ -137,7 +137,7 @@ def medical_cases():
 
 def region_table_rows(data, layout):
     """Generate table rows for state and union territory data table."""
-    region_names = [
+    region_names = (
         'Andaman and Nicobar Islands',
         'Andhra Pradesh',
         'Arunachal Pradesh',
@@ -174,7 +174,7 @@ def region_table_rows(data, layout):
         'Uttar Pradesh',
         'Uttarakhand',
         'West Bengal',
-    ]
+    )
     out = []
     for i, name in enumerate(sorted(region_names), 1):
         matches = difflib.get_close_matches(name, list(data.regions), 1)
@@ -210,9 +210,22 @@ def region_table_foot(data, layout):
 
 def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
-    if name in ('Assam', 'Delhi', 'Goa', 'Gujarat', 'Karnataka',
-                'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Odisha',
-                'Rajasthan', 'Tamil Nadu', 'Uttar Pradesh', 'West Bengal'):
+    if name in (
+        'Assam',
+        'Bihar',
+        'Delhi',
+        'Goa',
+        'Gujarat',
+        'Karnataka',
+        'Kerala',
+        'Madhya Pradesh',
+        'Maharashtra',
+        'Odisha',
+        'Rajasthan',
+        'Tamil Nadu',
+        'Uttar Pradesh',
+        'West Bengal'
+    ):
         return ('[[2020 coronavirus pandemic in {}|{}]]'
                 .format(name, name))
 
