@@ -166,7 +166,7 @@ def plot_growth_percents(data, recent):
                    'COVID-19 cases in India on each day\n'
                    'compared to the previous day')
 
-    # Position text values on the graph.
+    # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
         tweaks[data.dates.index('2020-03-20')] = (+0.7, -2.3)
@@ -232,7 +232,7 @@ def plot_doubling_times(data, recent):
              label='Number of days it took for the number of\n'
                    'total COVID-19 cases in India to double')
 
-    # Position text values on the graph.
+    # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
         tweaks[data.dates.index('2020-03-21')] = (+0.0, -3.0)
@@ -268,7 +268,7 @@ def plot_doubling_times(data, recent):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Days')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
-    ylim_pad = tick_gap * (10 if recent else 5)
+    ylim_pad = tick_gap * (11 if recent else 5)
     plt.ylim(top=top_ylim(data.doubling_times[m:], ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'doubling-time', recent)
@@ -290,7 +290,7 @@ def plot_cured_percents(data, recent):
              marker='.', color=death_color,
              label='Percent of closed cases that are death cases')
 
-    # Position text values on the graph.
+    # Tweak the position of text values on the graph.
     cured_tweaks = [(0, 0)] * len(data.dates)
     death_tweaks = [(0, 0)] * len(data.dates)
     if recent:
@@ -374,7 +374,7 @@ def plot_cured_ratios(data, recent):
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
     plt.ylabel('Ratio')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
-    ylim_pad = tick_gap * (10 if recent else 6)
+    ylim_pad = tick_gap * (12 if recent else 10)
     plt.ylim(top=top_ylim(data.cured_ratios[m:], ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'cured-ratio', recent)
