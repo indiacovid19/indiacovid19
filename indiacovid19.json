@@ -159,5 +159,8 @@
 
   [ "2020-04-22",  15474,   3869,    640,      1,  "2020-04-22 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-22_0800/",                                  "" ],
   [ "2020-04-22",  15474,   3869,    640,      1,  "2020-04-22 16:33",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1617097",                                             "3870 cured, 1383 new, 19984 confirmed, 50 new deaths" ],
-  [ "2020-04-22",  15859,   3959,    652,      1,  "2020-04-22 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-22_1700/",                                  "" ]
+  [ "2020-04-22",  15859,   3959,    652,      1,  "2020-04-22 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-22_1700/",                                  "" ],
+
+  [ "2020-04-23",  16454,   4257,    681,      1,  "2020-04-23 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-23_0800/",                                  "" ],
+  [ "2020-04-23",  16689,   4324,    686,      1,  "2020-04-23 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-23_1700/",                                  "" ]
 ]
