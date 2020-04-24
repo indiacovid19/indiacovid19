@@ -34,10 +34,13 @@ command at the top-level directory of this project:
 
 
 import datetime
+import json
 import re
 import sys
 import urllib
 import urllib.request
+
+from py import log
 
 
 class Data:
@@ -53,20 +56,19 @@ class Data:
         self.ref_time = ''
         self.foreign = -1
         self.regions = {}
+        self.regions_total = -1
+        self.regions_cured = -1
+        self.regions_death = -1
+        self.regions_active = -1
 
 
-def log(msg, *args):
-    """Log message with specified arguments."""
-    sys.stderr.write(msg.format(*args) + '\n')
-
-
-def load():
+def load_home_data():
     """Return data retrieved from MoHFW website."""
     data = Data()
 
     # Save the response from MoHFW as a list of lines.
     url = 'https://www.mohfw.gov.in/'
-    log('Connecting to {} ...', url)
+    log.log('Connecting to {} ...', url)
     response = urllib.request.urlopen(url).read().decode('utf-8')
     lines = [l.strip() for l in response.splitlines()]
     lines = [l for l in lines if l != '']
@@ -80,7 +82,6 @@ def load():
     parser_state = 'DEFAULT'
 
     # Parse the response.
-    log('Parsing response ...')
     for i, line in enumerate(lines):
         if data.active == -1 and 'Active Cases' in line:
             data.active = int(strong_re.match(lines[i - 1]).group(1))
@@ -98,10 +99,10 @@ def load():
         elif data.foreign == -1 and 'foreign' in line:
             data.foreign = int(foreign_re.match(line).group(1))
         elif '<tbody>' in line:
-            parser_state = 'STATE'
-        elif parser_state == 'STATE' and '<tr>' in line:
+            parser_state = 'REGION'
+        elif parser_state == 'REGION' and '<tr>' in line:
             if 'Total' in lines[i + 1]:
-                parser_state = 'TOTAL'
+                parser_state = 'REGION_TOTAL'
                 continue
             region_name = td_re.match(lines[i + 2]).group(1)
             region_name = name_re.sub('', region_name)
@@ -110,7 +111,7 @@ def load():
             death = int(td_re.match(lines[i + 5]).group(1))
             active = total - cured - death
             data.regions[region_name] = (total, active, cured, death)
-        elif parser_state == 'TOTAL' and 'Total' in line:
+        elif parser_state == 'REGION_TOTAL' and 'Total' in line:
             parser_state = 'DEFAULT'
             s = strong_re.match(lines[i + 1]).group(1)
             data.regions_total = int(s.rstrip('*'))
@@ -123,13 +124,83 @@ def load():
 
     # Validations.
     if data.total != data.regions_total:
-        log('Mismatch in total and regions_total')
+        log.log('home page: Mismatch in total and regions_total')
     if data.active != data.regions_active:
-        log('Mismatch in active and regions_active')
+        log.log('home page: Mismatch in active and regions_active')
     if data.cured + data.migrated != data.regions_cured:
-        log('Mismatch in cured + migrated and regions_cured')
+        log.log('home page: Mismatch in cured + migrated and regions_cured')
     if data.death != data.regions_death:
-        log('Mismatch in death and regions_death')
+        log.log('home page: Mismatch in death and regions_death')
+    return data
+
+
+def load_dash_data():
+    """Return data retrieved from MoHFW dashboard page."""
+    data = Data()
+
+    # Retrieve MoHFW dashboard HTML.
+    url = 'https://www.mohfw.gov.in/dashboard/index.php'
+    log.log('Connecting to {} ...', url)
+    response = urllib.request.urlopen(url).read().decode('utf-8')
+    lines = [l.strip() for l in response.splitlines()]
+    lines = [l for l in lines if l != '']
+
+    # Parsers.
+    strong_re = re.compile(r'.*<strong>(.*)</strong>')
+    time_re = re.compile(r'.*as on\s*:\s*(\d.*) GMT')
+    js_re = re.compile(r"\['(.*)', (.*), (.*), (.*)\],")
+    parser_state = 'DEFAULT'
+
+    # Parse the response.
+    for i, line in enumerate(lines):
+        if data.active == -1 and 'Active Cases' in line:
+            data.active = int(strong_re.match(lines[i - 1]).group(1))
+        elif data.cured == -1 and 'Cured' in line:
+            data.cured = int(strong_re.match(lines[i - 1]).group(1))
+        elif data.death == -1 and 'Deaths' in line:
+            data.death = int(strong_re.match(lines[i - 1]).group(1))
+        elif data.migrated == -1 and 'Migrated' in line:
+            data.migrated = int(strong_re.match(lines[i - 1]).group(1))
+        elif data.ref_datetime == None and 'as on' in line:
+            t = time_re.match(line).group(1)
+            data.ref_datetime = datetime.datetime.strptime(t, '%d %B %Y, %H:%M')
+            data.ref_date = data.ref_datetime.strftime('%Y-%m-%d')
+            data.ref_time = data.ref_datetime.strftime('%H:%M')
+        elif 'Hover' in line:
+            break
+
+    data.total = data.active + data.cured + data.death + data.migrated
+
+    # Retrieve MoHFW JSON data.
+    url = 'https://www.mohfw.gov.in/dashboard/data/data.json'
+    log.log('Connecting to {} ...', url)
+    items = json.load(urllib.request.urlopen(url))
+
+    # Parse the response.
+    for item in items:
+        region_name = item['state_name']
+        total = int(item['positive'])
+        cured = int(item['cured'])
+        death = int(item['death'])
+        active = total - cured - death
+        data.regions[region_name] = (total, active, cured, death)
+
+    # Region totals.
+    data.regions_total = sum(v[0] for v in data.regions.values())
+    data.regions_active = sum(v[1] for v in data.regions.values())
+    data.regions_cured = sum(v[2] for v in data.regions.values())
+    data.regions_death = sum(v[3] for v in data.regions.values())
+
+    # Validations.
+    if data.total != data.regions_total:
+        log.log('dashboard: Mismatch in total and regions_total')
+    if data.active != data.regions_active:
+        log.log('dashboard: Mismatch in active and regions_active')
+    if data.cured + data.migrated != data.regions_cured:
+        log.log('dashboard: Mismatch in cured + migrated and regions_cured')
+    if data.death != data.regions_death:
+        log.log('dashboard: Mismatch in death and regions_death')
+
     return data
 
 
@@ -137,21 +208,16 @@ def make_summary(data):
     """Print summary of data on the terminal."""
     out = []
     out.append('ref_datetime: {}'.format(data.ref_datetime))
+    out.append('overall: total: {}; active: {}; cured: {}; death: {}; '
+               'migrated: {}'.format(data.total, data.active,
+                                     data.cured, data.death, data.migrated))
+    out.append('regions: total: {}; active: {}; cured: {}; death: {}; '
+               'foreign: {}'.format(data.regions_total, data.regions_active,
+                                    data.regions_cured, data.regions_death,
+                                    data.foreign))
     out.append('')
-    out.append('total:          {:6}'.format(data.total))
-    out.append('active:         {:6}'.format(data.active))
-    out.append('cured:          {:6}'.format(data.cured))
-    out.append('death:          {:6}'.format(data.death))
-    out.append('migrated:       {:6}'.format(data.migrated))
+    out.append('regions: {}'.format(sorted(data.regions.items())))
     out.append('')
-    out.append('regions: {}'.format(data.regions))
-    out.append('')
-    out.append('foreign:        {:6}'.format(data.foreign))
-    out.append('')
-    out.append('regions_total:  {:6}'.format(data.regions_total))
-    out.append('regions_active: {:6}'.format(data.regions_active))
-    out.append('regions_cured:  {:6}'.format(data.regions_cured))
-    out.append('regions_death:  {:6}'.format(data.regions_death))
     return '\n'.join(out)
 
 
@@ -163,10 +229,6 @@ def make_json_entry(data):
             .format(data.ref_date, data.active, data.cured, data.death,
                     data.migrated, data.ref_date, data.ref_time,
                     data.ref_date, data.ref_time.replace(':', '')))
-
-
-def print_json_entry(data):
-    """Print JSON entry to be added to indiacovid19.json."""
 
 
 def update_json(json_entry):
@@ -189,11 +251,11 @@ def update_json(json_entry):
     print('Done')
 
 
-def main():
-    data = load()
+def print_summary(data, heading):
+    """Print a summary of the retrieved data on console."""
+    print(heading)
+    print('-' * len(heading))
     print(make_summary(data))
-    print()
-
     json_entry = make_json_entry(data)
     print('JSON octuple for indiacovid19.json:')
     print()
@@ -203,6 +265,12 @@ def main():
     print()
 
 
+def main():
+    home_data = load_home_data()
+    dash_data = load_dash_data()
+    print()
+    print_summary(home_data, 'HOME PAGE DATA')
+    print_summary(dash_data, 'DASHBOARD DATA')
 
 
 if __name__ == '__main__':
