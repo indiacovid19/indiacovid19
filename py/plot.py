@@ -76,7 +76,7 @@ def plot_total_cases_linear(data, recent):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 200
     ylim_pad = 6
-    title_x, title_y = (0.63, 0.9) if recent else (0.6, 0.9)
+    title_x, title_y = (0.63, 0.9) if recent else (0.5, 0.9)
 
     plot_begin(data)
     plt.plot(formatted_dates[m:], data.total_cases[m:],
@@ -141,7 +141,7 @@ def plot_new_cases(data, recent):
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 20
     text_gap = 20
-    ylim_pad = 17
+    ylim_pad = 17 if recent else 20
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -357,7 +357,7 @@ def plot_cured_ratios(data, recent):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.1
     text_gap = 2.0
-    ylim_pad = 15
+    ylim_pad = 15 if recent else 19
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
