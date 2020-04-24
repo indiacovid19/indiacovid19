@@ -165,5 +165,7 @@
   [ "2020-04-23",  16454,   4257,    681,      1,  "2020-04-23 17:46",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1617510",                                             "4257 cured, 1409 new, 21393 confirmed" ],
   [ "2020-04-23",  16454,   4257,    681,      1,  "2020-04-23 18:52",  "https://pib.gov.in/PressReleasePage.aspx?PRID=1617546",                                             "21393 positive, 4257 recovered, 16454 active, 1409 new, 388 new recoveries, " ],
   [ "2020-04-23",  16689,   4324,    686,      1,  "2020-04-23 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-23_1700/",                                  "" ],
-  [ "2020-04-24",  17610,   4748,    718,      1,  "2020-04-24 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-24_0800/",                                  "" ]
+
+  [ "2020-04-24",  17610,   4748,    718,      1,  "2020-04-24 08:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-24_0800/",                                  "" ],
+  [ "2020-04-24",  17915,   4813,    723,      1,  "2020-04-24 17:00",  "https://indiacovid19.github.io/webarchive/mohfw/2020-04-24_1700/",                                  "" ]
 ]
