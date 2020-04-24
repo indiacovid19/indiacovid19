@@ -29,7 +29,7 @@ import datetime
 import difflib
 import sys
 
-from py import archive, mohfw
+from py import archive, log, mohfw
 
 
 """Generate Wikipedia markup code.
@@ -124,7 +124,17 @@ def medical_cases_chart_data():
 
 def medical_cases():
     """Generate Wikipedia markup for medical cases template."""
-    data = mohfw.load()
+    home_data = mohfw.load_home_data()
+    dash_data = mohfw.load_dash_data()
+
+    if home_data.ref_datetime >= dash_data.ref_datetime:
+        data = home_data
+        log.log('Selected home page data')
+    else:
+        data = dash_data
+        data.foreign = home_data.foreign
+        log.log('Selected dashboard data')
+
     output = open('layout/medical_cases.txt').read()
     output = region_table_rows(data, output)
     output = region_table_foot(data, output)
@@ -212,9 +222,11 @@ def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
     if name in (
         'Assam',
+        'Bihar',
         'Delhi',
         'Goa',
         'Gujarat',
+        'Jharkhand',
         'Karnataka',
         'Kerala',
         'Madhya Pradesh',
