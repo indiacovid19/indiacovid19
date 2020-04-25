@@ -198,6 +198,7 @@ def plot_growth_percents(data, recent):
         tweaks[data.dates.index('2020-04-13')] = (+0.0, -4.0)
         tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.5)
         tweaks[data.dates.index('2020-04-16')] = (+0.0, -3.5)
+        tweaks[data.dates.index('2020-04-25')] = (+0.2, +0.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
