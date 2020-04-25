@@ -139,7 +139,7 @@ def load_dash_data():
     data = Data()
 
     # Retrieve MoHFW dashboard HTML.
-    url = 'https://www.mohfw.gov.in/dashboard/index.php'
+    url = 'https://www.mohfw.gov.in/index.php'
     log.log('Connecting to {} ...', url)
     response = urllib.request.urlopen(url).read().decode('utf-8')
     lines = [l.strip() for l in response.splitlines()]
@@ -172,7 +172,7 @@ def load_dash_data():
     data.total = data.active + data.cured + data.death + data.migrated
 
     # Retrieve MoHFW JSON data.
-    url = 'https://www.mohfw.gov.in/dashboard/data/data.json'
+    url = 'https://www.mohfw.gov.in/data/data.json'
     log.log('Connecting to {} ...', url)
     items = json.load(urllib.request.urlopen(url))
 
