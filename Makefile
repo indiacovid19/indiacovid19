@@ -20,6 +20,16 @@ wiki:
 mohfw:
 	python3 -m py.mohfw
 
+scan:
+	beeps(){ while true; do printf "\a"; sleep 1; done; }; \
+	[ $$(date +"%p") = AM ] && h=0 || h=1; \
+	while true; \
+	    do make mohfw > /tmp/m; \
+	    cat /tmp/m; \
+	    grep "$$(date +"%Y-%m-%d") $$h" /tmp/m && beeps; \
+	    sleep 10; \
+	done
+
 venv:
 	python3 -m venv ~/.venv/indiacovid19
 	echo . ~/.venv/indiacovid19/bin/activate > venv
