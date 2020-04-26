@@ -140,15 +140,15 @@ def plot_new_cases(data, recent):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 20
-    text_gap = 20
-    ylim_pad = 17 if recent else 20
+    text_gap = 2
+    ylim_pad = 20 if recent else 22
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
             color=total_color, zorder=2,
             label='New COVID-19 Cases in India on each day')
     for i, value in enumerate(data.total_diffs[m:]):
-        plt.text(i, value + text_gap, value, ha='center',
+        plt.text(i, value + text_gap * tick_gap, value, ha='center',
                  rotation='vertical', size='x-small', color=total_color)
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
@@ -198,7 +198,6 @@ def plot_growth_percents(data, recent):
         tweaks[data.dates.index('2020-04-13')] = (+0.0, -4.0)
         tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.5)
         tweaks[data.dates.index('2020-04-16')] = (+0.0, -3.5)
-        tweaks[data.dates.index('2020-04-25')] = (+0.2, +0.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
@@ -358,7 +357,7 @@ def plot_cured_ratios(data, recent):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.1
     text_gap = 2.0
-    ylim_pad = 15 if recent else 19
+    ylim_pad = 17 if recent else 19
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
