@@ -226,6 +226,7 @@ def markup_region(name):
         'Delhi',
         'Goa',
         'Gujarat',
+        'Haryana',
         'Jharkhand',
         'Karnataka',
         'Kerala',
