@@ -50,7 +50,7 @@ def plot_begin(data):
 def plot_end(data, img_name, recent):
     """Configure current plot and export it to an image file."""
     if recent:
-        plot_size = 4.8, 4.8
+        plot_size = 4.8, 4.8  # 9.4, 4.8 to generate 16:9 PNGs.
         filename = img_name + '-recent.png'
         legend_size = 'small'
     else:
@@ -198,6 +198,7 @@ def plot_growth_percents(data, recent):
         tweaks[data.dates.index('2020-04-13')] = (+0.0, -4.0)
         tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.5)
         tweaks[data.dates.index('2020-04-16')] = (+0.0, -3.5)
+        tweaks[data.dates.index('2020-04-27')] = (+0.2,  0.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
