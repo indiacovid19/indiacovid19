@@ -35,19 +35,19 @@ a.imglink:hover, a.imglink:active {
   text-decoration: none;
 }
 
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .links a, .date a, .faq a {
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .date a, .faq a {
   color: #333;
 }
 
-.caselinks {
-  margin-bottom: 1em;
+.links a {
+  font-size: small;
 }
 
-.caselinks span, .footerlinks a {
+.links a, .footerlinks a {
   margin-right: 1em;
 }
 
-.caselinks span:last-child, .footerlinks a:last-child {
+.links a:last-child, .footerlinks a:last-child {
   margin-right: 0;
 }
 
@@ -127,6 +127,7 @@ footer div div {
 table.grid {
   border-collapse: collapse;
   text-align: right;
+  margin-top: 1em;
 }
 
 table.grid th, table.grid td {

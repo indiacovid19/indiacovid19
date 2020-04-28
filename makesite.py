@@ -76,10 +76,7 @@ def case_links(data):
     out = []
     for month in months:
         text = datetime.datetime.strptime(month, '%Y-%m').strftime('%b')
-        out.append(
-            '<span>[&nbsp;<a href="#{}">{}</a>&nbsp;]</span>'
-            .format(month, text)
-        )
+        out.append('<a href="#{}">[{}]</a>'.format(month, text))
     return '\n'.join(out) + '\n'
 
 
