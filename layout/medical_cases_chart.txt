@@ -23,5 +23,5 @@
 {{clear}}
 {{2019-nCoV|state=expanded}}
 {{2020 coronavirus pandemic in India}}
-[[Category:2019–20 coronavirus pandemic medical cases in India charts]]
+[[Category:2019–20 coronavirus pandemic medical cases in India charts| ]]
 </noinclude>
