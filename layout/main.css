@@ -52,6 +52,16 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .date a, .faq a {
 }
 
 
+/* Buttons */
+.button {
+  margin-right: 0.5em;
+}
+
+.button:last-child {
+  margin-right: 0;
+}
+
+
 /* Graphs */
 img.alltime {
   max-height: 75vh;
