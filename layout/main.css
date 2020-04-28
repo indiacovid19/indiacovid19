@@ -39,6 +39,10 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .date a, .faq a {
   color: #333;
 }
 
+.links {
+  margin-bottom: 0.5em;
+}
+
 .links a {
   font-size: small;
 }
