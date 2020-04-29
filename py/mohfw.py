@@ -77,8 +77,7 @@ def load_home_data():
     strong_re = re.compile(r'.*<strong>(.*)</strong>')
     time_re = re.compile(r'.*as on\s*:\s*(\d.*) GMT')
     foreign_re = re.compile(r'.*[Ii]ncluding (\d+) [Ff]oreign')
-    td_re = re.compile(r'.*<td>(.*)</td>')
-    name_re = re.compile(r'[^\w\s]')  # Remove footnote sign.
+    td_re = re.compile(r'.*<td>([^#]*).*</td>')
     parser_state = 'DEFAULT'
 
     # Parse the response.
@@ -105,7 +104,6 @@ def load_home_data():
                 parser_state = 'REGION_TOTAL'
                 continue
             region_name = td_re.match(lines[i + 2]).group(1)
-            region_name = name_re.sub('', region_name)
             total = int(td_re.match(lines[i + 3]).group(1))
             cured = int(td_re.match(lines[i + 4]).group(1))
             death = int(td_re.match(lines[i + 5]).group(1))
