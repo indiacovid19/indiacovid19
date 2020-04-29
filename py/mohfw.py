@@ -223,7 +223,7 @@ def make_json_entry(data):
     """Return JSON entry to be added to indiacovid19.json."""
     return ('  [ "{}",  {:5},  {:5},  {:5},  {:5},  "{} {}",  '
             '"https://indiacovid19.github.io/webarchive/mohfw/{}_{}/",'
-            '                                  "" ]'
+            '      "" ]'
             .format(data.ref_date, data.active, data.cured, data.death,
                     data.migrated, data.ref_date, data.ref_time,
                     data.ref_date, data.ref_time.replace(':', '')))
