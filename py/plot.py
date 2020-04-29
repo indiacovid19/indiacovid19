@@ -74,7 +74,7 @@ def plot_end(data, img_name, recent):
 def plot_total_cases_linear(data, recent):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 200
+    tick_gap = 1000
     ylim_pad = 6
     title_x, title_y = (0.63, 0.9) if recent else (0.5, 0.9)
 
