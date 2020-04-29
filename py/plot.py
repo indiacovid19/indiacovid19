@@ -27,6 +27,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+import argparse
 import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -47,16 +48,21 @@ def plot_begin(data):
     plt.clf()
 
 
-def plot_end(data, img_name, recent):
+def plot_end(data, img_name, recent, aspect):
     """Configure current plot and export it to an image file."""
     if recent:
-        plot_size = 4.8, 4.8  # 9.4, 4.8 to generate 16:9 PNGs.
         filename = img_name + '-recent.png'
         legend_size = 'small'
     else:
-        plot_size = 0.16 * len(data.dates), 4.8
         filename = img_name + '.png'
         legend_size = 'medium'
+
+    if aspect == 'square':
+        plot_size = 4.8, 4.8
+    elif aspect == 'wide':
+        plot_size = 9.4, 4.8
+    else:
+        plot_size = 0.16 * len(data.dates), 4.8
 
     plt.gcf().set_size_inches(plot_size)
     plt.grid(which='major', linewidth='0.4')
@@ -71,7 +77,7 @@ def plot_end(data, img_name, recent):
                 dpi=300, bbox_inches='tight')
 
 
-def plot_total_cases_linear(data, recent):
+def plot_total_cases_linear(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 1000
@@ -95,10 +101,10 @@ def plot_total_cases_linear(data, recent):
     plt.ylim(top=top_ylim(data.total_cases[m:], tick_gap * ylim_pad, tick_gap))
     plt.ylim(bottom=0)
     plt.title('COVID-19 Cases in India', x=title_x, y=title_y, size='medium')
-    plot_end(data, 'total-cases-linear', recent)
+    plot_end(data, 'total-cases-linear', recent, aspect)
 
 
-def plot_total_cases_log(data, recent):
+def plot_total_cases_log(data, recent, aspect):
     """Plot line chart for all case numbers (log scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     ylim_top = max(data.total_cases[m:]) * 2
@@ -133,10 +139,10 @@ def plot_total_cases_log(data, recent):
     plt.ylim(top=ylim_top)
     plt.ylim(bottom=1)
     plt.title('COVID-19 cases in India', x=title_x, y=title_y, size='medium')
-    plot_end(data, 'total-cases-log', recent)
+    plot_end(data, 'total-cases-log', recent, aspect)
 
 
-def plot_new_cases(data, recent):
+def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 20
@@ -157,10 +163,10 @@ def plot_new_cases(data, recent):
     plt.xlim(left=-0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(data.total_diffs[m:], tick_gap * ylim_pad, tick_gap))
     plt.ylim(bottom=0)
-    plot_end(data, 'new-cases', recent)
+    plot_end(data, 'new-cases', recent, aspect)
 
 
-def plot_growth_percents(data, recent):
+def plot_growth_percents(data, recent, aspect):
     """Plot growth rate for each day."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 1 if recent else 10
@@ -229,10 +235,10 @@ def plot_growth_percents(data, recent):
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(growths[m:], tick_gap * ylim_gap, tick_gap))
     plt.ylim(bottom=0)
-    plot_end(data, 'growth-percent', recent)
+    plot_end(data, 'growth-percent', recent, aspect)
 
 
-def plot_doubling_times(data, recent):
+def plot_doubling_times(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
@@ -288,10 +294,10 @@ def plot_doubling_times(data, recent):
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(doubling_times[m:], tick_gap * ylim_pad, tick_gap))
     plt.ylim(bottom=0)
-    plot_end(data, 'doubling-time', recent)
+    plot_end(data, 'doubling-time', recent, aspect)
 
 
-def plot_cured_percents(data, recent):
+def plot_cured_percents(data, recent, aspect):
     """Plot line chart for cured and death percents."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 2
@@ -350,10 +356,10 @@ def plot_cured_percents(data, recent):
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=100)
     plt.ylim(bottom=0)
-    plot_end(data, 'cured-percent', recent)
+    plot_end(data, 'cured-percent', recent, aspect)
 
 
-def plot_cured_ratios(data, recent):
+def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.1
@@ -404,39 +410,76 @@ def plot_cured_ratios(data, recent):
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(ratios[m:], tick_gap * ylim_pad, tick_gap))
     plt.ylim(bottom=0)
-    plot_end(data, 'cured-ratio', recent)
+    plot_end(data, 'cured-ratio', recent, aspect)
 
 
 def plot_all(data):
     """Plot all graphs."""
     log.log('Rendering total-cases-linear-recent plot ...')
-    plot_total_cases_linear(data, recent=True)
+    plot_total_cases_linear(data, recent=True, aspect='square')
+
     log.log('Rendering total-cases-linear plot ...')
-    plot_total_cases_linear(data, recent=False)
+    plot_total_cases_linear(data, recent=False, aspect=None)
+
     log.log('Rendering total-cases-log-recent plot ...')
-    plot_total_cases_log(data, recent=True)
+    plot_total_cases_log(data, recent=True, aspect='square')
+
     log.log('Rendering total-cases-log plot ...')
-    plot_total_cases_log(data, recent=False)
+    plot_total_cases_log(data, recent=False, aspect=None)
+
     log.log('Rendering new-cases-recent plot ...')
-    plot_new_cases(data, recent=True)
+    plot_new_cases(data, recent=True, aspect='square')
+
     log.log('Rendering new-cases plot ...')
-    plot_new_cases(data, recent=False)
+    plot_new_cases(data, recent=False, aspect=None)
+
     log.log('Rendering growth-percents-recent plot ...')
-    plot_growth_percents(data, recent=True)
+    plot_growth_percents(data, recent=True, aspect='square')
+
     log.log('Rendering growth-percents plot ...')
-    plot_growth_percents(data, recent=False)
+    plot_growth_percents(data, recent=False, aspect=None)
+
     log.log('Rendering doubling-times-recent plot ...')
-    plot_doubling_times(data, recent=True)
+    plot_doubling_times(data, recent=True, aspect='square')
+
     log.log('Rendering doubling-times plot ...')
-    plot_doubling_times(data, recent=False)
+    plot_doubling_times(data, recent=False, aspect=None)
+
     log.log('Rendering cured-percents-recent plot ...')
-    plot_cured_percents(data, recent=True)
+    plot_cured_percents(data, recent=True, aspect='square')
+
     log.log('Rendering cured-percents plot ...')
-    plot_cured_percents(data, recent=False)
+    plot_cured_percents(data, recent=False, aspect=None)
+
     log.log('Rendering cured-ratios-percent plot ...')
-    plot_cured_ratios(data, recent=True)
+    plot_cured_ratios(data, recent=True, aspect='square')
+
     log.log('Rendering cured-ratios plot ...')
-    plot_cured_ratios(data, recent=False)
+    plot_cured_ratios(data, recent=False, aspect=None)
+
+
+def plot_recent_wide(data):
+    """Plot recent graphs only in approx. with 16:9 aspect ratio."""
+    log.log('Rendering total-cases-linear-recent plot ...')
+    plot_total_cases_linear(data, recent=True, aspect='wide')
+
+    log.log('Rendering total-cases-log-recent plot ...')
+    plot_total_cases_log(data, recent=True, aspect='wide')
+
+    log.log('Rendering new-cases-recent plot ...')
+    plot_new_cases(data, recent=True, aspect='wide')
+
+    log.log('Rendering growth-percents-recent plot ...')
+    plot_growth_percents(data, recent=True, aspect='wide')
+
+    log.log('Rendering doubling-times-recent plot ...')
+    plot_doubling_times(data, recent=True, aspect='wide')
+
+    log.log('Rendering cured-percents-recent plot ...')
+    plot_cured_percents(data, recent=True, aspect='wide')
+
+    log.log('Rendering cured-ratios-percent plot ...')
+    plot_cured_ratios(data, recent=True, aspect='wide')
 
 
 def linear_label_formatter(x, pos):
@@ -480,8 +523,16 @@ def shift(a, b, shift_a, shift_b):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-w', action='store_true',
+                        help='Plot recent graphs only with 16:9 aspect ratio')
+    args = parser.parse_args()
+
     data = archive.load()
-    plot_all(data)
+    if args.w:
+        plot_recent_wide(data)
+    else:
+        plot_all(data)
 
 
 if __name__ == '__main__':
