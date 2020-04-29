@@ -237,7 +237,7 @@ def plot_doubling_times(data, recent):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
     text_gap = 1.5 if recent else 1.0
-    ylim_pad = 12 if recent else 5
+    ylim_pad = 14 if recent else 5
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
