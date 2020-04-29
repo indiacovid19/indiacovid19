@@ -20,6 +20,12 @@ wiki:
 mohfw:
 	python3 -m py.mohfw
 
+plot:
+	. ./venv && python3 -m py.plot
+
+wideplot:
+	. ./venv && python3 -m py.plot -w
+
 scan:
 	beeps(){ while true; do printf "\a"; sleep 1; done; }; \
 	[ $$(date +"%p") = AM ] && h=0 || h=1; \
