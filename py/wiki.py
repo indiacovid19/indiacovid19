@@ -187,6 +187,7 @@ def region_table_foot(data, layout):
 def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
     if name in (
+        'Andhra Pradesh',
         'Assam',
         'Bihar',
         'Delhi',
