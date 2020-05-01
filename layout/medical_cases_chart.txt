@@ -14,6 +14,7 @@
 {{Medical cases chart/Month toggle button|feb}}
 {{Medical cases chart/Month toggle button|mar}}
 {{Medical cases chart/Month toggle button|apr}}
+{{Medical cases chart/Month toggle button|may}}
 {{Medical cases chart/Month toggle button|l15}}
 </div>
 |right2=# of deaths
