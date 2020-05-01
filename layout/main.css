@@ -74,6 +74,8 @@ footer .button {
 img.alltime {
   max-height: 75vh;
   max-width: {{ img_max_width }}%;
+  display: block;
+  margin: 0 auto;
 }
 
 img.recent {
@@ -118,13 +120,15 @@ blockquote *:last-child {
 
 
 /* Single column layout */
-main, footer > div {
-    max-width: 40em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 1em;
+div.narrow, div.wide {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1em;
 }
 
+div.narrow {
+  max-width: 40em;
+}
 
 /* Footer */
 footer {

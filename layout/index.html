@@ -11,502 +11,559 @@
 </head>
 
 <body>
-<main>
 
-<h1><a href="./">India COVID-19 Archive</a></h1>
+<div class="narrow">
+  <h1><a href="./">India COVID-19 Archive</a></h1>
 
-<p>
-This website archives case numbers for COVID-19 in India from official
-government sources only. Every entry on this page has supporting
-reference links to government websites. You can also use the short link
-<a href="https://git.io/indiacovid19"><strong>git.io/indiacovid19</strong></a>
-to reach this website.
-</p>
-
-
-<h2 id="latest"><a href="#latest">Latest Update</a></h2>
-
-<div class="latest">
-  <a class="total" href="#{{ last_date }}">{{ last_total }}<br>Total<br>Cases</a>
-  <a class="active" href="#{{ last_date }}">{{ last_active }}<br>Active<br>Cases</a>
-  <a class="cured" href="#{{ last_date }}">{{ last_cured }}<br>Cured<br>Cases</a>
-  <a class="death" href="#{{ last_date }}">{{ last_death }}<br>Death<br>Cases</a>
+  <p>
+  This website archives case numbers for COVID-19 in India from official
+  government sources only. Every entry on this page has supporting
+  reference links to government websites. You can also use the short link
+  <a href="https://git.io/indiacovid19"><strong>git.io/indiacovid19</strong></a>
+  to reach this website.
+  </p>
 </div>
 
-<p>
-Last updated on
-<strong class="date"><a href="#{{ last_date }}">{{ last_updated }}</a></strong>.
-</p>
 
-<p>
-<strong class="total"><a href="#new-cases-recent">{{ new_cases }}</a></strong>
-new cases
-(<strong class="total"><a href="#growth-percent-recent">{{ new_growth }}</a></strong>
-increase) since the previous day.
-</p>
+<div class="narrow">
+  <h2 id="latest"><a href="#latest">Latest Update</a></h2>
 
-<p>
-Total number of cases has doubled in the last
-<strong class="total"><a href="#doubling-time-recent">{{ doubling_time }} days</a></strong>.
-</p>
+  <div class="latest">
+    <a class="total" href="#{{ last_date }}">{{ last_total }}<br>Total<br>Cases</a>
+    <a class="active" href="#{{ last_date }}">{{ last_active }}<br>Active<br>Cases</a>
+    <a class="cured" href="#{{ last_date }}">{{ last_cured }}<br>Cured<br>Cases</a>
+    <a class="death" href="#{{ last_date }}">{{ last_death }}<br>Death<br>Cases</a>
+  </div>
 
-<p>
-The ratio of cured cases to that of death cases is
-<strong><a class="cured" href="#cured-ratio-recent">{{ cured_ratio }}
-<span class="neutral">:</span>
-<span class="death">1</span></a></strong>.
-</p>
+  <p>
+  Last updated on
+  <strong class="date"><a href="#{{ last_date }}">{{ last_updated }}</a></strong>.
+  </p>
 
-<div>
-  <span class="button">
-    <a
-      class="twitter-share-button"
-      href="https://twitter.com/intent/tweet?text={{ new_cases }}%20new%20COVID-19%20cases%20%28{{ new_growth }}25%20increase%29%20in%20India%20since%20yesterday.%20Total%20number%20of%20cases%20has%20doubled%20in%20the%20last%20{{ doubling_time }}%20days.%20The%20ratio%20of%20cured%20cases%20to%20that%20of%20death%20cases%20is%20{{ cured_ratio }}%3A1.%20See%20https%3A%2F%2Findiacovid19.github.io%2F%20for%20data%20and%20graphs.&url="
-      data-size="large">Tweet</a>
-  </span>
+  <p>
+  <strong class="total"><a href="#new-cases-recent">{{ new_cases }}</a></strong>
+  new cases
+  (<strong class="total"><a href="#growth-percent-recent">{{ new_growth }}</a></strong>
+  increase) since the previous day.
+  </p>
 
-  <span class="button">
-    <a
-      class="github-button"
-      href="https://github.com/indiacovid19/indiacovid19/fork"
-      data-icon="octicon-repo-forked"
-      data-size="large"
-      aria-label="Fork indiacovid19/indiacovid19 on GitHub">Fork</a>
-  </span>
+  <p>
+  Total number of cases has doubled in the last
+  <strong class="total"><a href="#doubling-time-recent">{{ doubling_time }} days</a></strong>.
+  </p>
 
-  <span class="button">
-    <a
-      class="github-button"
-      href="https://github.com/indiacovid19/indiacovid19"
-      data-icon="octicon-star"
-      data-size="large"
-      aria-label="Star indiacovid19/indiacovid19 on GitHub">Star</a>
-  </span>
+  <p>
+  The ratio of cured cases to that of death cases is
+  <strong><a class="cured" href="#cured-ratio-recent">{{ cured_ratio }}
+  <span class="neutral">:</span>
+  <span class="death">1</span></a></strong>.
+  </p>
+
+  <div>
+    <span class="button">
+      <a
+        class="twitter-share-button"
+        href="https://twitter.com/intent/tweet?text={{ new_cases }}%20new%20COVID-19%20cases%20%28{{ new_growth }}25%20increase%29%20in%20India%20since%20yesterday.%20Total%20number%20of%20cases%20has%20doubled%20in%20the%20last%20{{ doubling_time }}%20days.%20The%20ratio%20of%20cured%20cases%20to%20that%20of%20death%20cases%20is%20{{ cured_ratio }}%3A1.%20See%20https%3A%2F%2Findiacovid19.github.io%2F%20for%20data%20and%20graphs.&url="
+        data-size="large">Tweet</a>
+    </span>
+
+    <span class="button">
+      <a
+        class="github-button"
+        href="https://github.com/indiacovid19/indiacovid19/fork"
+        data-icon="octicon-repo-forked"
+        data-size="large"
+        aria-label="Fork indiacovid19/indiacovid19 on GitHub">Fork</a>
+    </span>
+
+    <span class="button">
+      <a
+        class="github-button"
+        href="https://github.com/indiacovid19/indiacovid19"
+        data-icon="octicon-star"
+        data-size="large"
+        aria-label="Star indiacovid19/indiacovid19 on GitHub">Star</a>
+    </span>
+  </div>
 </div>
 
 <script async src="https://platform.twitter.com/widgets.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<h2 id="contents"><a href="#contents">Contents</a></h2>
+<div class="narrow">
+  <h2 id="contents"><a href="#contents">Contents</a></h2>
 
-<ul>
-  <li><a href="#latest">Latest Update</a></li>
-  <li><a href="#graphs-last-30-days">Graphs (Last 30 Days)</a></li>
-    <ul>
-      <li><a href="#total-cases-linear-recent">Total Cases in Linear Scale</a></li>
-      <li><a href="#total-cases-log-recent">Total Cases in Logarithmic Scale</a></li>
-      <li><a href="#new-cases-recent">New Cases</a></li>
-      <li><a href="#growth-percent-recent">Growth Percent</a></li>
-      <li><a href="#doubling-time-recent">Doubling Time</a></li>
-      <li><a href="#cured-percent-recent">Cured Percent</a></li>
-      <li><a href="#cured-ratio-recent">Cured Ratio</a></li>
-    </ul>
-  </li>
-  <li><a href="#graphs-all-days">Graphs (All Days)</a></li>
-    <ul>
-      <li><a href="#total-cases-linear">Total Cases in Linear Scale</a></li>
-      <li><a href="#total-cases-log">Total Cases in Logarithmic Scale</a></li>
-      <li><a href="#new-cases">New Cases</a></li>
-      <li><a href="#growth-percent">Growth Percent</a></li>
-      <li><a href="#doubling-time">Doubling Time</a></li>
-      <li><a href="#cured-percent">Cured Percent</a></li>
-      <li><a href="#cured-ratio">Cured Ratio</a></li>
-    </ul>
-  </li>
-  <li><a href="#case-numbers">Case Numbers</a></li>
-  <li><a href="#json">JSON Data</a></li>
-  <li><a href="#faq">Questions and Answers</a></li>
-</ul>
+  <ul>
+    <li><a href="#latest">Latest Update</a></li>
+    <li><a href="#graphs-last-30-days">Graphs (Last 30 Days)</a>
+      <ul>
+        <li><a href="#total-cases-linear-recent">Total Cases in Linear Scale</a></li>
+        <li><a href="#total-cases-log-recent">Total Cases in Logarithmic Scale</a></li>
+        <li><a href="#new-cases-recent">New Cases</a></li>
+        <li><a href="#growth-percent-recent">Growth Percent</a></li>
+        <li><a href="#doubling-time-recent">Doubling Time</a></li>
+        <li><a href="#cured-percent-recent">Cured Percent</a></li>
+        <li><a href="#cured-ratio-recent">Cured Ratio</a></li>
+      </ul>
+    </li>
+    <li><a href="#graphs-all-days">Graphs (All Days)</a>
+      <ul>
+        <li><a href="#total-cases-linear">Total Cases in Linear Scale</a></li>
+        <li><a href="#total-cases-log">Total Cases in Logarithmic Scale</a></li>
+        <li><a href="#new-cases">New Cases</a></li>
+        <li><a href="#growth-percent">Growth Percent</a></li>
+        <li><a href="#doubling-time">Doubling Time</a></li>
+        <li><a href="#cured-percent">Cured Percent</a></li>
+        <li><a href="#cured-ratio">Cured Ratio</a></li>
+      </ul>
+    </li>
+    <li><a href="#case-numbers">Case Numbers</a></li>
+    <li><a href="#json">JSON Data</a></li>
+    <li><a href="#faq">Questions and Answers</a></li>
+  </ul>
+</div>
 
 
 <!-- Recents -->
-<h2 id="graphs-last-30-days"><a
- href="#graphs-last-30-days">Graphs (Last 30 Days)</a></h2>
-
-
-<h3 id="total-cases-linear-recent"><a
- href="#total-cases-linear-recent">Total Cases in Linear Scale (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#total-cases-linear">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h2 id="graphs-last-30-days"><a
+   href="#graphs-last-30-days">Graphs (Last 30 Days)</a></h2>
 </div>
-<a href="img/total-cases-linear-recent.png" class="imglink"><img
-  class="recent" src="img/total-cases-linear-recent.png"
-  alt="India COVID-19 total cases graph for the last 30 days in linear scale"></a>
 
 
-<h3 id="total-cases-log-recent"><a
- href="#total-cases-log-recent">Total Cases in Logarithmic Scale (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#total-cases-log">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="total-cases-linear-recent"><a
+   href="#total-cases-linear-recent">Total Cases in Linear Scale (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#total-cases-linear">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/total-cases-linear-recent.png" class="imglink"><img
+    class="recent" src="img/total-cases-linear-recent.png"
+    alt="India COVID-19 total cases graph for the last 30 days in linear scale"></a>
 </div>
-<a href="img/total-cases-log-recent.png" class="imglink"><img
-  class="recent" src="img/total-cases-log-recent.png"
-  alt="India COVID-19 total cases graph for the last 30 days in log scale"></a>
 
 
-<h3 id="new-cases-recent"><a
- href="#new-cases-recent">New Cases (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#new-cases">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="total-cases-log-recent"><a
+   href="#total-cases-log-recent">Total Cases in Logarithmic Scale (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#total-cases-log">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/total-cases-log-recent.png" class="imglink"><img
+    class="recent" src="img/total-cases-log-recent.png"
+    alt="India COVID-19 total cases graph for the last 30 days in log scale"></a>
 </div>
-<a href="img/new-cases-recent.png" class="imglink"><img
-  class="recent" src="img/new-cases-recent.png"
-  alt="India COVID-19 new cases graph for the last 30 days in log scale"></a>
 
 
-<h3 id="growth-percent-recent"><a
- href="#growth-percent-recent">Growth Percent (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#growth-percent">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="new-cases-recent"><a
+   href="#new-cases-recent">New Cases (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#new-cases">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/new-cases-recent.png" class="imglink"><img
+    class="recent" src="img/new-cases-recent.png"
+    alt="India COVID-19 new cases graph for the last 30 days in log scale"></a>
 </div>
-<a href="img/growth-percent-recent.png" class="imglink"><img
-  class="recent" src="img/growth-percent-recent.png"
-  alt="India COVID-19 growth percent graph for the last 30 days in log scale"></a>
 
 
-<h3 id="doubling-time-recent"><a
-  href="#doubling-time-recent">Doubling Time (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#doubling-time">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="growth-percent-recent"><a
+   href="#growth-percent-recent">Growth Percent (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#growth-percent">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/growth-percent-recent.png" class="imglink"><img
+    class="recent" src="img/growth-percent-recent.png"
+    alt="India COVID-19 growth percent graph for the last 30 days in log scale"></a>
 </div>
-<a href="img/doubling-time-recent.png" class="imglink"><img
-  class="recent" src="img/doubling-time-recent.png"
-  alt="India COVID-19 cases doubling time graph for the last 30 days"></a>
 
 
-<h3 id="cured-percent-recent"><a
-  href="#cured-percent-recent">Cured Percent (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#cured-percent">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="doubling-time-recent"><a
+    href="#doubling-time-recent">Doubling Time (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#doubling-time">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/doubling-time-recent.png" class="imglink"><img
+    class="recent" src="img/doubling-time-recent.png"
+    alt="India COVID-19 cases doubling time graph for the last 30 days"></a>
 </div>
-<a href="img/cured-percent-recent.png" class="imglink"><img
-  class="recent" src="img/cured-percent-recent.png"
-  alt="India COVID-19 cases cured percent graph for the last 30 days"></a>
 
 
-<h3 id="cured-ratio-recent"><a
-  href="#cured-ratio-recent">Cured Ratio (Last 30 Days)</a></h3>
-<div class="links">
-  <a href="#cured-ratio">[See All Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="cured-percent-recent"><a
+    href="#cured-percent-recent">Cured Percent (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#cured-percent">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/cured-percent-recent.png" class="imglink"><img
+    class="recent" src="img/cured-percent-recent.png"
+    alt="India COVID-19 cases cured percent graph for the last 30 days"></a>
 </div>
-<a href="img/cured-ratio-recent.png" class="imglink"><img
-  class="recent" src="img/cured-ratio-recent.png"
-  alt="India COVID-19 cases cured ratio graph for the last 30 days"></a>
+
+
+<div class="narrow">
+  <h3 id="cured-ratio-recent"><a
+    href="#cured-ratio-recent">Cured Ratio (Last 30 Days)</a></h3>
+  <div class="links">
+    <a href="#cured-ratio">[See All Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+  <a href="img/cured-ratio-recent.png" class="imglink"><img
+    class="recent" src="img/cured-ratio-recent.png"
+    alt="India COVID-19 cases cured ratio graph for the last 30 days"></a>
+</div>
 
 
 <!-- All Days -->
-<h2 id="graphs-all-days"><a href="#graphs-all-days">Graphs (All Days)</a></h2>
-
-<h3 id="total-cases-linear"><a
- href="#total-cases-linear">Total Cases in Linear Scale (All Days)</a></h3>
-<div class="links">
-  <a href="#total-cases-linear-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h2 id="graphs-all-days"><a href="#graphs-all-days">Graphs (All Days)</a></h2>
 </div>
-<a href="img/total-cases-linear.png" class="imglink"><img
-  class="alltime" src="img/total-cases-linear.png"
-  alt="India COVID-19 total cases graph in linear scale"></a>
 
 
-<h3 id="total-cases-log"><a
- href="#total-cases-log">Total Cases in Logarithmic Scale (All Days)</a></h3>
-<div class="links">
-  <a href="#total-cases-log-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="total-cases-linear"><a
+   href="#total-cases-linear">Total Cases in Linear Scale (All Days)</a></h3>
+  <div class="links">
+    <a href="#total-cases-linear-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
 </div>
-<a href="img/total-cases-log.png" class="imglink"><img
-  class="alltime" src="img/total-cases-log.png"
-  alt="India COVID-19 total cases graph in log scale"></a>
-
-
-<h3 id="new-cases"><a href="#new-cases">New Cases (All Days)</a></h3>
-<div class="links">
-  <a href="#new-cases-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="wide">
+  <a href="img/total-cases-linear.png" class="imglink"><img
+    class="alltime" src="img/total-cases-linear.png"
+    alt="India COVID-19 total cases graph in linear scale"></a>
 </div>
-<a href="img/new-cases.png" class="imglink"><img
-  class="alltime" src="img/new-cases.png"
-  alt="India COVID-19 new cases graph"></a>
 
 
-<h3 id="growth-percent"><a
-  href="#growth-percent">Growth Percent (All Days)</a></h3>
-<div class="links">
-  <a href="#growth-percent-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="total-cases-log"><a
+   href="#total-cases-log">Total Cases in Logarithmic Scale (All Days)</a></h3>
+  <div class="links">
+    <a href="#total-cases-log-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
 </div>
-<a href="img/growth-percent.png" class="imglink"><img
-  class="alltime" src="img/growth-percent.png"
-  alt="India COVID-19 growth percent graph"></a>
-
-
-<h3 id="doubling-time"><a
-  href="#doubling-time">Doubling Time (All Days)</a></h3>
-<div class="links">
-  <a href="#doubling-time-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="wide">
+  <a href="img/total-cases-log.png" class="imglink"><img
+    class="alltime" src="img/total-cases-log.png"
+    alt="India COVID-19 total cases graph in log scale"></a>
 </div>
-<a href="img/doubling-time.png" class="imglink"><img
-  class="alltime" src="img/doubling-time.png"
-  alt="India COVID-19 cases doubling time graph"></a>
 
 
-<h3 id="cured-percent"><a
-  href="#cured-percent">Cured Percent (All Days)</a></h3>
-<div class="links">
-  <a href="#cured-percent-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="narrow">
+  <h3 id="new-cases"><a href="#new-cases">New Cases (All Days)</a></h3>
+  <div class="links">
+    <a href="#new-cases-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
 </div>
-<a href="img/cured-percent.png" class="imglink"><img
-  class="alltime" src="img/cured-percent.png"
-  alt="India COVID-19 cases cured percent graph"></a>
-
-
-<h3 id="cured-ratio"><a href="#cured-ratio">Cured Ratio (All Days)</a></h3>
-<div class="links">
-  <a href="#cured-ratio-recent">[See Last 30 Days Graph]</a>
-  <a href="#{{ last_date }}">[See Case Numbers]</a>
+<div class="wide">
+  <a href="img/new-cases.png" class="imglink"><img
+    class="alltime" src="img/new-cases.png"
+    alt="India COVID-19 new cases graph"></a>
 </div>
-<a href="img/cured-ratio.png" class="imglink"><img
-  class="alltime" src="img/cured-ratio.png"
-  alt="India COVID-19 cases cured ratio graph"></a>
 
 
-<h2 id="case-numbers"><a href="#case-numbers">Case Numbers</a></h2>
-<div class="links">
+<div class="narrow">
+  <h3 id="growth-percent"><a
+    href="#growth-percent">Growth Percent (All Days)</a></h3>
+  <div class="links">
+    <a href="#growth-percent-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+</div>
+<div class="wide">
+  <a href="img/growth-percent.png" class="imglink"><img
+    class="alltime" src="img/growth-percent.png"
+    alt="India COVID-19 growth percent graph"></a>
+</div>
+
+
+<div class="narrow">
+  <h3 id="doubling-time"><a
+    href="#doubling-time">Doubling Time (All Days)</a></h3>
+  <div class="links">
+    <a href="#doubling-time-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+</div>
+<div class="wide">
+  <a href="img/doubling-time.png" class="imglink"><img
+    class="alltime" src="img/doubling-time.png"
+    alt="India COVID-19 cases doubling time graph"></a>
+</div>
+
+
+<div class="narrow">
+  <h3 id="cured-percent"><a
+    href="#cured-percent">Cured Percent (All Days)</a></h3>
+  <div class="links">
+    <a href="#cured-percent-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+</div>
+<div class="wide">
+  <a href="img/cured-percent.png" class="imglink"><img
+    class="alltime" src="img/cured-percent.png"
+    alt="India COVID-19 cases cured percent graph"></a>
+</div>
+
+
+<div class="narrow">
+  <h3 id="cured-ratio"><a href="#cured-ratio">Cured Ratio (All Days)</a></h3>
+  <div class="links">
+    <a href="#cured-ratio-recent">[See Last 30 Days Graph]</a>
+    <a href="#{{ last_date }}">[See Case Numbers]</a>
+  </div>
+</div>
+<div class="wide">
+  <a href="img/cured-ratio.png" class="imglink"><img
+    class="alltime" src="img/cured-ratio.png"
+    alt="India COVID-19 cases cured ratio graph"></a>
+</div>
+
+
+<div class="narrow">
+  <h2 id="case-numbers"><a href="#case-numbers">Case Numbers</a></h2>
+  <div class="links">
 {{ case_links }}
-</div>
-<table class="grid">
+  </div>
+  <table class="grid">
 {{ case_rows }}
-</table>
+  </table>
 
-<p class="footnote" id="footnote1">
-<sup>*</sup> The approximate number of days it took for the total number
-of cases to double.
-</p>
+  <p class="footnote" id="footnote1">
+  <sup>*</sup> The approximate number of days it took for the total
+  number of cases to double.
+  </p>
 
-<p class="footnote" id="footnote2">
-<sup>&dagger;</sup> Click on any time in the <em>References</em> column
-to visit an archived reference that contains the numbers used in the
-corresponding row. The time values in this column have been picked
-directly from the archived reference. The time values are noted as per
-Indian Standard Time (IST).
-</p>
+  <p class="footnote" id="footnote2">
+  <sup>&dagger;</sup> Click on any time in the <em>References</em>
+  column to visit an archived reference that contains the numbers used
+  in the corresponding row. The time values in this column have been
+  picked directly from the archived reference. The time values are noted
+  as per Indian Standard Time (IST).
+  </p>
 
-<p class="footnote" id="footnote3">
-<sup>+Nd</sup> The time mentioned in the <em>References</em> column
-belongs to a date that is <em>N</em> days ahead of the date of the entry
-mentioned in the <em>Date</em> column. For example, in the entry for
-date <a href="#2020-03-07"><em>2020-03-07</em></a>, the reference time
-is mentioned as <em><sup>+2d</sup>12:29</em> which means that the
-reference document was published on 2020-03-09 12:29.
-</p>
+  <p class="footnote" id="footnote3">
+  <sup>+Nd</sup> The time mentioned in the <em>References</em> column
+  belongs to a date that is <em>N</em> days ahead of the date of the
+  entry mentioned in the <em>Date</em> column. For example, in the entry
+  for date <a href="#2020-03-07"><em>2020-03-07</em></a>, the reference
+  time is mentioned as <em><sup>+2d</sup>12:29</em> which means that the
+  reference document was published on 2020-03-09 12:29.
+  </p>
+</div>
 
-<h2 id="json"><a href="#json">JSON Data</a></h2>
+<div class="narrow">
+  <h2 id="json"><a href="#json">JSON Data</a></h2>
 
-<p>
-Click on the following link to view/download the raw JSON data from
-which this page is generated:
-</p>
+  <p>
+  Click on the following link to view/download the raw JSON data from
+  which this page is generated:
+  </p>
 
-<p class="textcenter">
-<a href="indiacovid19.json"><strong>indiacovid19.json</strong></a>
-</p>
+  <p class="textcenter">
+  <a href="indiacovid19.json"><strong>indiacovid19.json</strong></a>
+  </p>
 
-<p>
-This JSON file contains a list of list entries. Each inner list entry is
-a octuple (8-tuple) consisting of 8 values. Here is an example entry:
-</p>
+  <p>
+  This JSON file contains a list of list entries. Each inner list entry
+  is a octuple (8-tuple) consisting of 8 values. Here is an example
+  entry:
+  </p>
 
-<pre>
-<code>[ "2020-03-25", 553, 42, 10, 1, "2020-03-25 18:45",
+  <pre>
+  <code>[ "2020-03-25", 553, 42, 10, 1, "2020-03-25 18:45",
   "https://web.archive.org/web/20200325192939/https://www.mohfw.gov.in/", "" ]</code>
-</pre>
+  </pre>
 
-<p>
-Here is a description of these 8 values in the order they appear in each
-octuple:
-</p>
+  <p>
+  Here is a description of these 8 values in the order they appear in
+  each octuple:
+  </p>
 
-<ol>
-  <li>
-    Date (in "YYYY-MM-DD" format as per Indian Standard Time)
-  </li>
-  <li>
-    Number of active cases
-  </li>
-  <li>
-    Number of cured cases
-  </li>
-  <li>
-    Number of death cases
-  </li>
-  <li>
-    Number of migrated cases
-  </li>
-  <li>
-    Date and time at which the data was collected/published by the
-    source of the data (in "YYYY-MM-DD HH:MM" format as per Indian
-    Standard Time)
-  </li>
-  <li>
-    Reference archive link of the source of the data as supporting
-    evidence
-  </li>
-  <li>
-    Any additional comment or note about the entry
-  </li>
-</ol>
+  <ol>
+    <li>
+      Date (in "YYYY-MM-DD" format as per Indian Standard Time)
+    </li>
+    <li>
+      Number of active cases
+    </li>
+    <li>
+      Number of cured cases
+    </li>
+    <li>
+      Number of death cases
+    </li>
+    <li>
+      Number of migrated cases
+    </li>
+    <li>
+      Date and time at which the data was collected/published by the
+      source of the data (in "YYYY-MM-DD HH:MM" format as per Indian
+      Standard Time)
+    </li>
+    <li>
+      Reference archive link of the source of the data as supporting
+      evidence
+    </li>
+    <li>
+      Any additional comment or note about the entry
+    </li>
+  </ol>
 
-<p>
-If we add the four numbers in an entry for a specific date, we get the
-total number of cases for that date.
-</p>
+  <p>
+  If we add the four numbers in an entry for a specific date, we get the
+  total number of cases for that date.
+  </p>
 
-<p>
-In this page, the sum of the number of cured cases and that of the
-migrated cases is reported as the number of cured cases because the
-MoHFW website too clubs them together in the statewise status tables.
-</p>
+  <p>
+  In this page, the sum of the number of cured cases and that of the
+  migrated cases is reported as the number of cured cases because the
+  MoHFW website too clubs them together in the statewise status tables.
+  </p>
 
-<p>
-If you find discrepancies in the data, please create <a
-href="https://github.com/indiacovid19/indiacovid19/issues">new
-issues</a> to report them or send pull requests to the corresponding
-GitHub project at <a
-href="https://github.com/indiacovid19/indiacovid19/">GitHub project</a>.
-</p>
+  <p>
+  If you find discrepancies in the data, please create <a
+  href="https://github.com/indiacovid19/indiacovid19/issues">new
+  issues</a> to report them or send pull requests to the corresponding
+  GitHub project at <a
+  href="https://github.com/indiacovid19/indiacovid19/">GitHub
+  project</a>.
+  </p>
+</div>
 
 
-<h2 id="faq"><a href="#faq">Questions and Answers</a></h2>
+<div class="narrow">
+  <h2 id="faq"><a href="#faq">Questions and Answers</a></h2>
 
-<ol>
-  <li id="faq-project">
-    <p class="faq">
-      <a href="#faq-project">Why was this project created when other
-      similar projects already exist?</a>
-    </p>
-    <p>
-      Different projects have different conventions for reporting the
-      numbers. Some projects follow the latest updates appearing in
-      media to estimate the case numbers in real time. As a result, the
-      case numbers in such projects often differ from the numbers
-      officially published by Government of India. This project does not
-      provide case numbers in real time. Instead, this project archives
-      the case numbers for each date from official sources only.
-    </p>
-  </li>
-  <li id="faq-sources">
-    <p class="faq">
-      <a href="#faq-sources">What sources are used for the case numbers
-      archived in this project?</a>
-    </p>
-    <p>
-      The case numbers published as part of press releases on
-      <a href="https://pib.gov.in/">pib.gov.in</a> and the case numbers
-      published on <a href="https://www.mohfw.gov.in/">mohfw.gov.in</a>
-      are used as the sources of the case numbers archived in this
-      project.
-  </li>
-  <li id="faq-refs">
-    <p class="faq">
-      <a href="#faq-refs">Where can I find the original sources of the
-      case numbers?</a>
-    </p>
-    <p>
-      For each row in the <a href="#case-numbers">case numbers</a>
-      table, the last column contains reference archive links that point
-      to archived snapshots of press releases or pages from
-      <a href="https://pib.gov.in/">pib.gov.in</a> and <a
-      href="https://www.mohfw.gov.in/">mohfw.gov.in</a> that contain the
-      original data related to the case numbers.
-    </p>
-  </li>
-  <li id="faq-contact">
-    <p class="faq">
-      <a href="#faq-contact">Where can I ask more questions or provide
-      feedback about this project?</a>
-    </p>
-    <p>
-      To ask questions or provide feedback either
-      <a
-      href="https://github.com/indiacovid19/indiacovid19/issues">post
-      new issues</a> to this project or
-      <a href="https://twitter.com/compose/tweet?text=@susam+Hi!">send a
-      tweet</a> to the author.
-    </p>
-  </li>
-  <li id="faq-site">
-    <p class="faq">
-      <a href="#faq-site">How is this website generated?</a>
-    </p>
-    <p>
-      This website is generated using a couple of Python scripts
-      available at <a
-      href="https://github.com/indiacovid19/indiacovid19">github.com/indiacovid19</a>.
-      The static site generator used for this project is a modified
-      version of Sunaina Pai's <a
-      href="https://github.com/sunainapai/makesite">makesite.py</a>.
-      Here are the commands to generate this website:
-<pre>
+  <ol>
+    <li id="faq-project">
+      <p class="faq">
+        <a href="#faq-project">Why was this project created when other
+        similar projects already exist?</a>
+      </p>
+      <p>
+        Different projects have different conventions for reporting the
+        numbers. Some projects follow the latest updates appearing in
+        media to estimate the case numbers in real time. As a result, the
+        case numbers in such projects often differ from the numbers
+        officially published by Government of India. This project does not
+        provide case numbers in real time. Instead, this project archives
+        the case numbers for each date from official sources only.
+      </p>
+    </li>
+    <li id="faq-sources">
+      <p class="faq">
+        <a href="#faq-sources">What sources are used for the case numbers
+        archived in this project?</a>
+      </p>
+      <p>
+        The case numbers published as part of press releases on
+        <a href="https://pib.gov.in/">pib.gov.in</a> and the case numbers
+        published on <a href="https://www.mohfw.gov.in/">mohfw.gov.in</a>
+        are used as the sources of the case numbers archived in this
+        project.
+    </li>
+    <li id="faq-refs">
+      <p class="faq">
+        <a href="#faq-refs">Where can I find the original sources of the
+        case numbers?</a>
+      </p>
+      <p>
+        For each row in the <a href="#case-numbers">case numbers</a>
+        table, the last column contains reference archive links that point
+        to archived snapshots of press releases or pages from
+        <a href="https://pib.gov.in/">pib.gov.in</a> and <a
+        href="https://www.mohfw.gov.in/">mohfw.gov.in</a> that contain the
+        original data related to the case numbers.
+      </p>
+    </li>
+    <li id="faq-contact">
+      <p class="faq">
+        <a href="#faq-contact">Where can I ask more questions or provide
+        feedback about this project?</a>
+      </p>
+      <p>
+        To ask questions or provide feedback either
+        <a
+        href="https://github.com/indiacovid19/indiacovid19/issues">post
+        new issues</a> to this project or
+        <a href="https://twitter.com/compose/tweet?text=@susam+Hi!">send a
+        tweet</a> to the author.
+      </p>
+    </li>
+    <li id="faq-site">
+      <p class="faq">
+        <a href="#faq-site">How is this website generated?</a>
+      </p>
+      <p>
+        This website is generated using a couple of Python scripts
+        available at <a
+        href="https://github.com/indiacovid19/indiacovid19">github.com/indiacovid19</a>.
+        The static site generator used for this project is a modified
+        version of Sunaina Pai's <a
+        href="https://github.com/sunainapai/makesite">makesite.py</a>.
+        Here are the commands to generate this website:
+  <pre>
 <code>git clone https://github.com/indiacovid19/indiacovid19.git
 cd indiacovid19
 make venv
 make site</code>
 </pre>
-    </p>
-  </li>
-  <li id="faq-wiki">
-    <p class="faq">
-      <a href="#faq-wiki">What is the script wiki.py in the source code
-      meant for?</a>
-    </p>
-    <p>
-      The script
-      <code><a href="https://github.com/indiacovid19/indiacovid19/blob/master/py/wiki.py">wiki.py</a></code>
-      generates Wikipedia markup to plot the graphs
-      used in the Wikipedia article on
-      <a href="https://w.wiki/LRa">2020 Coronavirus Pandemic in
-      India</a>. Here are the commands to generate the markup:
-    </p>
-<pre>
+    </li>
+    <li id="faq-wiki">
+      <p class="faq">
+        <a href="#faq-wiki">What is the script wiki.py in the source code
+        meant for?</a>
+      </p>
+      <p>
+        The script
+        <code><a href="https://github.com/indiacovid19/indiacovid19/blob/master/py/wiki.py">wiki.py</a></code>
+        generates Wikipedia markup to plot the graphs
+        used in the Wikipedia article on
+        <a href="https://w.wiki/LRa">2020 Coronavirus Pandemic in
+        India</a>. Here are the commands to generate the markup:
+      </p>
+  <pre>
 <code>git clone https://github.com/indiacovid19/indiacovid19.git
 cd indiacovid19
 make wiki</code>
 </pre>
-    <p>
-      The above commands generate two output files:
-    </p>
-    <ul>
-      <li>
-        <code><a href="wiki1.txt">wiki1.txt</a></code>:
-        Wikipedia markup for
-        <a href="https://w.wiki/Mxi">India medical cases chart</a> template.
-      </li>
-      <li>
-        <code><a href="wiki2.txt">wiki2.txt</a></code>:
-        Wikipedia markup for
-        <a href="https://w.wiki/Mxj">India medical cases</a> template.
-      </li>
-    </ul>
-    <p>
-      Copies of both files are available on this website too. Click on
-      the filenames in the list above to view the corresponding markups.
-    </p>
-  </li>
-</ol>
-
-</main>
+      <p>
+        The above commands generate two output files:
+      </p>
+      <ul>
+        <li>
+          <code><a href="wiki1.txt">wiki1.txt</a></code>:
+          Wikipedia markup for
+          <a href="https://w.wiki/Mxi">India medical cases chart</a> template.
+        </li>
+        <li>
+          <code><a href="wiki2.txt">wiki2.txt</a></code>:
+          Wikipedia markup for
+          <a href="https://w.wiki/Mxj">India medical cases</a> template.
+        </li>
+      </ul>
+      <p>
+        Copies of both files are available on this website too. Click on
+        the filenames in the list above to view the corresponding markups.
+      </p>
+    </li>
+  </ol>
+</div>
 
 <footer>
-  <div>
+  <div class="narrow">
     <div class="button">
       <a
         href="https://twitter.com/susam"
@@ -541,5 +598,6 @@ make wiki</code>
     </div>
   </div>
 </footer>
+
 </body>
 </html>
