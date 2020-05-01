@@ -363,8 +363,8 @@ def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.1
-    text_gap = 2.0
-    ylim_pad = 17 if recent else 19
+    text_gap = 2.1
+    ylim_pad = 20 if recent else 22
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
@@ -382,10 +382,10 @@ def plot_cured_ratios(data, recent, aspect):
     tweaks[data.dates.index('2020-03-12')] = (+0.8, -1.7)
     tweaks[data.dates.index('2020-03-17')] = (+0.5, +0.0)
     tweaks[data.dates.index('2020-03-19')] = (-0.3, +0.0)
-    tweaks[data.dates.index('2020-03-22')] = (+0.0, -5.5)
-    tweaks[data.dates.index('2020-03-26')] = (+0.0, -5.5)
+    tweaks[data.dates.index('2020-03-22')] = (+0.0, -6.5)
+    tweaks[data.dates.index('2020-03-26')] = (+0.0, -6.5)
     tweaks[data.dates.index('2020-03-27')] = (-0.2, +0.0)
-    tweaks[data.dates.index('2020-03-29')] = (+0.2, +0.0)
+    tweaks[data.dates.index('2020-03-29')] = (+0.3, +0.0)
     tweaks[data.dates.index('2020-04-02')] = (+0.2, +0.0)
     tweaks[data.dates.index('2020-04-04')] = (-0.2, +0.0)
     tweaks[data.dates.index('2020-04-06')] = (+0.2, +0.0)
