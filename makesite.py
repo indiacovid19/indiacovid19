@@ -76,7 +76,7 @@ def case_links(data):
     out = []
     for month in months:
         text = datetime.datetime.strptime(month, '%Y-%m').strftime('%b')
-        out.append('<a href="#{}">[{}]</a>'.format(month, text))
+        out.append('    <a href="#{}">[{}]</a>'.format(month, text))
     return '\n'.join(out) + '\n'
 
 
@@ -84,20 +84,20 @@ def case_head(month):
     """Create HTML to display table heading for case numbers table."""
     th_date = datetime.datetime.strptime(month, '%Y-%m').strftime('%b&nbsp;%Y')
     out = [
-        '  <tr id="{}">'.format(month),
-        '    <th class="date"><a href="#{}">Date ({})</a></th>'
+        '    <tr id="{}">'.format(month),
+        '      <th class="date"><a href="#{}">Date ({})</a></th>'
         .format(month, th_date),
-        '    <th class="total">Total Cases</th>',
-        '    <th class="total">New Cases</th>',
-        '    <th class="total">Growth</th>',
-        '    <th class="total">Doubling Time' +
+        '      <th class="total">Total Cases</th>',
+        '      <th class="total">New Cases</th>',
+        '      <th class="total">Growth</th>',
+        '      <th class="total">Doubling Time' +
         '<sup><a href="#footnote1">*</a></sup></th>',
-        '    <th class="active">Active Cases</th>',
-        '    <th class="cured">Cured Cases</th>',
-        '    <th class="death">Death Cases</th>',
-        '    <th class="ref">References' +
+        '      <th class="active">Active Cases</th>',
+        '      <th class="cured">Cured Cases</th>',
+        '      <th class="death">Death Cases</th>',
+        '      <th class="ref">References' +
         '<sup><a href="#footnote2">&dagger;</a></sup></th>',
-        '  </tr>',
+        '    </tr>',
     ]
     return '\n'.join(out) + '\n'
 
@@ -133,17 +133,17 @@ def case_data(entry):
         days = '{:.1f}d'.format(days)
 
     out = [
-        '  <tr id="{}">'.format(date),
-        '    <td class="date"><a href="#{}">{}</a></td>'.format(date, date),
-        '    <td class="total">{}</td>'.format(total),
-        '    <td class="total">{:+}</td>'.format(new),
-        '    <td class="total">{}</td>'.format(growth),
-        '    <td class="total">{}</td>'.format(days),
-        '    <td class="active">{}</td>'.format(active),
-        '    <td class="cured">{}</td>'.format(cured),
-        '    <td class="death">{}</td>'.format(deaths),
-        '    <td class="ref">{}</td>'.format(case_refs(date, refs)),
-        '  </tr>',
+        '    <tr id="{}">'.format(date),
+        '      <td class="date"><a href="#{}">{}</a></td>'.format(date, date),
+        '      <td class="total">{}</td>'.format(total),
+        '      <td class="total">{:+}</td>'.format(new),
+        '      <td class="total">{}</td>'.format(growth),
+        '      <td class="total">{}</td>'.format(days),
+        '      <td class="active">{}</td>'.format(active),
+        '      <td class="cured">{}</td>'.format(cured),
+        '      <td class="death">{}</td>'.format(deaths),
+        '      <td class="ref">{}</td>'.format(case_refs(date, refs)),
+        '    </tr>',
     ]
     return '\n'.join(out) + '\n'
 
