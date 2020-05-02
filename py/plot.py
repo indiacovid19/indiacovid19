@@ -145,9 +145,9 @@ def plot_total_cases_log(data, recent, aspect):
 def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
-    tick_gap = 20
-    text_gap = 2
-    ylim_pad = 20 if recent else 22
+    tick_gap = 100
+    text_gap = 0.5
+    ylim_pad = 5 if recent else 6
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
