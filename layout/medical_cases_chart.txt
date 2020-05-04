@@ -1,6 +1,6 @@
 <noinclude>
 {{pp-template}}
-{{main|2020 coronavirus pandemic in India}}
+{{main|COVID-19 pandemic in India}}
 </noinclude>
 
 {{Medical cases chart
