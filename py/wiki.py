@@ -35,13 +35,11 @@ from py import archive, log, mohfw
 """Generate Wikipedia markup code.
 
 There are two templates used in the Wikipedia article
-https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_India
-to display charts related to case numbers.
+https://en.wikipedia.org/wiki/COVID-19_pandemic_in_India
+to display charts related to case numbers:
 
-  1. Template:2019–20 coronavirus pandemic data/India medical cases chart
-     [ https://w.wiki/Mxi ]
-  2. Template:2019–20 coronavirus pandemic data/India medical cases
-     [ https://w.wiki/Mxj ]
+  1. https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_chart
+  2. https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases
 
 This script generates Wikipedia markup code for both charts. Enter these
 commands at the top-level directory of this project to generate the
