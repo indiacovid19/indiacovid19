@@ -75,7 +75,7 @@ def load_home_data():
 
     # Parsers.
     strong_re = re.compile(r'.*<strong>(.*)</strong>')
-    time_re = re.compile(r'.*as on\s*:\s*(\d.*) GMT')
+    time_re = re.compile(r'.*as on\s*:\s*(\d.*) IST')
     foreign_re = re.compile(r'.*[Ii]ncluding (\d+) [Ff]oreign')
     td_re = re.compile(r'.*<td>([^#]*).*</td>')
     parser_state = 'DEFAULT'
@@ -145,7 +145,7 @@ def load_dash_data():
 
     # Parsers.
     strong_re = re.compile(r'.*<strong>(.*)</strong>')
-    time_re = re.compile(r'.*as on\s*:\s*(\d.*) GMT')
+    time_re = re.compile(r'.*as on\s*:\s*(\d.*) IST')
     js_re = re.compile(r"\['(.*)', (.*), (.*), (.*)\],")
     parser_state = 'DEFAULT'
 
