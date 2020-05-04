@@ -1,10 +1,10 @@
 <noinclude>{{pp-template}}
 {{VEFriendly}}
-{{main|2020 coronavirus pandemic in India}}</noinclude>
-<templatestyles src="2019–20_coronavirus_pandemic_data/styles.css" />
+{{main|COVID-19 pandemic in India}}</noinclude>
+<templatestyles src="COVID-19_pandemic_data/styles.css" />
 <!-- Only use MoHFW as source to avoid inconsistency in trends, wait for MoHFW to reflect state government updates -->
 {| class="wikitable plainrowheaders sortable mw-collapsible" style="text-align:right; font-size:90%; width:100px; clear:right; margin:0px 0px 0em 0em;"
-! colspan="6" |{{Navbar-collapsible|{{resize|95%|{{Nowrap|2020 coronavirus pandemic in India by state and union territory}}}}|Template:2019–20 coronavirus pandemic data/India medical cases}}
+! colspan="6" |{{Navbar-collapsible|{{resize|95%|{{Nowrap|COVID-19 pandemic in India by state and union territory}}}}|Template:COVID-19 pandemic data/India medical cases}}
 |-
 !S.No.
 ! scope="col" |State/Union Territory
@@ -137,10 +137,10 @@
 {{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
 <noinclude>
 {{clear}}
-{{2019-nCoV|state=expanded}}
-{{2020 coronavirus pandemic in India}}
+{{COVID-19 pandemic|state=expanded}}
+{{COVID-19 pandemic in India}}
 
-{{template-reference-list}}
+{{template reference list}}
 
 [[Category:2020 coronavirus pandemic in India templates]]
 [[Category:Templates that generate named references]]
