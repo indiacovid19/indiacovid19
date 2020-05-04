@@ -206,15 +206,10 @@ def markup_region(name):
         'Odisha',
         'Rajasthan',
         'Tamil Nadu',
+        'Uttar Pradesh',
         'West Bengal'
     ):
         return ('[[COVID-19 pandemic in {}|{}]]'
-                .format(name, name))
-
-    if name in (
-        'Uttar Pradesh',
-    ):
-        return ('[[2020 coronavirus pandemic in {}|{}]]'
                 .format(name, name))
 
     if name in ('Punjab'):
