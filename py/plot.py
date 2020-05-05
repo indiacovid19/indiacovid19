@@ -487,7 +487,7 @@ def linear_label_formatter(x, pos):
 
 def log_label_formatter(x, pos):
     """Return tick label for log scale."""
-    if str(x)[0] in ['1', '2', '4', '6', '8']:
+    if str(x)[0] in ['1', '2', '4', '6']:
         return int(x)
 
 
