@@ -5,6 +5,9 @@ site: wiki
 
 COLOR_DIFF = sed "s/^-/$$(tput setaf 1)&/; s/^+/$$(tput setaf 2)&/; s/^@/$$(tput setaf 6)&/; s/$$/$$(tput sgr0)/"
 
+mohfw:
+	python3 -m py.mohfw
+
 wiki:
 	python3 -m py.wiki -1 > wiki1.txt
 	python3 -m py.wiki -2 > wiki2.txt
@@ -17,8 +20,23 @@ wiki:
 	@echo 'Written wiki2.txt with markup for "India medical cases"'
 	@echo
 
-mohfw:
-	python3 -m py.mohfw
+push:
+	clear
+	git diff indiacovid19.json
+	@echo
+	@echo Press enter to commit
+	@read
+	clear
+	git add indiacovid19.json
+	date=$$(git diff --cached indiacovid19.json | \
+	        cut -d '"' -f4 | grep "[0-9]\{4\}" | tail -n 1); \
+	git commit -m "Add case numbers from MoHFW for $$date"
+	git log -n 1
+	git status
+	@echo
+	@echo Press enter to push repository
+	@read
+	git push origin master
 
 plot:
 	. ./venv && python3 -m py.plot
@@ -56,7 +74,7 @@ WEB_URL = https://indiacovid19.github.io/
 TMP_GIT = /tmp/tmpgit
 README  = $(TMP_GIT)/README.md
 
-push: site
+publish: site
 	#
 	# Push source code.
 	git push origin master
