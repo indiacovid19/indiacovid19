@@ -7,7 +7,7 @@
 |numwidth=mwtw
 |disease=COVID-19
 |location=India
-|outbreak=2019–20 coronavirus pandemic
+|outbreak=COVID-19 pandemic
 |togglesbar=
 <div class="nomobile" style="text-align:center">
 {{Medical cases chart/Month toggle button|jan}}
