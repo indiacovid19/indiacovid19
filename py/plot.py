@@ -215,7 +215,7 @@ def plot_growth_percents(data, recent, aspect):
     for i, val in enumerate(growths[m:]):
         if m != 0 and i == 0:
             continue
-        if val != -1 and abs(val - prev_val) > 0.001:
+        if val != -1 and abs(val - prev_val) > 0.0001:
             x = i + tweaks[m:][i][0]
             y = val + (text_gap + tweaks[m:][i][1]) * tick_gap
             v = '{:.0f}%'.format(val)
@@ -275,7 +275,7 @@ def plot_doubling_times(data, recent, aspect):
     for i, val in enumerate(doubling_times[m:]):
         if m != 0 and i == 0:
             continue
-        if val != -1 and abs(val - prev_val) > 0.001:
+        if val != -1 and abs(val - prev_val) > 0.0001:
             x = i + tweaks[m:][i][0]
             y = val + (text_gap + tweaks[m:][i][1]) * tick_gap
             v = '{:.1f}'.format(val)
@@ -391,7 +391,7 @@ def plot_cured_ratios(data, recent, aspect):
     for i, val in enumerate(ratios[m:]):
         if m != 0 and i == 0:
             continue
-        if val != -1 and abs(val - prev_val) > 0.001:
+        if val != -1 and abs(val - prev_val) > 0.0001:
             x = i + tweaks[m:][i][0]
             y = val + (text_gap + tweaks[m:][i][1]) * tick_gap
             v = '{:.1f}'.format(val)
