@@ -152,10 +152,21 @@ def region_table_rows(data, layout):
     out = []
     for i, name in enumerate(sorted(region_names), 1):
         matches = difflib.get_close_matches(name, list(data.regions), 1)
-        if len(matches) == 0:
+        key = None
+
+        if len(matches) != 0:
+            key = matches[0]
+        elif name == 'Dadra and Nagar Haveli and Daman and Diu':
+            candidates = ['Dadar Nagar Haveli', 'Dadra and Nagar Haveli']
+            for candidate in candidates:
+                if candidate in data.regions:
+                    key = candidate
+                    break
+
+        if key is None:
             total, active, cured, death = 0, 0, 0, 0
         else:
-            total, active, cured, death = data.regions[matches[0]]
+            total, active, cured, death = data.regions[key]
 
         if name == 'Assam':
             total = str(total) + open('layout/fn1.txt').read().strip()
