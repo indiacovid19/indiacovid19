@@ -237,7 +237,7 @@ def plot_doubling_times(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
-    text_gap = 1.5 if recent else 1.0
+    text_gap = 1.7 if recent else 1.0
     ylim_pad = 15 if recent else 5
 
     # Preprocess data for plotting.
