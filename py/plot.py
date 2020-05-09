@@ -170,7 +170,7 @@ def plot_growth_percents(data, recent, aspect):
     """Plot growth rate for each day."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 1 if recent else 10
-    text_gap = 0.8 if recent else 1.2
+    text_gap = 0.6 if recent else 1.2
     ylim_gap = 8 if recent else 5
 
     # Preprocess data for plotting.
@@ -188,20 +188,18 @@ def plot_growth_percents(data, recent, aspect):
     # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
-        tweaks[data.dates.index('2020-04-05')] = ( 0.0, -3.0)
-        tweaks[data.dates.index('2020-04-07')] = ( 0.0, -3.0)
-        tweaks[data.dates.index('2020-04-08')] = (+0.1,  0.0)
-        tweaks[data.dates.index('2020-04-09')] = ( 0.0, -2.5)
-        tweaks[data.dates.index('2020-04-11')] = ( 0.0, -2.5)
-        tweaks[data.dates.index('2020-04-13')] = ( 0.0, -2.5)
-        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.5)
-        tweaks[data.dates.index('2020-04-16')] = (+0.0, -2.0)
-        tweaks[data.dates.index('2020-04-18')] = (+0.0, +0.5)
-        tweaks[data.dates.index('2020-04-21')] = (+0.1,  0.0)
+        tweaks[data.dates.index('2020-04-11')] = ( 0.0, -2.2)
+        tweaks[data.dates.index('2020-04-13')] = ( 0.0, -2.2)
+        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.1)
+        tweaks[data.dates.index('2020-04-16')] = (+0.0, -1.8)
+        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -1.8)
+        tweaks[data.dates.index('2020-04-21')] = (+0.2,  0.0)
         tweaks[data.dates.index('2020-04-23')] = ( 0.0,  0.5)
         tweaks[data.dates.index('2020-04-25')] = ( 0.0,  0.5)
         tweaks[data.dates.index('2020-04-27')] = (+0.3,  0.0)
-        tweaks[data.dates.index('2020-05-04')] = (-0.1,  0.0)
+        tweaks[data.dates.index('2020-05-01')] = (-0.1,  0.0)
+        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -1.8)
+        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -1.8)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
