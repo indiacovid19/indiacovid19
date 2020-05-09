@@ -357,7 +357,7 @@ def plot_cured_percents(data, recent, aspect):
 def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 0.1
+    tick_gap = 0.2
     text_gap = 2.1
     ylim_pad = 20 if recent else 22
 
