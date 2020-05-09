@@ -28,6 +28,6 @@
 }}<noinclude>
 {{clear}}
 {{2019-nCoV|state=expanded}}
-{{2020 coronavirus pandemic in India}}
+{{COVID-19 pandemic in India}}
 [[Category:2019–20 coronavirus pandemic medical cases in India charts| ]]
 </noinclude>
