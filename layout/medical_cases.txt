@@ -42,7 +42,7 @@
   |legend =
   |colors = #FF6347,#FFC000,#87CEEB,#343132
   |xAxisTitle = Date
-  |xAxisAngle = -40
+  |xAxisAngle = -60
   |yAxisTitle = Count
   |y1Title = Total confirmed cases
   |y2Title = Active cases
@@ -59,7 +59,7 @@
   |width = 800
   |legend =
   |xAxisTitle = Date
-  |xAxisAngle = -40
+  |xAxisAngle = -60
   |yAxisTitle = No. of cases
   |yAxisMin = 0
   |y1Title = New cases per day
@@ -75,7 +75,7 @@
   |width = 800
   |legend =
   |xAxisTitle = Date
-  |xAxisAngle = -40
+  |xAxisAngle = -60
   |yAxisTitle = No. of Recoveries
   |yAxisMin = 0
   |y1Title = Recoveries per day
@@ -91,7 +91,7 @@
   |width = 800
   |legend =
   |xAxisTitle = Date
-  |xAxisAngle = -40
+  |xAxisAngle = -60
   |yAxisTitle = No. of deaths
   |yAxisMin = 0
   |y1Title = New deaths per day
@@ -116,13 +116,12 @@
   |legend =
   |colors = #FF6347,#FFC000,#87CEEB,#343132,#499562
   |xAxisTitle = Date
-  |xAxisAngle = -40
+  |xAxisAngle = -60
   |yAxisTitle = Count
   |y1Title = Total confirmed cases
   |y2Title = Active cases
   |y3Title = Recoveries
   |y4Title = Deaths
-  |y5Title = +16%/day <!-- trend line; do not modify this without discussion -->
   |yScaleType = log
   |yAxisMin = 1
   |x = @@dates@@
@@ -130,7 +129,6 @@
   |y2 = @@active_cases@@
   |y3 = @@cured_cases@@
   |y4 = @@death_cases@@
-  |y5= @@exp_marker@@<!-- this means 100 times (100%+16%) to the power of (number of days since 4 March) -->
 }}
 {{small|Semilog plot of the [[Exponential growth#Biology|spread]] of [[Severe acute respiratory syndrome coronavirus 2|SARS-CoV-2]] and of [[coronavirus disease 2019|COVID-19]] deaths in India. An exponential growth rate of a 16% increase in cases per day is shown.}}
 
