@@ -296,7 +296,7 @@ def plot_cured_percents(data, recent, aspect):
     """Plot line chart for cured and death percents."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 2
-    cured_text_gap = -4
+    cured_text_gap = -3.7
     death_text_gap = 1.5
 
     # Preprocess data for plotting.
