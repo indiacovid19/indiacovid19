@@ -76,7 +76,7 @@ def load_home_data():
     # Parsers.
     strong_re = re.compile(r'.*<strong>(.*)</strong>')
     time_re = re.compile(r'.*as on\s*:\s*(\d.*) IST')
-    foreign_re = re.compile(r'.*[Ii]ncluding (\d+) [Ff]oreign')
+    foreign_re = re.compile(r'.*[Ii]ncluding (\d+)? ?[Ff]oreign')
     td_re = re.compile(r'.*<td>([^#]*).*</td>')
     parser_state = 'DEFAULT'
 
@@ -96,7 +96,9 @@ def load_home_data():
             data.ref_date = data.ref_datetime.strftime('%Y-%m-%d')
             data.ref_time = data.ref_datetime.strftime('%H:%M')
         elif data.foreign == -1 and 'foreign' in line:
-            data.foreign = int(foreign_re.match(line).group(1))
+            n = foreign_re.match(line).group(1)
+            if n is not None:
+                data.foreign = int(n)
         elif '<tbody>' in line:
             parser_state = 'REGION'
         elif parser_state == 'REGION' and '<tr>' in line:
@@ -112,7 +114,7 @@ def load_home_data():
         elif parser_state == 'REGION_TOTAL' and 'Total' in line:
             parser_state = 'DEFAULT'
             s = strong_re.match(lines[i + 1]).group(1)
-            data.regions_total = int(s.rstrip('*'))
+            data.regions_total = int(s.rstrip('*#'))
             data.regions_cured = int(strong_re.match(lines[i + 3]).group(1))
             data.regions_death = int(strong_re.match(lines[i + 6]).group(1))
             data.regions_active = (data.regions_total - data.regions_cured

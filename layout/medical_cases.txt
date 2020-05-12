@@ -20,7 +20,7 @@
 ! scope="col" |@@regions_cured@@
 ! scope="col" |@@regions_active@@
 |- class="sortbottom" style="text-align:center;"
-| colspan="6" |<small>*''Inclusive of @@foreign_cases@@ foreign nationals''</small>
+| colspan="6" |<small>*''Inclusive of @@foreign_cases@@foreign nationals''</small>
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=2020-03-25}}</ref>
 |}
