@@ -188,7 +188,6 @@ def plot_growth_percents(data, recent, aspect):
     # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
-        tweaks[data.dates.index('2020-04-11')] = ( 0.0, -2.2)
         tweaks[data.dates.index('2020-04-13')] = ( 0.0, -2.2)
         tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.1)
         tweaks[data.dates.index('2020-04-16')] = (+0.0, -1.8)
@@ -200,6 +199,8 @@ def plot_growth_percents(data, recent, aspect):
         tweaks[data.dates.index('2020-05-01')] = (-0.1,  0.0)
         tweaks[data.dates.index('2020-05-04')] = ( 0.0, -1.8)
         tweaks[data.dates.index('2020-05-06')] = ( 0.0, -1.8)
+        tweaks[data.dates.index('2020-05-10')] = ( 0.0, +0.2)
+        tweaks[data.dates.index('2020-05-12')] = ( 0.0, +0.2)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
