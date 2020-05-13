@@ -125,7 +125,7 @@ def case_data(entry):
     if growth == -1:
         growth = '-'
     else:
-        growth = '{:+.0f}%'.format(growth)
+        growth = plot.plus_percent_str(growth)
 
     if days == -1:
         days = '-'
@@ -184,7 +184,7 @@ def main():
 
     # Format placeholder values.
     last_updated = data.last_ref_datetimes[-1].strftime('%d %b %Y %H:%M IST')
-    new_growth = '{:+.0f}%'.format(data.total_growths[-1])
+    new_growth = plot.plus_percent_str(data.total_growths[-1])
     doubling_time = '{:.1f}'.format(data.doubling_times[-1])
     cured_percent = '{:.0f}%'.format(data.cured_percents[-1])
     death_percent = '{:.0f}%'.format(data.death_percents[-1])

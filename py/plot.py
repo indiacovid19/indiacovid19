@@ -188,25 +188,25 @@ def plot_growth_percents(data, recent, aspect):
     # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
-        tweaks[data.dates.index('2020-04-13')] = ( 0.0, -2.2)
-        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.1)
-        tweaks[data.dates.index('2020-04-16')] = (+0.0, -1.8)
-        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -1.8)
+        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.0)
+        tweaks[data.dates.index('2020-04-16')] = (+0.0, -2.3)
+        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -2.3)
         tweaks[data.dates.index('2020-04-21')] = (+0.2,  0.0)
         tweaks[data.dates.index('2020-04-23')] = ( 0.0,  0.5)
         tweaks[data.dates.index('2020-04-25')] = ( 0.0,  0.5)
         tweaks[data.dates.index('2020-04-27')] = (+0.3,  0.0)
         tweaks[data.dates.index('2020-05-01')] = (-0.1,  0.0)
-        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -1.8)
-        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -1.8)
+        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -2.3)
+        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -2.3)
         tweaks[data.dates.index('2020-05-10')] = ( 0.0, +0.2)
         tweaks[data.dates.index('2020-05-12')] = ( 0.0, +0.2)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
         tweaks[data.dates.index('2020-03-03')] = (+0.6, -0.5)
-        tweaks[data.dates.index('2020-03-05')] = (-0.6, -1.0)
-        tweaks[data.dates.index('2020-03-16')] = (+0.1, +0.0)
+        tweaks[data.dates.index('2020-03-05')] = (-0.6, -1.2)
+        tweaks[data.dates.index('2020-03-14')] = (-0.1, +0.1)
+        tweaks[data.dates.index('2020-03-16')] = (+0.1, +0.1)
         tweaks[data.dates.index('2020-03-22')] = (+0.1, +0.0)
 
     # Show text values on the graph.
@@ -217,7 +217,7 @@ def plot_growth_percents(data, recent, aspect):
         if val != -1 and abs(val - prev_val) > 0.0001:
             x = i + tweaks[m:][i][0]
             y = val + (text_gap + tweaks[m:][i][1]) * tick_gap
-            v = '{:.0f}%'.format(val)
+            v = percent_str(val)
             plt.text(x, y, v, ha='center', rotation='vertical',
                      size='x-small', color=total_color)
             prev_val = val
@@ -232,6 +232,22 @@ def plot_growth_percents(data, recent, aspect):
     plt.ylim(top=top_ylim(growths[m:], tick_gap * ylim_gap, tick_gap))
     plt.ylim(bottom=0)
     plot_end(data, 'growth-percent', recent, aspect)
+
+
+def percent_str(x):
+    """Format percent string with apt number of decimal places."""
+    if x < 10:
+        return '{:.1f}%'.format(x)
+    else:
+        return '{:.0f}%'.format(x)
+
+
+def plus_percent_str(x):
+    """Format percent string with sign and apt number of decimal places."""
+    if x < 10:
+        return '{:+.1f}%'.format(x)
+    else:
+        return '{:+.0f}%'.format(x)
 
 
 def plot_doubling_times(data, recent, aspect):
