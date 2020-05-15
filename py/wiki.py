@@ -88,7 +88,9 @@ def medical_cases_chart_data():
 
 def medical_cases():
     """Generate Wikipedia markup for medical cases template."""
-    home_data = mohfw.load_home_data()
+    data = mohfw.load_home_data()
+
+    """
     dash_data = mohfw.load_dash_data()
 
     if home_data.ref_datetime >= dash_data.ref_datetime:
@@ -98,6 +100,7 @@ def medical_cases():
         data = dash_data
         data.foreign = home_data.foreign
         log.log('Selected dashboard data')
+    """
 
     output = open('layout/medical_cases.txt').read()
     output = region_table_rows(data, output)
@@ -145,12 +148,12 @@ def region_table_rows(data, layout):
         'Tamil Nadu',
         'Telangana',
         'Tripura',
-        'Uttar Pradesh',
         'Uttarakhand',
+        'Uttar Pradesh',
         'West Bengal',
     )
     out = []
-    for i, name in enumerate(sorted(region_names), 1):
+    for i, name in enumerate(region_names, 1):
         matches = difflib.get_close_matches(name, list(data.regions), 1)
         key = None
 
@@ -204,22 +207,36 @@ def markup_region(name):
         'Andhra Pradesh',
         'Assam',
         'Bihar',
+        'Chandigarh',
+        'Chhattisgarh',
         'Delhi',
         'Goa',
         'Gujarat',
         'Haryana',
+        'Himachal Pradesh',
+        'Jammu and Kashmir',
         'Jharkhand',
         'Karnataka',
         'Kerala',
+        'Ladakh',
         'Madhya Pradesh',
         'Maharashtra',
+        'Meghalaya',
         'Odisha',
+        'Puducherry',
         'Rajasthan',
         'Tamil Nadu',
+        'Telangana',
+        'Tripura',
+        'Uttarakhand',
         'Uttar Pradesh',
         'West Bengal'
     ):
         return ('[[COVID-19 pandemic in {}|{}]]'
+                .format(name, name))
+
+    if name in ('Andaman and Nicobar Islands'):
+        return ('[[COVID-19 pandemic in the {}|{}]]'
                 .format(name, name))
 
     if name in ('Punjab'):
@@ -236,6 +253,7 @@ def markup_num(n):
 
 def medical_cases_plots(data, layout):
     """Generate Wikipedia markup to draw graph plots."""
+    date = data.datetimes[-1].strftime('%Y-%m-%d')
     dates = ', '.join(x.strftime('%d %b').lstrip('0') for x in data.datetimes)
     total_cases = ', '.join(str(y) for y in data.total_cases)
     active_cases = ', '.join(str(y) for y in data.active_cases)
@@ -246,6 +264,7 @@ def medical_cases_plots(data, layout):
     death_diffs = ', '.join(str(y) for y in data.death_diffs)
     exp_marker = get_exp_marker(data)
     output = (layout
+                .replace('@@date@@', date)
                 .replace('@@dates@@', dates)
                 .replace('@@total_cases@@', total_cases)
                 .replace('@@active_cases@@', active_cases)

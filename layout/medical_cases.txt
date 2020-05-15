@@ -22,15 +22,25 @@
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>*''Inclusive of @@foreign_cases@@foreign nationals''</small>
 |- class="sortbottom" style="text-align:center;"
-| colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=2020-03-25}}</ref>
+| colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=@@date@@}}</ref>
 |}
 
 ==== Footnotes ====
 {{notelist}}
 
 === Charts ===
-{{Graph:Chart
-  |height = 250
+==== Total confirmed cases, active cases, recoveries and deaths ====
+<div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
+<center>
+{{legend inline|#FF6347|Total confirmed cases&nbsp;&nbsp;&nbsp;}}
+{{legend inline|#FFC000|Active Cases&nbsp;&nbsp;&nbsp;}}
+{{legend inline|#87CEEB|Recoveries&nbsp;&nbsp;&nbsp;}}
+{{legend inline|#343132|Deaths}}
+</center>
+
+{{Switcher
+|{{Graph:Chart
+  |height = 500
   |width = 800
   |type = line
   |xType = date
@@ -39,7 +49,6 @@
   | xGrid =
   |showValues =
   |showSymbols=1
-  |legend =
   |colors = #FF6347,#FFC000,#87CEEB,#343132
   |xAxisTitle = Date
   |xAxisAngle = -60
@@ -55,6 +64,37 @@
   |y3 = @@cured_cases@@
   |y4 = @@death_cases@@
   }}
+|Linear scale
+|{{Graph:Chart
+  |height = 500
+  |width = 800
+  |type = line
+  |xType = date
+  |xAxisFormat = %d %b
+  | showSymbols = 1
+  | yGrid =
+  | xGrid =
+  |showValues =
+  |colors = #FF6347,#FFC000,#87CEEB,#343132
+  |xAxisTitle = Date
+  |xAxisAngle = -60
+  |yAxisTitle = Count
+  |y1Title = Total confirmed cases
+  |y2Title = Active cases
+  |y3Title = Recoveries
+  |y4Title = Deaths
+  |yScaleType = log
+  |yAxisMin = 1
+  |x = @@dates@@
+  |y1 = @@total_cases@@
+  |y2 = @@active_cases@@
+  |y3 = @@cured_cases@@
+  |y4 = @@death_cases@@
+}}
+|Logarithmic scale}}
+</div>
+
+==== Daily new cases ====
 {{Graph:Chart
   |width = 800
   |legend =
@@ -71,6 +111,8 @@
   |y = @@total_diffs@@
   |colors = #FF6347
 }}
+
+==== Daily new recoveries ====
 {{Graph:Chart
   |width = 800
   |legend =
@@ -87,6 +129,8 @@
   |y = @@cured_diffs@@
   |colors = #87CEEB
 }}
+
+==== Daily new deaths ====
 {{Graph:Chart
   |width = 800
   |legend =
@@ -103,33 +147,7 @@
   |y = @@death_diffs@@
   |colors = #343132
 }}
-{{Graph:Chart
-  |height = 400
-  |width = 800
-  |type = line
-  |xType = date
-  |xAxisFormat = %d %b
-  | showSymbols = 1
-  | yGrid =
-  | xGrid =
-  |showValues =
-  |legend =
-  |colors = #FF6347,#FFC000,#87CEEB,#343132,#499562
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = Count
-  |y1Title = Total confirmed cases
-  |y2Title = Active cases
-  |y3Title = Recoveries
-  |y4Title = Deaths
-  |yScaleType = log
-  |yAxisMin = 1
-  |x = @@dates@@
-  |y1 = @@total_cases@@
-  |y2 = @@active_cases@@
-  |y3 = @@cured_cases@@
-  |y4 = @@death_cases@@
-}}
+
 {{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
 <noinclude>
 {{clear}}

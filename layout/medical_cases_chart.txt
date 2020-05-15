@@ -4,7 +4,7 @@
 </noinclude>
 
 {{Medical cases chart
-|numwidth=mwtw
+|numwidth=wwww
 |disease=COVID-19
 |location=India
 |outbreak=COVID-19 pandemic

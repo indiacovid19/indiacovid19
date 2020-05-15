@@ -267,10 +267,10 @@ def print_summary(data, heading):
 
 def main():
     home_data = load_home_data()
-    dash_data = load_dash_data()
+    #dash_data = load_dash_data()
     print()
     print_summary(home_data, 'HOME PAGE DATA')
-    print_summary(dash_data, 'DASHBOARD DATA')
+    #print_summary(dash_data, 'DASHBOARD DATA')
 
 
 if __name__ == '__main__':
