@@ -108,7 +108,7 @@ def plot_total_cases_log(data, recent, aspect):
     """Plot line chart for all case numbers (log scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     ylim_top = max(data.total_cases[m:]) * 2
-    title_x, title_y = (0.6, 0.91) if recent else (0.5, 0.91)
+    title_x, title_y = (0.3, 0.90) if recent else (0.5, 0.90)
 
     total_cases = data.total_cases
     active_cases = data.active_cases
@@ -169,9 +169,9 @@ def plot_new_cases(data, recent, aspect):
 def plot_growth_percents(data, recent, aspect):
     """Plot growth rate for each day."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 1 if recent else 10
-    text_gap = 0.6 if recent else 1.2
-    ylim_gap = 8 if recent else 5
+    tick_gap = 0.2 if recent else 10
+    text_gap = 1.5 if recent else 1.2
+    ylim_gap = 17 if recent else 5
 
     # Preprocess data for plotting.
     growths = data.total_growths
@@ -189,17 +189,18 @@ def plot_growth_percents(data, recent, aspect):
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
         tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.0)
-        tweaks[data.dates.index('2020-04-16')] = (+0.0, -2.3)
-        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -2.3)
-        tweaks[data.dates.index('2020-04-21')] = (+0.2,  0.0)
-        tweaks[data.dates.index('2020-04-23')] = ( 0.0,  0.5)
-        tweaks[data.dates.index('2020-04-25')] = ( 0.0,  0.5)
-        tweaks[data.dates.index('2020-04-27')] = (+0.3,  0.0)
-        tweaks[data.dates.index('2020-05-01')] = (-0.1,  0.0)
-        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -2.3)
-        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -2.3)
-        tweaks[data.dates.index('2020-05-10')] = ( 0.0, +0.2)
-        tweaks[data.dates.index('2020-05-12')] = ( 0.0, +0.2)
+        tweaks[data.dates.index('2020-04-16')] = (+0.0, -6.0)
+        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-04-21')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-04-23')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-04-25')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-04-27')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-01')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-08')] = (+0.2,  0.0)
+        tweaks[data.dates.index('2020-05-10')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-12')] = ( 0.0, -6.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
@@ -255,7 +256,7 @@ def plot_doubling_times(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
     text_gap = 1.7 if recent else 1.0
-    ylim_pad = 15 if recent else 5
+    ylim_pad = 16 if recent else 5
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
@@ -376,7 +377,7 @@ def plot_cured_ratios(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2
     text_gap = 2.1
-    ylim_pad = 20 if recent else 22
+    ylim_pad = 18 if recent else 20
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
