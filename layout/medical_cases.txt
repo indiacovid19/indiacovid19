@@ -3,15 +3,17 @@
 {{main|COVID-19 pandemic in India}}</noinclude>
 <templatestyles src="COVID-19_pandemic_data/styles.css" />
 <!-- Only use MoHFW as source to avoid inconsistency in trends, wait for MoHFW to reflect state government updates -->
+{{col-begin}}
+{{col-break}}
 {| class="wikitable plainrowheaders sortable mw-collapsible" style="text-align:right; font-size:90%; width:100px; clear:right; margin:0px 0px 0em 0em;"
-! colspan="6" |{{Navbar-collapsible|{{resize|95%|{{Nowrap|COVID-19 pandemic in India by state and union territory}}}}|Template:COVID-19 pandemic data/India medical cases}}
+! colspan="6" |{{Navbar-collapsible|{{resize|100%|{{Nowrap|     COVID-19 pandemic in India by state and union territory     }}}}|Template:COVID-19 pandemic data/India medical cases}}
 |-
-!S.No.
+! S.No.
 ! scope="col" |State/Union Territory
-!Total cases
-! scope="col" |Deaths
+! data-sort-type="number" scope="col" |Total cases
+! data-sort-type="number" scope="col" |Deaths
 ! data-sort-type="number" scope="col" |Recoveries
-! scope="col" |Active cases
+! data-sort-type="number" scope="col" |Active cases
 @@region_rows@@
 |- class="sortbottom"
 ! colspan="2" |Total
@@ -24,6 +26,9 @@
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=@@date@@}}</ref>
 |}
+{{col-break}}
+[[File:India COVID-19 cases density map.svg|thumb|280px|Map of COVID-19 cases per million population in India by state and union territory (As of {{TODAY}})]]
+{{col-end}}
 
 ==== Footnotes ====
 {{notelist}}
