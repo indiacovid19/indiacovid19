@@ -106,6 +106,8 @@ def load_home_data():
                 parser_state = 'REGION_TOTAL'
                 continue
             region_name = td_re.match(lines[i + 2]).group(1)
+            if region_name.startswith('Cases being reassigned'):
+                continue
             total = int(td_re.match(lines[i + 3]).group(1))
             cured = int(td_re.match(lines[i + 4]).group(1))
             death = int(td_re.match(lines[i + 5]).group(1))
