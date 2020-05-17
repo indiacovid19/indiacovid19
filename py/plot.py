@@ -146,8 +146,8 @@ def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 100
-    text_gap = 0.8
-    ylim_pad = 9 if recent else 10
+    text_gap = 1.0
+    ylim_pad = 12 if recent else 13
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -201,6 +201,7 @@ def plot_growth_percents(data, recent, aspect):
         tweaks[data.dates.index('2020-05-08')] = (+0.2,  0.0)
         tweaks[data.dates.index('2020-05-10')] = ( 0.0, -6.0)
         tweaks[data.dates.index('2020-05-12')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-16')] = ( 0.0, -6.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
@@ -403,6 +404,7 @@ def plot_cured_ratios(data, recent, aspect):
     tweaks[data.dates.index('2020-04-04')] = (-0.2, +0.0)
     tweaks[data.dates.index('2020-04-06')] = (+0.2, +0.0)
     tweaks[data.dates.index('2020-04-21')] = (-0.2, +0.2)
+    tweaks[data.dates.index('2020-05-16')] = (-0.1, +0.1)
     prev_val = -1
     for i, val in enumerate(ratios[m:]):
         if m != 0 and i == 0:
