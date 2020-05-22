@@ -147,7 +147,7 @@ def plot_new_cases(data, recent, aspect):
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 100
     text_gap = 1.0
-    ylim_pad = 12 if recent else 13
+    ylim_pad = 14 if recent else 15
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -201,6 +201,7 @@ def plot_growth_percents(data, recent, aspect):
         tweaks[data.dates.index('2020-05-08')] = (+0.2,  0.0)
         tweaks[data.dates.index('2020-05-10')] = ( 0.0, -6.0)
         tweaks[data.dates.index('2020-05-12')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2020-05-19')] = (+0.1, +0.3)
         tweaks[data.dates.index('2020-05-16')] = ( 0.0, -6.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
@@ -257,7 +258,7 @@ def plot_doubling_times(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
     text_gap = 1.7 if recent else 1.0
-    ylim_pad = 16 if recent else 5
+    ylim_pad = 18 if recent else 5
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
@@ -378,7 +379,7 @@ def plot_cured_ratios(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2
     text_gap = 2.1
-    ylim_pad = 18 if recent else 20
+    ylim_pad = 20 if recent else 22
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
