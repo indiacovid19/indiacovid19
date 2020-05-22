@@ -22,7 +22,7 @@
 ! scope="col" |@@regions_cured@@
 ! scope="col" |@@regions_active@@
 |- class="sortbottom" style="text-align:center;"
-| colspan="6" |<small>*''Inclusive of @@foreign_cases@@foreign nationals''</small>
+| colspan="6" |<small>*''Inclusive of @@foreign_cases@@foreign nationals''</small><br><small>#''@@reassigned@@ cases are being reassigned to the states as per MoHFW''</small>
 |- class="sortbottom" style="text-align:center;"
 | colspan="6" |<small>As of {{TODAY}}</small><ref>{{Cite web|url=https://www.mohfw.gov.in/|title=Home {{!}} Ministry of Health and Family Welfare {{!}} GOI|website=www.mohfw.gov.in|access-date=@@date@@}}</ref>
 |}
@@ -45,114 +45,115 @@
 
 {{Switcher
 |{{Graph:Chart
-  |height = 500
-  |width = 800
-  |type = line
-  |xType = date
-  |xAxisFormat = %d %b
-  | yGrid =
+  | width = 850
+  | height = 400
+  | type = line
+  | xType = date
   | xGrid =
-  |showValues =
-  |showSymbols=1
-  |colors = #FF6347,#FFC000,#87CEEB,#343132
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = Count
-  |y1Title = Total confirmed cases
-  |y2Title = Active cases
-  |y3Title = Recoveries
-  |y4Title = Deaths
-  |yAxisMin = 0
-  |x = @@dates@@
-  |y1 = @@total_cases@@
-  |y2 = @@active_cases@@
-  |y3 = @@cured_cases@@
-  |y4 = @@death_cases@@
+  | yGrid =
+  | showValues =
+  | showSymbols = 1
+  | colors = #FF6347,#FFC000,#87CEEB,#343132
+  | xAxisTitle = Date
+  | xAxisAngle = -60
+  | yAxisTitle = Count
+  | yAxisMin = 0
+  | x = @@dates@@
+  | y1 = <!-- Confirmed cases --> @@total_cases@@
+  | y2 = <!-- Active cases --> @@active_cases@@
+  | y3 = <!-- Recoveries --> @@cured_cases@@
+  | y4 = <!-- Deaths --> @@death_cases@@
   }}
 |Linear scale
 |{{Graph:Chart
-  |height = 500
-  |width = 800
-  |type = line
-  |xType = date
-  |xAxisFormat = %d %b
-  | showSymbols = 1
-  | yGrid =
+  | width = 850
+  | height = 400
+  | type = line
+  | xType = date
   | xGrid =
-  |showValues =
-  |colors = #FF6347,#FFC000,#87CEEB,#343132
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = Count
-  |y1Title = Total confirmed cases
-  |y2Title = Active cases
-  |y3Title = Recoveries
-  |y4Title = Deaths
-  |yScaleType = log
-  |yAxisMin = 1
-  |x = @@dates@@
-  |y1 = @@total_cases@@
-  |y2 = @@active_cases@@
-  |y3 = @@cured_cases@@
-  |y4 = @@death_cases@@
+  | yGrid =
+  | showValues =
+  | showSymbols = 1
+  | colors = #FF6347,#FFC000,#87CEEB,#343132
+  | xAxisTitle = Date
+  | xAxisAngle = -60
+  | yAxisTitle = Count
+  | yScaleType = log
+  | yAxisMin = 1
+  | x = @@dates@@
+  | y1 = <!-- Confirmed cases --> @@total_cases@@
+  | y2 = <!-- Active cases --> @@active_cases@@
+  | y3 = <!-- Recoveries --> @@cured_cases@@
+  | y4 = <!-- Deaths --> @@death_cases@@
 }}
 |Logarithmic scale}}
 </div>
 
 ==== Daily new cases ====
+<div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
+<center>
+{{legend inline|#FF6347|New cases per day}}
+</center>
 {{Graph:Chart
-  |width = 800
-  |legend =
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = No. of cases
-  |yAxisMin = 0
-  |y1Title = New cases per day
-  |type = rect
-  | yGrid =
+  | width = 850
+  | height = 400
+  | xAxisTitle = Date
+  | xAxisAngle = -90
+  | yAxisTitle = No. of cases
+  | yAxisMin = 0
+  | type = rect
   | xGrid =
-  |showValues = offset:2
-  |x = @@dates@@
-  |y = @@total_diffs@@
-  |colors = #FF6347
+  | yGrid =
+  | showValues = offset:2
+  | x = @@dates@@
+  | y = @@total_diffs@@
+  | colors = #FF6347
 }}
+</div>
 
 ==== Daily new recoveries ====
+<div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
+<center>
+{{legend inline|#87CEEB|New recoveries per day}}
+</center>
 {{Graph:Chart
-  |width = 800
-  |legend =
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = No. of Recoveries
-  |yAxisMin = 0
-  |y1Title = Recoveries per day
-  |type = rect
-  | yGrid =
+  | width = 850
+  | height = 400
+  | xAxisTitle = Date
+  | xAxisAngle = -90
+  | yAxisTitle = No. of Recoveries
+  | yAxisMin = 0
+  | type = rect
   | xGrid =
-  |showValues = offset:2
-  |x = @@dates@@
-  |y = @@cured_diffs@@
-  |colors = #87CEEB
+  | yGrid =
+  | showValues = offset:2
+  | x = @@dates@@
+  | y = @@cured_diffs@@
+  | colors = #87CEEB
 }}
-
+</div>
+ 
 ==== Daily new deaths ====
+<div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
+<center>
+{{legend inline|#343132|New deaths per day}}
+</center>
 {{Graph:Chart
-  |width = 800
-  |legend =
-  |xAxisTitle = Date
-  |xAxisAngle = -60
-  |yAxisTitle = No. of deaths
-  |yAxisMin = 0
-  |y1Title = New deaths per day
-  |type = rect
-  | yGrid =
+  | height = 400
+  | width = 850
+  | xAxisTitle = Date
+  | xAxisAngle = -90
+  | yAxisTitle = No. of deaths
+  | yAxisMin = 0
+  | type = rect
   | xGrid =
-  |showValues = offset:2
-  |x = @@dates@@
-  |y = @@death_diffs@@
-  |colors = #343132
+  | yGrid =
+  | showValues = offset:2
+  | x = @@dates@@
+  | y = @@death_diffs@@
+  | colors = #343132
 }}
-
+</div>
 {{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
 <noinclude>
 {{clear}}
