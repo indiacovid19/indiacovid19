@@ -191,12 +191,16 @@ def region_table_rows(data, layout):
 def region_table_foot(data, layout):
     """Generate footer row for region table."""
     foreign = str(data.foreign) + ' ' if data.foreign != -1 else ''
+    reassigned = data.regions['reassigned'][0]
+    if reassigned == -1:
+        reassigned = 'No'
     output = (layout
                 .replace('@@regions_total@@', str(data.regions_total))
                 .replace('@@regions_death@@', str(data.regions_death))
                 .replace('@@regions_cured@@', str(data.regions_cured))
                 .replace('@@regions_active@@', str(data.regions_active))
                 .replace('@@foreign_cases@@', str(foreign))
+                .replace('@@reassigned@@', str(reassigned))
              )
     return output
 

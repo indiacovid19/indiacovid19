@@ -102,16 +102,25 @@ def load_home_data():
         elif '<tbody>' in line:
             parser_state = 'REGION'
         elif parser_state == 'REGION' and '<tr>' in line:
-            if 'Total' in lines[i + 1]:
+            if 'Total' in lines[i + 2]:
                 parser_state = 'REGION_TOTAL'
                 continue
+            # Parse
             region_name = td_re.match(lines[i + 2]).group(1)
+            total = td_re.match(lines[i + 3]).group(1)
+            cured = td_re.match(lines[i + 4]).group(1)
+            death = td_re.match(lines[i + 5]).group(1)
+            # Normalize
             if region_name.startswith('Cases being reassigned'):
-                continue
-            total = int(td_re.match(lines[i + 3]).group(1))
-            cured = int(td_re.match(lines[i + 4]).group(1))
-            death = int(td_re.match(lines[i + 5]).group(1))
-            active = total - cured - death
+                region_name = 'reassigned'
+            total = int(total) if total else -1
+            cured = int(cured) if cured else -1
+            death = int(death) if death else -1
+            if total == -1 or cured == -1 or death == -1:
+                active = -1
+            else:
+                active = total - cured - death
+            # Save
             data.regions[region_name] = (total, active, cured, death)
         elif parser_state == 'REGION_TOTAL' and 'Total' in line:
             parser_state = 'DEFAULT'
