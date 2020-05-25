@@ -96,7 +96,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 1100
+  | width = 850
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -120,7 +120,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 1100
+  | width = 850
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -144,7 +144,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 1100
+  | width = 850
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
