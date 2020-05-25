@@ -160,6 +160,33 @@
 }}
 </div>
 </div>
+
+==== Case fatality rate ====
+The trend of [[case fatality rate]] for COVID-19 from 12 March, the day first death in the country was recorded.<ref name="death1"/>
+
+<div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
+<center>
+{{legend inline|#cd5c5c|Case fatality rate}}
+</center>
+<div style="overflow-x:auto;">
+{{Graph:Chart <!-- Formula = Total deaths till date/Total cases till date*100 -->
+  | width = 850
+  | height = 300
+  | xAxisTitle = Date
+  | xAxisAngle = -90
+  | yAxisMin = 0
+  | type = line
+  | xType = date
+  | xGrid =
+  | yGrid =
+  | showSymbols = 1
+  | x = @@cfr_dates@@
+  | y = @@cfr_percents@@
+  | colors = #cd5c5c
+}}
+</div>
+</div>
+
 {{small|Graph source:  Data from [https://www.mohfw.gov.in/ MoHFW]}}
 <noinclude>
 {{clear}}

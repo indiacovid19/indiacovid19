@@ -57,6 +57,7 @@ class Data:
         self.cured_percents = []
         self.death_percents = []
         self.cured_ratios = []
+        self.cfr_percents = []
 
         # Growth w.r.t previous day for each date.
         self.active_growths = [-1]
@@ -112,11 +113,13 @@ def load(ignore_dates=()):
             data.cured_percents.append(100 * entry['cured'] / entry['closed'])
             data.death_percents.append(100 * entry['death'] / entry['closed'])
             assert data.cured_percents[-1] + data.death_percents[-1] == 100
-        # Cured ratio.
+        # Cured ratio and CFR.
         if entry['death'] == 0:
             data.cured_ratios.append(-1)
+            data.cfr_percents.append(-1)
         else:
             data.cured_ratios.append(entry['cured'] / entry['death'])
+            data.cfr_percents.append(100 * entry['death'] / entry['total'])
         # List of references for each date.
         data.refs.append(entry['refs'])
         # Last reference time for each date.

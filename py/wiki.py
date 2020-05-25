@@ -259,13 +259,21 @@ def medical_cases_plots(data, layout):
     """Generate Wikipedia markup to draw graph plots."""
     date = data.datetimes[-1].strftime('%Y-%m-%d')
     dates = ', '.join(x.strftime('%d %b').lstrip('0') for x in data.datetimes)
+    # Cases.
     total_cases = ', '.join(str(y) for y in data.total_cases)
     active_cases = ', '.join(str(y) for y in data.active_cases)
     cured_cases = ', '.join(str(y) for y in data.cured_cases)
+    # New cases.
     death_cases = ', '.join(str(y) for y in data.death_cases)
     total_diffs = ', '.join(str(y) for y in data.total_diffs)
     cured_diffs = ', '.join(str(y) for y in data.cured_diffs)
     death_diffs = ', '.join(str(y) for y in data.death_diffs)
+    # CFR
+    cfr_start = data.dates.index('2020-03-12')
+    cfr_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
+                      for x in data.datetimes[cfr_start:])
+    cfr_percents = ', '.join('{:.2f}'.format(y) for
+                             y in data.cfr_percents[cfr_start:])
     exp_marker = get_exp_marker(data)
     output = (layout
                 .replace('@@date@@', date)
@@ -278,6 +286,8 @@ def medical_cases_plots(data, layout):
                 .replace('@@total_diffs@@', total_diffs)
                 .replace('@@cured_diffs@@', cured_diffs)
                 .replace('@@death_diffs@@', death_diffs)
+                .replace('@@cfr_dates@@', cfr_dates)
+                .replace('@@cfr_percents@@', cfr_percents)
              )
     return output
 
