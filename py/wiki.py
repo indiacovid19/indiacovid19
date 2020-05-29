@@ -226,6 +226,7 @@ def markup_region(name):
         'Madhya Pradesh',
         'Maharashtra',
         'Meghalaya',
+        'Nagaland',
         'Odisha',
         'Puducherry',
         'Rajasthan',
