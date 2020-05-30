@@ -145,9 +145,9 @@ def plot_total_cases_log(data, recent, aspect):
 def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
-    tick_gap = 100
+    tick_gap = 200
     text_gap = 1.0
-    ylim_pad = 14 if recent else 15
+    ylim_pad = 12 if recent else 13
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -257,8 +257,8 @@ def plot_doubling_times(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
-    text_gap = 1.7 if recent else 1.0
-    ylim_pad = 18 if recent else 5
+    text_gap = 2.0 if recent else 1.0
+    ylim_pad = 19 if recent else 5
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
@@ -378,8 +378,8 @@ def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2
-    text_gap = 2.1
-    ylim_pad = 20 if recent else 22
+    text_gap = 2.5
+    ylim_pad = 23 if recent else 26
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
@@ -406,6 +406,7 @@ def plot_cured_ratios(data, recent, aspect):
     tweaks[data.dates.index('2020-04-06')] = (+0.2, +0.0)
     tweaks[data.dates.index('2020-04-21')] = (-0.2, +0.2)
     tweaks[data.dates.index('2020-05-16')] = (-0.1, +0.1)
+    tweaks[data.dates.index('2020-05-29')] = (-0.1, +0.9)
     prev_val = -1
     for i, val in enumerate(ratios[m:]):
         if m != 0 and i == 0:
