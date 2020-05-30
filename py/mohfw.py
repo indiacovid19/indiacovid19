@@ -107,29 +107,25 @@ def load_home_data():
                 continue
             # Parse
             region_name = td_re.match(lines[i + 2]).group(1)
-            total = td_re.match(lines[i + 3]).group(1)
+            active = td_re.match(lines[i + 3]).group(1)
             cured = td_re.match(lines[i + 4]).group(1)
             death = td_re.match(lines[i + 5]).group(1)
+            total = td_re.match(lines[i + 6]).group(1)
             # Normalize
             if region_name.startswith('Cases being reassigned'):
                 region_name = 'reassigned'
             total = int(total) if total else -1
             cured = int(cured) if cured else -1
             death = int(death) if death else -1
-            if total == -1 or cured == -1 or death == -1:
-                active = -1
-            else:
-                active = total - cured - death
+            active = int(active) if active else -1
             # Save
             data.regions[region_name] = (total, active, cured, death)
         elif parser_state == 'REGION_TOTAL' and 'Total' in line:
             parser_state = 'DEFAULT'
-            s = strong_re.match(lines[i + 1]).group(1)
-            data.regions_total = int(s.rstrip('*#'))
+            data.regions_active = int(strong_re.match(lines[i + 1]).group(1))
             data.regions_cured = int(strong_re.match(lines[i + 3]).group(1))
             data.regions_death = int(strong_re.match(lines[i + 6]).group(1))
-            data.regions_active = (data.regions_total - data.regions_cured
-                                                      - data.regions_death)
+            data.regions_total = int(strong_re.match(lines[i + 9]).group(1))
 
     data.total = data.active + data.cured + data.death + data.migrated
 
