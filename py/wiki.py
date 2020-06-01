@@ -56,15 +56,30 @@ import datetime
 
 def medical_cases_chart():
     """Generate Wikipedia markup code for medical cases chart template."""
+    ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
+    data = archive.load(ignore_dates=ignore_dates)
     output = open('layout/medical_cases_chart.txt').read()
-    output = output.replace('@@data@@', medical_cases_chart_data())
+    output = (output.replace('@@buttons@@', medical_cases_chart_buttons(data))
+                    .replace('@@data@@', medical_cases_chart_data(data)))
     return output
 
 
-def medical_cases_chart_data():
+def medical_cases_chart_buttons(data):
+    """Generate Wikipedia markup to show month toggle buttons."""
+    prev_month = ''
+    out = []
+    for date in data.datetimes:
+        month = date.strftime('%b').lower()
+        if month != prev_month:
+            out.append(
+                '{{{{Medical cases chart/Month toggle button|{}}}}}'
+                .format(month))
+            prev_month = month
+    return '\n'.join(out)
+
+
+def medical_cases_chart_data(data):
     """Generate data entries for medical cases chart template."""
-    ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
-    data = archive.load(ignore_dates=ignore_dates)
     out = []
 
     for i, (date, total, cured, death) in enumerate(zip(

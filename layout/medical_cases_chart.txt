@@ -10,11 +10,7 @@
 |outbreak=COVID-19 pandemic
 |togglesbar=
 <div class="nomobile" style="text-align:center">
-{{Medical cases chart/Month toggle button|jan}}
-{{Medical cases chart/Month toggle button|feb}}
-{{Medical cases chart/Month toggle button|mar}}
-{{Medical cases chart/Month toggle button|apr}}
-{{Medical cases chart/Month toggle button|may}}
+@@buttons@@
 {{Medical cases chart/Month toggle button|l15}}
 </div>
 |right2=# of deaths
