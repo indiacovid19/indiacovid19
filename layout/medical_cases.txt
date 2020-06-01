@@ -96,7 +96,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 850
+  | width = 1000
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -120,7 +120,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 850
+  | width = 1000
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -144,7 +144,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 850
+  | width = 1000
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -170,7 +170,7 @@ The trend of [[case fatality rate]] for COVID-19 from 12 March, the day first de
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart <!-- Formula = Total deaths till date/Total cases till date*100 -->
-  | width = 850
+  | width = 900
   | height = 300
   | xAxisTitle = Date
   | xAxisAngle = -90
