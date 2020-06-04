@@ -31,6 +31,7 @@
 === Maps ===
 {{gallery
 | File:India COVID-19 cases density map.svg|Confirmed COVID-19 cases per million population in India by state and union territory (As of {{TODAY}})
+| File:India COVID-19 deaths per million map.png|Deaths per million population by state and union territory (As of {{TODAY}})
 | File:India COVID-19 recoveries map.png|Recoveries per million population by state and union territory (As of {{TODAY}})
 }}
 
