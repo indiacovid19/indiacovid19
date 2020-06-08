@@ -3,18 +3,16 @@
 {{main|COVID-19 pandemic in India}}
 </noinclude>
 
-{{Medical cases chart
+{{#invoke:Medical cases chart|chart
 |numwidth=wwww
+|barwidth=medium
 |disease=COVID-19
 |location=India
 |outbreak=COVID-19 pandemic
-|togglesbar=
-<div class="nomobile" style="text-align:center">
-@@buttons@@
-{{Medical cases chart/Month toggle button|l15}}
-</div>
 |right2=# of deaths
-|recoveries=
+|changetype1=p <!-- p = percent & a = absolute -->
+|changetype2=p <!-- p = percent & a = absolute -->
+|recoveries=y
 |collapsible=y
 |data=
 <!-- Date;Deaths;Recoveries;Total confirmed -->

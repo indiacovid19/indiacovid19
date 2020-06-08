@@ -98,7 +98,7 @@
 </center>
 <div style="overflow-x:auto;">
 {{Graph:Chart
-  | width = 1000
+  | width = 1100
   | height = 400
   | xAxisTitle = Date
   | xAxisAngle = -90
@@ -108,7 +108,7 @@
   | xGrid =
   | yGrid =
   | showValues = offset:2
-  | x = @@dates@@
+  | x = @@total_dates@@
   | y = @@total_diffs@@
   | colors = #FF6347
 }}
@@ -132,12 +132,12 @@
   | xGrid =
   | yGrid =
   | showValues = offset:2
-  | x = @@dates@@
+  | x = @@cured_dates@@
   | y = @@cured_diffs@@
   | colors = #87CEEB
 }}
 </div>
-</div> 
+</div>
 
 ==== Daily new deaths ====
 <div class='toccolours' style="display:inline-block; width:950px; margin:1em 0;">
@@ -156,7 +156,7 @@
   | xGrid =
   | yGrid =
   | showValues = offset:2
-  | x = @@dates@@
+  | x = @@death_dates@@
   | y = @@death_diffs@@
   | colors = #343132
 }}

@@ -224,10 +224,12 @@ def markup_region(name):
     """Generate Wikipedia markup to display region name in region table."""
     if name in (
         'Andhra Pradesh',
+        'Arunachal Pradesh',
         'Assam',
         'Bihar',
         'Chandigarh',
         'Chhattisgarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
         'Delhi',
         'Goa',
         'Gujarat',
@@ -240,7 +242,9 @@ def markup_region(name):
         'Ladakh',
         'Madhya Pradesh',
         'Maharashtra',
+        'Manipur',
         'Meghalaya',
+        'Mizoram',
         'Nagaland',
         'Odisha',
         'Puducherry',
@@ -271,6 +275,51 @@ def markup_num(n):
     return ' style="color:gray;" |0' if n == 0 else n
 
 
+def clean_data(datetimes, numbers):
+    formatted_dates = [d.strftime('%d %b').lstrip('0') for d in datetimes]
+    cleaned_dates = []
+    cleaned_numbers = []
+
+    mode = 'LEADING_ZEROS'
+    multiple_zeros_allowed = True
+
+    def normal_append(d, n):
+        nonlocal mode
+        mode = 'NORMAL'
+        cleaned_dates.append(d)
+        cleaned_numbers.append(n)
+
+    for i, (d, n) in enumerate(zip(formatted_dates, numbers)):
+        if mode == 'LEADING_ZEROS':
+            if n == 0:
+                continue
+            else:
+                normal_append(d, n)
+        elif mode == 'NORMAL':
+            if multiple_zeros_allowed and n == 0:
+                mode = 'SINGLE_ZERO'
+                continue
+            else:
+                normal_append(d, n)
+        elif mode == 'SINGLE_ZERO':
+            if n == 0:
+                mode = 'MULTIPLE_ZEROS'
+                cleaned_dates.append('...')
+                cleaned_numbers.append(0)
+            else:
+                normal_append(formatted_dates[i - 1], 0)
+                normal_append(d, n)
+        elif mode == 'MULTIPLE_ZEROS':
+            if n == 0:
+                continue
+            else:
+                multiple_zeros_allowed = False
+                normal_append(d, n)
+
+    return (', '.join(str(x) for x in cleaned_dates),
+            ', '.join(str(x) for x in cleaned_numbers))
+
+
 def medical_cases_plots(data, layout):
     """Generate Wikipedia markup to draw graph plots."""
     date = data.datetimes[-1].strftime('%Y-%m-%d')
@@ -279,11 +328,11 @@ def medical_cases_plots(data, layout):
     total_cases = ', '.join(str(y) for y in data.total_cases)
     active_cases = ', '.join(str(y) for y in data.active_cases)
     cured_cases = ', '.join(str(y) for y in data.cured_cases)
-    # New cases.
     death_cases = ', '.join(str(y) for y in data.death_cases)
-    total_diffs = ', '.join(str(y) for y in data.total_diffs)
-    cured_diffs = ', '.join(str(y) for y in data.cured_diffs)
-    death_diffs = ', '.join(str(y) for y in data.death_diffs)
+    # New cases.
+    total_dates, total_diffs = clean_data(data.datetimes, data.total_diffs)
+    cured_dates, cured_diffs = clean_data(data.datetimes, data.cured_diffs)
+    death_dates, death_diffs = clean_data(data.datetimes, data.death_diffs)
     # CFR
     cfr_start = data.dates.index('2020-03-12')
     cfr_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
@@ -294,14 +343,22 @@ def medical_cases_plots(data, layout):
     output = (layout
                 .replace('@@date@@', date)
                 .replace('@@dates@@', dates)
+
                 .replace('@@total_cases@@', total_cases)
                 .replace('@@active_cases@@', active_cases)
                 .replace('@@cured_cases@@', cured_cases)
                 .replace('@@death_cases@@', death_cases)
                 .replace('@@exp_marker@@', exp_marker)
+
+                .replace('@@total_dates@@', total_dates)
                 .replace('@@total_diffs@@', total_diffs)
+
                 .replace('@@cured_diffs@@', cured_diffs)
+                .replace('@@cured_dates@@', cured_dates)
+
                 .replace('@@death_diffs@@', death_diffs)
+                .replace('@@death_dates@@', death_dates)
+
                 .replace('@@cfr_dates@@', cfr_dates)
                 .replace('@@cfr_percents@@', cfr_percents)
              )
