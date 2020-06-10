@@ -80,7 +80,7 @@ def plot_end(data, img_name, recent, aspect):
 def plot_total_cases_linear(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 2000
+    tick_gap = 10000
     ylim_pad = 6
     title_x, title_y = (0.63, 0.9) if recent else (0.5, 0.9)
 
@@ -96,6 +96,7 @@ def plot_total_cases_linear(data, recent, aspect):
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(comma_formatter))
     plt.ylabel('Count')
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(data.total_cases[m:], tick_gap * ylim_pad, tick_gap))
@@ -258,7 +259,7 @@ def plot_doubling_times(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 1.0
     text_gap = 2.0 if recent else 1.0
-    ylim_pad = 19 if recent else 5
+    ylim_pad = 22 if recent else 5
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
@@ -499,16 +500,23 @@ def plot_recent_wide(data):
     plot_cured_ratios(data, recent=True, aspect='wide')
 
 
-def linear_label_formatter(x, pos):
-    """Return tick label for linear scale."""
-    if x % 100 == 0:
-        return int(x)
+def comma_formatter(x, pos):
+    """Return tick label for Indian-style comma delimited numbers."""
+    x = str(int(x))
+    result = x[-3:]
+    i = len(x) - 3
+    while i > 0:
+        i -= 2
+        j = i + 2
+        if i < 0: i = 0
+        result = x[i:j] + ',' + result
+    return result
 
 
 def log_label_formatter(x, pos):
     """Return tick label for log scale."""
     if str(x)[0] in ['1', '2', '4', '6']:
-        return int(x)
+        return comma_formatter(int(x), None)
 
 
 def bar_label_formatter(x, pos):
