@@ -249,6 +249,7 @@ def markup_region(name):
         'Odisha',
         'Puducherry',
         'Rajasthan',
+        'Sikkim',
         'Tamil Nadu',
         'Telangana',
         'Tripura',
