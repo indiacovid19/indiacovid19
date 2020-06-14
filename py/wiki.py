@@ -78,7 +78,12 @@ def replace_within(begin_re, end_re, source, data):
     """Replace text in source between two delimeters with specified data."""
     pattern = r'(?s)(' + begin_re + r')(?:.*?)(' + end_re + r')'
     source = re.sub(pattern, r'\1@@REPL@@\2' , source)
-    source = source.replace('@@REPL@@', data)
+    if '@@REPL@@' in source:
+        source = source.replace('@@REPL@@', data)
+    else:
+        log.log('')
+        log.log('ERROR: Cannot match /{}/ and /{}/'.format(begin_re, end_re))
+        log.log('')
     return source
 
 
@@ -140,13 +145,14 @@ def wiki1_data(data):
 def wiki2():
     """Generate Wikipedia markup for region table."""
     data = mohfw.load_home_data()
+    reassigned = str(data.regions['reassigned'][0])
     update = source = fetch_wiki_source(WIKI_SRC2)
     update = replace_within('\\|- class="sorttop"\n',
                             '\n\\|- class="sortbottom"',
                             update, region_table_head(data) + '\n' +
                                     region_table_body(data))
-    update = replace_within("#''", ' cases are being reassigned',
-                            update, str(data.regions['reassigned'][0]))
+    update = replace_within('nationals\n\|', r' cases are being reassigned',
+                            update, reassigned)
     open('wiki2.txt', 'w').write(update)
     open('wiki2.diff', 'w').write(diff(source, update))
 
