@@ -27,6 +27,7 @@
 import argparse
 import datetime
 import difflib
+import html
 import sys
 
 from py import archive, log, mohfw
@@ -52,33 +53,68 @@ corresponding markups:
 
 
 import datetime
+import re
+import urllib
+import urllib.request
 
 
-def medical_cases_chart():
+WIKI_SRC1 = 'Template:COVID-19_pandemic_data/India_medical_cases_chart'
+WIKI_SRC2 = 'Template:COVID-19_pandemic_data/India_medical_cases_by_state_and_union_territory'
+WIKI_SRC3 = 'COVID-19_pandemic_in_India/Statistics'
+
+
+def fetch_wiki_source(article_name):
+    """Return Wikitext from specified Wikipedia article."""
+    src_url = ('https://en.wikipedia.org/w/index.php?title={}&action=edit'
+               .format(article_name))
+    log.log('Fetching wikitext for {} ...', src_url)
+    response = urllib.request.urlopen(src_url).read().decode('utf-8')
+    source = re.search(r'(?s)<textarea .*?>(.*)</textarea>', response).group(1)
+    source = html.unescape(source)
+    return source
+
+
+def replace_within(begin_re, end_re, source, data):
+    """Replace text in source between two delimeters with specified data."""
+    pattern = r'(?s)(' + begin_re + r')(?:.*?)(' + end_re + r')'
+    source = re.sub(pattern, r'\1@@REPL@@\2' , source)
+    source = source.replace('@@REPL@@', data)
+    return source
+
+
+def diff(a, b):
+    """Return unified diff between two strings."""
+    out = difflib.unified_diff(a.splitlines(True), b.splitlines(True),
+                               fromfile='old', tofile='new')
+    return ''.join(out)
+
+
+def cf(x):
+    """Return tick label for Indian-style comma delimited numbers."""
+    x = str(int(x))
+    result = x[-3:]
+    i = len(x) - 3
+    while i > 0:
+        i -= 2
+        j = i + 2
+        if i < 0: i = 0
+        result = x[i:j] + ',' + result
+    return result
+
+
+def wiki1():
     """Generate Wikipedia markup code for medical cases chart template."""
     ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
     data = archive.load(ignore_dates=ignore_dates)
-    output = open('layout/medical_cases_chart.txt').read()
-    output = (output.replace('@@buttons@@', medical_cases_chart_buttons(data))
-                    .replace('@@data@@', medical_cases_chart_data(data)))
-    return output
+    update = source = fetch_wiki_source(WIKI_SRC1)
+    update = replace_within('Total confirmed -->\n',
+                            '\n<!-- Date',
+                            update, wiki1_data(data))
+    open('wiki1.txt', 'w').write(update)
+    open('wiki1.diff', 'w').write(diff(source, update))
 
 
-def medical_cases_chart_buttons(data):
-    """Generate Wikipedia markup to show month toggle buttons."""
-    prev_month = ''
-    out = []
-    for date in data.datetimes:
-        month = date.strftime('%b').lower()
-        if month != prev_month:
-            out.append(
-                '{{{{Medical cases chart/Month toggle button|{}}}}}'
-                .format(month))
-            prev_month = month
-    return '\n'.join(out)
-
-
-def medical_cases_chart_data(data):
+def wiki1_data(data):
     """Generate data entries for medical cases chart template."""
     out = []
 
@@ -101,34 +137,36 @@ def medical_cases_chart_data(data):
     return '\n'.join(out)
 
 
-def medical_cases():
-    """Generate Wikipedia markup for medical cases template."""
+def wiki2():
+    """Generate Wikipedia markup for region table."""
     data = mohfw.load_home_data()
-
-    """
-    dash_data = mohfw.load_dash_data()
-
-    if home_data.ref_datetime >= dash_data.ref_datetime:
-        data = home_data
-        log.log('Selected home page data')
-    else:
-        data = dash_data
-        data.foreign = home_data.foreign
-        log.log('Selected dashboard data')
-    """
-
-    output = open('layout/medical_cases.txt').read()
-    output = region_table_rows(data, output)
-    output = region_table_foot(data, output)
-
-    ignore_dates = ('2020-02-04', '2020-02-27')
-    data = archive.load(ignore_dates=ignore_dates)
-    output = medical_cases_plots(data, output)
-    return output
+    update = source = fetch_wiki_source(WIKI_SRC2)
+    update = replace_within('\\|- class="sorttop"\n',
+                            '\n\\|- class="sortbottom"',
+                            update, region_table_head(data) + '\n' +
+                                    region_table_body(data))
+    update = replace_within("#''", ' cases are being reassigned',
+                            update, str(data.regions['reassigned'][0]))
+    open('wiki2.txt', 'w').write(update)
+    open('wiki2.diff', 'w').write(diff(source, update))
 
 
-def region_table_rows(data, layout):
-    """Generate table rows for state and union territory data table."""
+def region_table_head(data):
+    """Generate header row for region table."""
+    style_center = '! style="text-align:center; padding: 0 2px;" |'
+    style_right = '! style="text-align:right; padding: 0 2px;" |'
+    out = [
+        style_center + '35 / 36',
+        style_right + cf(data.regions_total),
+        style_right + cf(data.regions_death),
+        style_right + cf(data.regions_cured),
+        style_right + cf(data.regions_active),
+    ]
+    return '\n'.join(out)
+
+
+def region_table_body(data):
+    """Generate data rows for region table."""
     region_names = (
         'Andaman and Nicobar Islands',
         'Andhra Pradesh',
@@ -186,38 +224,22 @@ def region_table_rows(data, layout):
         else:
             total, active, cured, death = data.regions[key]
 
+        total, active, cured, death = (cf(total), cf(active),
+                                       cf(cured), cf(death))
+
         if name == 'Assam':
             total = str(total) + open('layout/fn1.txt').read().strip()
         elif name == 'Kerala':
             death = str(death) + open('layout/fn2.txt').read().strip()
 
         out.append('|-')
-        out.append('!{}'.format(i))
-        out.append('! scope="row" |\'\'\'{}\'\'\''.format(markup_region(name)))
+        out.append('! scope="row" |{}'.format(markup_region(name)))
         out.append('|{}'.format(markup_num(total)))
         out.append('|{}'.format(markup_num(death)))
         out.append('|{}'.format(markup_num(cured)))
         out.append('|{}'.format(markup_num(active)))
     out = '\n'.join(out)
-    output = layout.replace('@@region_rows@@', out)
-    return output
-
-
-def region_table_foot(data, layout):
-    """Generate footer row for region table."""
-    foreign = str(data.foreign) + ' ' if data.foreign != -1 else ''
-    reassigned = data.regions['reassigned'][0]
-    if reassigned == -1:
-        reassigned = 'No'
-    output = (layout
-                .replace('@@regions_total@@', str(data.regions_total))
-                .replace('@@regions_death@@', str(data.regions_death))
-                .replace('@@regions_cured@@', str(data.regions_cured))
-                .replace('@@regions_active@@', str(data.regions_active))
-                .replace('@@foreign_cases@@', str(foreign))
-                .replace('@@reassigned@@', str(reassigned))
-             )
-    return output
+    return out
 
 
 def markup_region(name):
@@ -271,12 +293,105 @@ def markup_region(name):
     return name
 
 
-def markup_num(n):
+def markup_num(n_str):
     """Generate Wikipedia markup for case numbers in region table."""
-    return ' style="color:gray;" |0' if n == 0 else n
+    return ' style="color:gray;" |0' if n_str == '0' else n_str
+
+
+def wiki3():
+    """Generate Wikipedia markup code for statistics charts."""
+    ignore_dates = ('2020-02-04', '2020-02-27')
+    data = archive.load(ignore_dates=ignore_dates)
+    update = source = fetch_wiki_source(WIKI_SRC3)
+
+    mini_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
+                           for x in data.datetimes)
+    full_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
+                           for x in data.datetimes)
+    # Cases.
+    total_cases = ', '.join(str(y) for y in data.total_cases)
+    active_cases = ', '.join(str(y) for y in data.active_cases)
+    cured_cases = ', '.join(str(y) for y in data.cured_cases)
+    death_cases = ', '.join(str(y) for y in data.death_cases)
+    # New cases.
+    total_dates, total_diffs = clean_data(data.datetimes, data.total_diffs)
+    cured_dates, cured_diffs = clean_data(data.datetimes, data.cured_diffs)
+    death_dates, death_diffs = clean_data(data.datetimes, data.death_diffs)
+    # CFR
+    cfr_start = data.dates.index('2020-03-12')
+    cfr_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
+                      for x in data.datetimes[cfr_start:])
+    cfr_percents = ', '.join('{:.2f}'.format(y) for
+                             y in data.cfr_percents[cfr_start:])
+
+    # For testing regex matches only.
+    """
+    mini_dates = '@@mini_dates@@'
+    full_dates = '@@full_dates@@'
+    total_cases = '@@total_cases@@'
+    active_cases = '@@active_cases@@'
+    cured_cases = '@@cured_cases@@'
+    death_cases = '@@death_cases@@'
+    total_dates, total_diffs = '@@total_dates@@', '@@total_diffs@@'
+    cured_dates, cured_diffs = '@@cured_dates@@', '@@cured_diffs@@'
+    death_dates, death_diffs = '@@death_dates@@', '@@death_diffs@@'
+    cfr_dates, cfr_percents = '@@cfr_dates@@', '@@cfr_percents@@'
+    """
+
+    # Linear graph.
+    update = replace_within('= Total confirmed.*?x = ', '\n',
+                            update, full_dates)
+    update = replace_within('= Total confirmed.*?y1 =.*?--> ', '\n',
+                            update, total_cases)
+    update = replace_within('= Total confirmed.*?y2 =.*?--> ', '\n',
+                            update, active_cases)
+    update = replace_within('= Total confirmed.*?y3 =.*?--> ', '\n',
+                            update, cured_cases)
+    update = replace_within('= Total confirmed.*?y4 =.*?--> ', '\n',
+                            update, death_cases)
+
+    # Logarithmic graph.
+    update = replace_within('= Total confirmed.*?log.*?x = ', '\n',
+                            update, full_dates)
+    update = replace_within('= Total confirmed.*?log.*?y1 =.*?--> ', '\n',
+                            update, total_cases)
+    update = replace_within('= Total confirmed.*?log.*?y2 =.*?--> ', '\n',
+                            update, active_cases)
+    update = replace_within('= Total confirmed.*?log.*?y3 =.*?--> ', '\n',
+                            update, cured_cases)
+    update = replace_within('= Total confirmed.*?log.*?y4 =.*?--> ', '\n',
+                            update, death_cases)
+
+    # Daily new cases.
+    update = replace_within('= Daily new cases.*?x = ', '\n',
+                            update, total_dates)
+    update = replace_within('= Daily new cases.*?y = ', '\n',
+                            update, total_diffs)
+
+    # Daily new deaths.
+    update = replace_within('= Daily new deaths.*?x = ', '\n',
+                            update, death_dates)
+    update = replace_within('= Daily new deaths.*?y = ', '\n',
+                            update, death_diffs)
+
+    # Daily new recoveries.
+    update = replace_within('= Daily new recoveries.*?x = ', '\n',
+                            update, cured_dates)
+    update = replace_within('= Daily new recoveries.*?y = ', '\n',
+                            update, cured_diffs)
+
+    # CFR.
+    update = replace_within('= Case fatality rate.*?x = ', '\n',
+                            update, cfr_dates)
+    update = replace_within('= Case fatality rate.*?y = ', '\n',
+                            update, cfr_percents)
+
+    open('wiki3.txt', 'w').write(update)
+    open('wiki3.diff', 'w').write(diff(source, update))
 
 
 def clean_data(datetimes, numbers):
+    """Remove zero entries from specified dates and numbers."""
     formatted_dates = [d.strftime('%d %b').lstrip('0') for d in datetimes]
     cleaned_dates = []
     cleaned_numbers = []
@@ -321,63 +436,6 @@ def clean_data(datetimes, numbers):
             ', '.join(str(x) for x in cleaned_numbers))
 
 
-def medical_cases_plots(data, layout):
-    """Generate Wikipedia markup to draw graph plots."""
-    date = data.datetimes[-1].strftime('%Y-%m-%d')
-    dates = ', '.join(x.strftime('%d %b').lstrip('0') for x in data.datetimes)
-    # Cases.
-    total_cases = ', '.join(str(y) for y in data.total_cases)
-    active_cases = ', '.join(str(y) for y in data.active_cases)
-    cured_cases = ', '.join(str(y) for y in data.cured_cases)
-    death_cases = ', '.join(str(y) for y in data.death_cases)
-    # New cases.
-    total_dates, total_diffs = clean_data(data.datetimes, data.total_diffs)
-    cured_dates, cured_diffs = clean_data(data.datetimes, data.cured_diffs)
-    death_dates, death_diffs = clean_data(data.datetimes, data.death_diffs)
-    # CFR
-    cfr_start = data.dates.index('2020-03-12')
-    cfr_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
-                      for x in data.datetimes[cfr_start:])
-    cfr_percents = ', '.join('{:.2f}'.format(y) for
-                             y in data.cfr_percents[cfr_start:])
-    exp_marker = get_exp_marker(data)
-    output = (layout
-                .replace('@@date@@', date)
-                .replace('@@dates@@', dates)
-
-                .replace('@@total_cases@@', total_cases)
-                .replace('@@active_cases@@', active_cases)
-                .replace('@@cured_cases@@', cured_cases)
-                .replace('@@death_cases@@', death_cases)
-                .replace('@@exp_marker@@', exp_marker)
-
-                .replace('@@total_dates@@', total_dates)
-                .replace('@@total_diffs@@', total_diffs)
-
-                .replace('@@cured_diffs@@', cured_diffs)
-                .replace('@@cured_dates@@', cured_dates)
-
-                .replace('@@death_diffs@@', death_diffs)
-                .replace('@@death_dates@@', death_dates)
-
-                .replace('@@cfr_dates@@', cfr_dates)
-                .replace('@@cfr_percents@@', cfr_percents)
-             )
-    return output
-
-
-def get_exp_marker(data):
-    """Generate Wikipedia markup code to show exponential growth."""
-    i = data.dates.index('2020-03-04')  # Index of reference point
-    j = len(data.dates) - 1  # Index of last element
-    n = (data.datetimes[j] - data.datetimes[i]).days
-    commas1 = (', ' * i).strip()
-    commas2 = (', ' * (j - i)).strip()
-    output = ('{} {}{} {{{{#expr:50*1.16^{}}}}}'
-              .format(commas1, 50, commas2, (j - i)))
-    return output
-
-
 def diffs():
     """Generate Wikipedia markup code to plot new cases."""
     print('\nNew cases per day:\n')
@@ -391,20 +449,25 @@ def diffs():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-1', action='store_true',
-                        help='Markup for India medical cases chart')
+                        help='Markup for medical cases chart')
     parser.add_argument('-2', action='store_true',
-                        help='Markup for India medical cases')
+                        help='Markup for medical cases table')
+    parser.add_argument('-3', action='store_true',
+                        help='Markup for charts')
     args = vars(parser.parse_args())
 
-    if not any((args['1'], args['2'])):
+    if not any((args['1'], args['2'], args['3'])):
         parser.print_help()
         sys.exit(1)
 
     if args['1']:
-        print(medical_cases_chart(), end='')
+        wiki1()
 
     if args['2']:
-        print(medical_cases(), end='')
+        wiki2()
+
+    if args['3']:
+        wiki3()
 
 
 if __name__ == '__main__':

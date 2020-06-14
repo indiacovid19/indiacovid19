@@ -2,6 +2,7 @@ site: wiki
 	. ./venv && python3 makesite.py
 	if [ -e wiki1.txt ]; then cp wiki1.txt _site/wiki1.txt; fi
 	if [ -e wiki2.txt ]; then cp wiki2.txt _site/wiki2.txt; fi
+	if [ -e wiki2.txt ]; then cp wiki3.txt _site/wiki3.txt; fi
 
 COLOR_DIFF = sed "s/^-/$$(tput setaf 1)&/; s/^+/$$(tput setaf 2)&/; s/^@/$$(tput setaf 6)&/; s/$$/$$(tput sgr0)/"
 
@@ -9,16 +10,32 @@ mohfw:
 	python3 -m py.mohfw
 
 wiki:
-	python3 -m py.wiki -1 > wiki1.txt
-	python3 -m py.wiki -2 > wiki2.txt
-	-if [ -e wref1.txt ]; then diff -u wref1.txt wiki1.txt > wiki1.diff; fi
-	-if [ -e wref2.txt ]; then diff -u wref2.txt wiki2.txt > wiki2.diff; fi
+	python3 -m py.wiki -1 -2 -3
 	$(COLOR_DIFF) wiki1.diff
 	$(COLOR_DIFF) wiki2.diff
-	@echo
-	@echo 'Written wiki1.txt with markup for "India medical cases chart"'
-	@echo 'Written wiki2.txt with markup for "India medical cases"'
-	@echo
+	$(COLOR_DIFF) wiki3.diff
+
+wiki1:
+	python3 -m py.wiki -1
+	$(COLOR_DIFF) wiki1.diff
+	make copy FILE=wiki1.txt
+
+wiki2:
+	python3 -m py.wiki -2
+	$(COLOR_DIFF) wiki2.diff
+	make copy FILE=wiki2.txt
+
+wiki3:
+	python3 -m py.wiki -3
+	$(COLOR_DIFF) wiki3.diff
+	make copy FILE=wiki3.txt
+
+copy:
+	if command -v pbcopy > /dev/null; then \
+	    pbcopy < "$(FILE)"; \
+	elif command -v xclip > /dev/null; then \
+	    xclip < "$(FILE)"; \
+	fi
 
 push:
 	clear
