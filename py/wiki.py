@@ -94,8 +94,8 @@ def diff(a, b):
     return ''.join(out)
 
 
-def cf(x):
-    """Return tick label for Indian-style comma delimited numbers."""
+def indg(x):
+    """Return numbers with digit grouping as per Indian system."""
     x = str(int(x))
     result = x[-3:]
     i = len(x) - 3
@@ -105,6 +105,11 @@ def cf(x):
         if i < 0: i = 0
         result = x[i:j] + ',' + result
     return result
+
+
+def gldg(x):
+    """Return numbers with digit grouping as per international system."""
+    return '{:,d}'.format(x)
 
 
 def wiki1():
@@ -163,10 +168,10 @@ def region_table_head(data):
     style_right = '! style="text-align:right; padding: 0 2px;" |'
     out = [
         style_center + '35 / 36',
-        style_right + cf(data.regions_total),
-        style_right + cf(data.regions_death),
-        style_right + cf(data.regions_cured),
-        style_right + cf(data.regions_active),
+        style_right + gldg(data.regions_total),
+        style_right + gldg(data.regions_death),
+        style_right + gldg(data.regions_cured),
+        style_right + gldg(data.regions_active),
     ]
     return '\n'.join(out)
 
@@ -230,8 +235,8 @@ def region_table_body(data):
         else:
             total, active, cured, death = data.regions[key]
 
-        total, active, cured, death = (cf(total), cf(active),
-                                       cf(cured), cf(death))
+        total, active, cured, death = (gldg(total), gldg(active),
+                                       gldg(cured), gldg(death))
 
         if name == 'Assam':
             total = str(total) + open('layout/fn1.txt').read().strip()
