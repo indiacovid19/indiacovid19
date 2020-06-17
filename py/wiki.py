@@ -350,51 +350,51 @@ def wiki3():
     """
 
     # Linear graph.
-    update = replace_within('= Total confirmed.*?x = ', '\n',
+    update = replace_within('= Total confirmed.*? x = ', '\n',
                             update, full_dates)
-    update = replace_within('= Total confirmed.*?y1 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*? y1 =.*?--> ', '\n',
                             update, total_cases)
-    update = replace_within('= Total confirmed.*?y2 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*? y2 =.*?--> ', '\n',
                             update, active_cases)
-    update = replace_within('= Total confirmed.*?y3 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*? y3 =.*?--> ', '\n',
                             update, cured_cases)
-    update = replace_within('= Total confirmed.*?y4 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*? y4 =.*?--> ', '\n',
                             update, death_cases)
 
     # Logarithmic graph.
-    update = replace_within('= Total confirmed.*?log.*?x = ', '\n',
+    update = replace_within('= Total confirmed.*?log.*? x = ', '\n',
                             update, full_dates)
-    update = replace_within('= Total confirmed.*?log.*?y1 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*?log.*? y1 =.*?--> ', '\n',
                             update, total_cases)
-    update = replace_within('= Total confirmed.*?log.*?y2 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*?log.*? y2 =.*?--> ', '\n',
                             update, active_cases)
-    update = replace_within('= Total confirmed.*?log.*?y3 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*?log.*? y3 =.*?--> ', '\n',
                             update, cured_cases)
-    update = replace_within('= Total confirmed.*?log.*?y4 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed.*?log.*? y4 =.*?--> ', '\n',
                             update, death_cases)
 
     # Daily new cases.
-    update = replace_within('= Daily new cases.*?x = ', '\n',
+    update = replace_within('= Daily new cases.*? x = ', '\n',
                             update, total_dates)
-    update = replace_within('= Daily new cases.*?y = ', '\n',
+    update = replace_within('= Daily new cases.*? y = ', '\n',
                             update, total_diffs)
 
     # Daily new deaths.
-    update = replace_within('= Daily new deaths.*?x = ', '\n',
+    update = replace_within('= Daily new deaths.*? x = ', '\n',
                             update, death_dates)
-    update = replace_within('= Daily new deaths.*?y = ', '\n',
+    update = replace_within('= Daily new deaths.*? y = ', '\n',
                             update, death_diffs)
 
     # Daily new recoveries.
-    update = replace_within('= Daily new recoveries.*?x = ', '\n',
+    update = replace_within('= Daily new recoveries.*? x = ', '\n',
                             update, cured_dates)
-    update = replace_within('= Daily new recoveries.*?y = ', '\n',
+    update = replace_within('= Daily new recoveries.*? y = ', '\n',
                             update, cured_diffs)
 
     # CFR.
-    update = replace_within('= Case fatality rate.*?x = ', '\n',
+    update = replace_within('= Case fatality rate.*? x = ', '\n',
                             update, cfr_dates)
-    update = replace_within('= Case fatality rate.*?y = ', '\n',
+    update = replace_within('= Case fatality rate.*? y = ', '\n',
                             update, cfr_percents)
 
     open('wiki3.txt', 'w').write(update)
@@ -483,3 +483,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+wiki1_refs = {
+
+'2020-06-17':
+'{{refn|group=lower-roman|1,672 backlogged deaths from Maharashtra and Delhi were added taking reported new deaths to 2,003<ref>{{Cite web|date=2020-06-17|title=India’s death toll soars past 10K, backlog deaths raise count by 437 in Delhi, 1,409 in Maharashtra|url=https://www.hindustantimes.com/india-news/india-s-death-toll-soars-past-10k-backlog-deaths-raise-count-by-437-in-delhi-1-409-in-maharashtra/story-9GNbe7iMBKLsiHtByjRKCJ.html|access-date=2020-06-17|website=Hindustan Times|language=en}}</ref>}}'
+
+}
