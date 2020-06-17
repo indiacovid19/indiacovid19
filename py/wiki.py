@@ -131,8 +131,14 @@ def wiki1_data(data):
     for i, (date, total, cured, death) in enumerate(zip(
             data.dates, data.total_cases, data.cured_cases, data.death_cases)):
 
-        # date;deaths;cured;total
-        out.append('{};{};{};{}'.format(date, death, cured, total))
+        if date == '2020-06-17':
+            # date;deaths;cured;total;4th;5th;col1;chg1;col2;chg2
+            death_chg = round(100 * (death / data.death_cases[i - 1] - 1))
+            out.append('{};{};{};{};;;;;;{:+}%{}'.format(
+                       date, death, cured, total, death_chg, wiki1_refn1))
+        else:
+            # date;deaths;cured;total
+            out.append('{};{};{};{}'.format(date, death, cured, total))
 
         # Print continuation lines.
         curr_index = data.dates.index(date)
@@ -481,13 +487,10 @@ def main():
         wiki3()
 
 
+wiki1_refn1 = (
+'{{refn|group=lower-roman|1,672 backlogged deaths from Maharashtra and Delhi were added taking reported new deaths to 2,003<ref>{{Cite web|date=2020-06-17|title=India’s death toll soars past 10K, backlog deaths raise count by 437 in Delhi, 1,409 in Maharashtra|url=https://www.hindustantimes.com/india-news/india-s-death-toll-soars-past-10k-backlog-deaths-raise-count-by-437-in-delhi-1-409-in-maharashtra/story-9GNbe7iMBKLsiHtByjRKCJ.html|access-date=2020-06-17|website=Hindustan Times|language=en}}</ref>}}'
+)
+
+
 if __name__ == '__main__':
     main()
-
-
-wiki1_refs = {
-
-'2020-06-17':
-'{{refn|group=lower-roman|1,672 backlogged deaths from Maharashtra and Delhi were added taking reported new deaths to 2,003<ref>{{Cite web|date=2020-06-17|title=India’s death toll soars past 10K, backlog deaths raise count by 437 in Delhi, 1,409 in Maharashtra|url=https://www.hindustantimes.com/india-news/india-s-death-toll-soars-past-10k-backlog-deaths-raise-count-by-437-in-delhi-1-409-in-maharashtra/story-9GNbe7iMBKLsiHtByjRKCJ.html|access-date=2020-06-17|website=Hindustan Times|language=en}}</ref>}}'
-
-}
