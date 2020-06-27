@@ -114,7 +114,7 @@ def gldg(x):
 
 def wiki1():
     """Generate Wikipedia markup code for medical cases chart template."""
-    ignore_dates = ('2020-02-04', '2020-02-21', '2020-02-27')
+    ignore_dates = ('2020-02-04', '2020-02-27')
     data = archive.load(ignore_dates=ignore_dates)
     update = source = fetch_wiki_source(WIKI_SRC1)
     update = replace_within('Total confirmed -->\n',
@@ -321,95 +321,131 @@ def wiki3():
     data = archive.load(ignore_dates=ignore_dates)
     update = source = fetch_wiki_source(WIKI_SRC3)
 
-    mini_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
-                           for x in data.datetimes)
-    full_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
-                           for x in data.datetimes)
+    full_dates = ', '.join(x.strftime('%Y-%m-%d') for x in data.datetimes)
     # Cases.
     total_cases = ', '.join(str(y) for y in data.total_cases)
     active_cases = ', '.join(str(y) for y in data.active_cases)
     cured_cases = ', '.join(str(y) for y in data.cured_cases)
     death_cases = ', '.join(str(y) for y in data.death_cases)
+
     # New cases.
-    total_dates, total_diffs = clean_data(data.datetimes, data.total_diffs)
-    cured_dates, cured_diffs = clean_data(data.datetimes, data.cured_diffs)
-    death_dates, death_diffs = clean_data(data.datetimes, data.death_diffs)
+    total_dates, total_diffs, total_avgs = \
+        expand_data(data.datetimes, data.total_diffs)
+    cured_dates, cured_diffs, cured_avgs = \
+        expand_data(data.datetimes, data.cured_diffs)
+    death_dates, death_diffs, death_avgs = \
+        expand_data(data.datetimes, data.death_diffs)
     # CFR
     cfr_start = data.dates.index('2020-03-12')
-    cfr_dates = ', '.join(x.strftime('%d %b %Y').lstrip('0')
-                      for x in data.datetimes[cfr_start:])
+    cfr_dates = ', '.join(x.strftime('%Y-%m-%d')
+                          for x in data.datetimes[cfr_start:])
     cfr_percents = ', '.join('{:.2f}'.format(y) for
                              y in data.cfr_percents[cfr_start:])
 
     # For testing regex matches only.
     """
-    mini_dates = '@@mini_dates@@'
     full_dates = '@@full_dates@@'
     total_cases = '@@total_cases@@'
     active_cases = '@@active_cases@@'
     cured_cases = '@@cured_cases@@'
     death_cases = '@@death_cases@@'
-    total_dates, total_diffs = '@@total_dates@@', '@@total_diffs@@'
-    cured_dates, cured_diffs = '@@cured_dates@@', '@@cured_diffs@@'
-    death_dates, death_diffs = '@@death_dates@@', '@@death_diffs@@'
+    total_dates = '@@total_dates@@'
+    total_diffs = '@@total_diffs@@'
+    total_avgs= '@@total_avgs@@'
+    cured_dates = '@@cured_dates@@'
+    cured_diffs = '@@cured_diffs@@'
+    cured_avgs= '@@cured_avgs@@'
+    death_dates = '@@death_dates@@'
+    death_diffs = '@@death_diffs@@'
+    death_avgs= '@@death_avgs@@'
     cfr_dates, cfr_percents = '@@cfr_dates@@', '@@cfr_percents@@'
     """
 
     # Linear graph.
-    update = replace_within('= Total confirmed.*? x = ', '\n',
+    update = replace_within('= Total confirmed .*?=.*? x = ', '\n',
                             update, full_dates)
-    update = replace_within('= Total confirmed.*? y1 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*? y1 =.*?--> ', '\n',
                             update, total_cases)
-    update = replace_within('= Total confirmed.*? y2 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*? y2 =.*?--> ', '\n',
                             update, active_cases)
-    update = replace_within('= Total confirmed.*? y3 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*? y3 =.*?--> ', '\n',
                             update, cured_cases)
-    update = replace_within('= Total confirmed.*? y4 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*? y4 =.*?--> ', '\n',
                             update, death_cases)
 
     # Logarithmic graph.
-    update = replace_within('= Total confirmed.*?log.*? x = ', '\n',
+    update = replace_within('= Total confirmed .*?=.*?log.*? x = ', '\n',
                             update, full_dates)
-    update = replace_within('= Total confirmed.*?log.*? y1 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*?log.*? y1 =.*?--> ', '\n',
                             update, total_cases)
-    update = replace_within('= Total confirmed.*?log.*? y2 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*?log.*? y2 =.*?--> ', '\n',
                             update, active_cases)
-    update = replace_within('= Total confirmed.*?log.*? y3 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*?log.*? y3 =.*?--> ', '\n',
                             update, cured_cases)
-    update = replace_within('= Total confirmed.*?log.*? y4 =.*?--> ', '\n',
+    update = replace_within('= Total confirmed .*?=.*?log.*? y4 =.*?--> ', '\n',
                             update, death_cases)
 
     # Daily new cases.
-    update = replace_within('= Daily new cases.*? x = ', '\n',
+    update = replace_within('= Daily new cases =.*? x = ', '\n',
                             update, total_dates)
-    update = replace_within('= Daily new cases.*? y = ', '\n',
+    update = replace_within('= Daily new cases =.*? y1 =.*?--> ', '\n',
                             update, total_diffs)
+    update = replace_within('= Daily new cases =.*? y2 =.*?--> ', '\n',
+                            update, total_avgs)
 
     # Daily new deaths.
-    update = replace_within('= Daily new deaths.*? x = ', '\n',
+    update = replace_within('= Daily new deaths =.*? x = ', '\n',
                             update, death_dates)
-    update = replace_within('= Daily new deaths.*? y = ', '\n',
+    update = replace_within('= Daily new deaths =.*? y1 =.*?--> ', '\n',
                             update, death_diffs)
+    update = replace_within('= Daily new deaths =.*? y2 =.*?--> ', '\n',
+                            update, death_avgs)
 
     # Daily new recoveries.
-    update = replace_within('= Daily new recoveries.*? x = ', '\n',
+    update = replace_within('= Daily new recoveries =.*? x = ', '\n',
                             update, cured_dates)
-    update = replace_within('= Daily new recoveries.*? y = ', '\n',
+    update = replace_within('= Daily new recoveries =.*? y1 =.*?--> ', '\n',
                             update, cured_diffs)
+    update = replace_within('= Daily new recoveries =.*? y2 =.*?--> ', '\n',
+                            update, cured_avgs)
 
     # CFR.
-    update = replace_within('= Case fatality rate.*? x = ', '\n',
+    update = replace_within('= Case fatality rate =.*? x = ', '\n',
                             update, cfr_dates)
-    update = replace_within('= Case fatality rate.*? y = ', '\n',
+    update = replace_within('= Case fatality rate =.*? y = ', '\n',
                             update, cfr_percents)
 
     open('wiki3.txt', 'w').write(update)
     open('wiki3.diff', 'w').write(diff(source, update))
 
 
+def expand_data(datetimes, numbers):
+    """Fill in missing entries and compute 7-day averages."""
+    date_num_dict = dict(zip(datetimes, numbers))
+
+    min_date = datetimes[0]
+    max_date = datetimes[-1]
+    expanded_dates = []
+    expanded_nums = []
+    expanded_avgs = []
+
+    cur_date = min_date
+    while cur_date <= max_date:
+        expanded_dates.append(cur_date.strftime('%Y-%m-%d'))
+        expanded_nums.append(date_num_dict.get(cur_date, 0))
+        last_7_nums = expanded_nums[-7:]
+        last_7_avg = sum(last_7_nums) / len(last_7_nums)
+        expanded_avgs.append('{:.2f}'.format(last_7_avg))
+        cur_date += datetime.timedelta(days=1)
+
+    return (', '.join(expanded_dates),
+            ', '.join(str(x) for x in expanded_nums),
+            ', '.join(expanded_avgs))
+
+
 def clean_data(datetimes, numbers):
     """Remove zero entries from specified dates and numbers."""
-    formatted_dates = [d.strftime('%d %b').lstrip('0') for d in datetimes]
+    formatted_dates = [d.strftime('%Y-%m-%d') for d in datetimes]
     cleaned_dates = []
     cleaned_numbers = []
 
@@ -451,16 +487,6 @@ def clean_data(datetimes, numbers):
 
     return (', '.join(str(x) for x in cleaned_dates),
             ', '.join(str(x) for x in cleaned_numbers))
-
-
-def diffs():
-    """Generate Wikipedia markup code to plot new cases."""
-    print('\nNew cases per day:\n')
-    print('y =', ', '.join(str(y) for y in data.total_diffs))
-    print('\nNew recoveries per day:\n')
-    print('y =', ', '.join(str(y) for y in data.cured_diffs))
-    print('\nNew deaths per day:\n')
-    print('y =', ', '.join(str(y) for y in data.death_diffs))
 
 
 def main():
