@@ -148,7 +148,7 @@ def plot_new_cases(data, recent, aspect):
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 200
     text_gap = 1.0
-    ylim_pad = 15 if recent else 16
+    ylim_pad = 23 if recent else 24
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
