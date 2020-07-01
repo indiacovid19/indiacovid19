@@ -395,19 +395,20 @@ def plot_cured_ratios(data, recent, aspect):
 
     # Print values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
-    tweaks[data.dates.index('2020-03-12')] = (+0.8, -1.7)
-    tweaks[data.dates.index('2020-03-17')] = (+0.5, +0.0)
-    tweaks[data.dates.index('2020-03-19')] = (-0.3, +0.0)
-    tweaks[data.dates.index('2020-03-22')] = (+0.0, -6.5)
-    tweaks[data.dates.index('2020-03-26')] = (+0.0, -6.5)
-    tweaks[data.dates.index('2020-03-27')] = (-0.2, +0.0)
-    tweaks[data.dates.index('2020-03-29')] = (+0.3, +0.0)
-    tweaks[data.dates.index('2020-04-02')] = (+0.2, +0.0)
-    tweaks[data.dates.index('2020-04-04')] = (-0.2, +0.0)
-    tweaks[data.dates.index('2020-04-06')] = (+0.2, +0.0)
-    tweaks[data.dates.index('2020-04-21')] = (-0.2, +0.2)
-    tweaks[data.dates.index('2020-05-16')] = (-0.1, +0.1)
-    tweaks[data.dates.index('2020-05-29')] = (-0.1, +0.9)
+    tweaks[data.dates.index('2020-03-12')] = (+0.8,  -4.0)
+    tweaks[data.dates.index('2020-03-17')] = (+0.5,  +0.0)
+    tweaks[data.dates.index('2020-03-19')] = (-0.3,  +0.0)
+    tweaks[data.dates.index('2020-03-22')] = (+0.0,  -9.0)
+    tweaks[data.dates.index('2020-03-26')] = (+0.0,  -9.0)
+    tweaks[data.dates.index('2020-03-27')] = (-0.2,  +0.0)
+    tweaks[data.dates.index('2020-03-29')] = (+0.3,  +0.0)
+    tweaks[data.dates.index('2020-04-02')] = (+0.2,  +0.0)
+    tweaks[data.dates.index('2020-04-04')] = (-0.2,  +0.0)
+    tweaks[data.dates.index('2020-04-06')] = (+0.2,  +0.0)
+    tweaks[data.dates.index('2020-04-21')] = (-0.2,  +0.2)
+    tweaks[data.dates.index('2020-05-16')] = (-0.1,  +0.1)
+    tweaks[data.dates.index('2020-05-29')] = (-0.1,  +0.9)
+    tweaks[data.dates.index('2020-06-17')] = (-0.0, -10.0)
     prev_val = -1
     for i, val in enumerate(ratios[m:]):
         if m != 0 and i == 0:
@@ -433,6 +434,7 @@ def plot_cured_ratios(data, recent, aspect):
 
 def plot_all(data):
     """Plot all graphs."""
+    """
     log.log('Rendering total-cases-linear-recent plot ...')
     plot_total_cases_linear(data, recent=True, aspect='square')
 
@@ -468,6 +470,7 @@ def plot_all(data):
 
     log.log('Rendering cured-percents plot ...')
     plot_cured_percents(data, recent=False, aspect=None)
+    """
 
     log.log('Rendering cured-ratios-percent plot ...')
     plot_cured_ratios(data, recent=True, aspect='square')
