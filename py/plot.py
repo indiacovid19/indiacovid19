@@ -146,9 +146,9 @@ def plot_total_cases_log(data, recent, aspect):
 def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
-    tick_gap = 200
+    tick_gap = 400
     text_gap = 1.0
-    ylim_pad = 23 if recent else 24
+    ylim_pad = 14 if recent else 15
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -434,7 +434,6 @@ def plot_cured_ratios(data, recent, aspect):
 
 def plot_all(data):
     """Plot all graphs."""
-    """
     log.log('Rendering total-cases-linear-recent plot ...')
     plot_total_cases_linear(data, recent=True, aspect='square')
 
@@ -470,7 +469,6 @@ def plot_all(data):
 
     log.log('Rendering cured-percents plot ...')
     plot_cured_percents(data, recent=False, aspect=None)
-    """
 
     log.log('Rendering cured-ratios-percent plot ...')
     plot_cured_ratios(data, recent=True, aspect='square')
