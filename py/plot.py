@@ -380,7 +380,7 @@ def plot_cured_ratios(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2
     text_gap = 2.5
-    ylim_pad = 23 if recent else 26
+    ylim_pad = 28 if recent else 31
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
