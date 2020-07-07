@@ -509,7 +509,8 @@ def vs_data(datetimes, total_diffs, active_cases):
         if -1 in last_7_percents:
             vs_avgs.append(-1)
         else:
-            avg = sum(last_7_percents) / len(last_7_percents)
+            avg = (100 *
+                   (prod([(1 + x/100)for x in last_7_percents])**(1/7) - 1))
             vs_avgs.append(avg)
 
         # CAGR of active cases.
@@ -526,6 +527,13 @@ def vs_data(datetimes, total_diffs, active_cases):
             ', '.join('{:.2f}'.format(x) for x in vs_percents[41:]),
             ', '.join('{:.2f}'.format(x) for x in vs_avgs[41:]),
             ', '.join('{:.2f}'.format(x) for x in vs_cagrs[41:]))
+
+
+def prod(nums):
+    result = 1
+    for n in nums:
+        result *= n
+    return result
 
 
 def clean_data(datetimes, numbers):
