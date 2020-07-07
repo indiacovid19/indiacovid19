@@ -35,20 +35,15 @@ from py import archive, log, mohfw
 
 """Generate Wikipedia markup code.
 
-There are two templates used in the Wikipedia article
-https://en.wikipedia.org/wiki/COVID-19_pandemic_in_India
-to display charts related to case numbers:
+This script generates Wikipedia markup code for some of the charts used in
+https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_chart.
 
-  1. https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_chart
-  2. https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases
+Enter these commands at the top-level directory of this project to
+generate the corresponding markups:
 
-This script generates Wikipedia markup code for both charts. Enter these
-commands at the top-level directory of this project to generate the
-corresponding markups:
-
-    python3 -m py.wiki -1
-    python3 -m py.wiki -2
-
+    make wiki1
+    make wiki2
+    make wiki3
 """
 
 
@@ -60,7 +55,7 @@ import urllib.request
 
 WIKI_SRC1 = 'Template:COVID-19_pandemic_data/India_medical_cases_chart'
 WIKI_SRC2 = 'Template:COVID-19_pandemic_data/India_medical_cases_by_state_and_union_territory'
-WIKI_SRC3 = 'COVID-19_pandemic_in_India/Statistics'
+WIKI_SRC3 = 'Statistics_of_COVID-19_pandemic_in_India'
 
 
 def fetch_wiki_source(article_name):
@@ -330,11 +325,16 @@ def wiki3():
 
     # New cases.
     total_dates, total_diffs, total_avgs = \
-        expand_data(data.datetimes, data.total_diffs)
+        expand_diffs(data.datetimes, data.total_diffs)
     cured_dates, cured_diffs, cured_avgs = \
-        expand_data(data.datetimes, data.cured_diffs)
+        expand_diffs(data.datetimes, data.cured_diffs)
     death_dates, death_diffs, death_avgs = \
-        expand_data(data.datetimes, data.death_diffs)
+        expand_diffs(data.datetimes, data.death_diffs)
+
+    # Daily new cases vs. active cases.
+    vs_dates, vs_percents, vs_avgs, vs_cagrs = \
+        vs_data(data.datetimes, data.total_diffs, data.active_cases)
+
     # CFR
     cfr_start = data.dates.index('2020-03-12')
     cfr_dates = ', '.join(x.strftime('%Y-%m-%d')
@@ -358,6 +358,10 @@ def wiki3():
     death_dates = '@@death_dates@@'
     death_diffs = '@@death_diffs@@'
     death_avgs= '@@death_avgs@@'
+    vs_dates = '@@vs_dates@@'
+    vs_percents = '@@vs_percents@@'
+    vs_avgs = '@@vs_avgs@@'
+    vs_cagrs = '@@vs_cagrs@@'
     cfr_dates, cfr_percents = '@@cfr_dates@@', '@@cfr_percents@@'
     """
 
@@ -374,16 +378,21 @@ def wiki3():
                             update, death_cases)
 
     # Logarithmic graph.
-    update = replace_within('= Total confirmed .*?=.*?log.*? x = ', '\n',
-                            update, full_dates)
-    update = replace_within('= Total confirmed .*?=.*?log.*? y1 =.*?--> ', '\n',
-                            update, total_cases)
-    update = replace_within('= Total confirmed .*?=.*?log.*? y2 =.*?--> ', '\n',
-                            update, active_cases)
-    update = replace_within('= Total confirmed .*?=.*?log.*? y3 =.*?--> ', '\n',
-                            update, cured_cases)
-    update = replace_within('= Total confirmed .*?=.*?log.*? y4 =.*?--> ', '\n',
-                            update, death_cases)
+    update = replace_within(
+                '= Total confirmed .*?=.*?log.*? x = ', '\n',
+                update, full_dates)
+    update = replace_within(
+                '= Total confirmed .*?=.*?log.*? y1 =.*?--> ', '\n',
+                update, total_cases)
+    update = replace_within(
+                '= Total confirmed .*?=.*?log.*? y2 =.*?--> ', '\n',
+                update, active_cases)
+    update = replace_within(
+                '= Total confirmed .*?=.*?log.*? y3 =.*?--> ', '\n',
+                update, cured_cases)
+    update = replace_within(
+                '= Total confirmed .*?=.*?log.*? y4 =.*?--> ', '\n',
+                update, death_cases)
 
     # Daily new cases.
     update = replace_within('= Daily new cases =.*? x = ', '\n',
@@ -409,6 +418,20 @@ def wiki3():
     update = replace_within('= Daily new recoveries =.*? y2 =.*?--> ', '\n',
                             update, cured_avgs)
 
+    # Daily new cases vs. active cases.
+    update = replace_within(
+                '= Daily new cases vs active cases =.*? x = ', '\n',
+                update, vs_dates)
+    update = replace_within(
+                '= Daily new cases vs active cases =.*? y1 =.*?--> ', '\n',
+                update, vs_percents)
+    update = replace_within(
+                '= Daily new cases vs active cases =.*? y2 =.*?--> ', '\n',
+                update, vs_avgs)
+    update = replace_within(
+                '= Daily new cases vs active cases =.*? y3 =.*?--> ', '\n',
+                update, vs_cagrs)
+
     # CFR.
     update = replace_within('= Case fatality rate =.*? x = ', '\n',
                             update, cfr_dates)
@@ -419,7 +442,7 @@ def wiki3():
     open('wiki3.diff', 'w').write(diff(source, update))
 
 
-def expand_data(datetimes, numbers):
+def expand_diffs(datetimes, numbers):
     """Fill in missing entries and compute 7-day averages."""
     date_num_dict = dict(zip(datetimes, numbers))
 
@@ -429,18 +452,80 @@ def expand_data(datetimes, numbers):
     expanded_nums = []
     expanded_avgs = []
 
-    cur_date = min_date
-    while cur_date <= max_date:
-        expanded_dates.append(cur_date.strftime('%Y-%m-%d'))
-        expanded_nums.append(date_num_dict.get(cur_date, 0))
+    curr_date = min_date
+    while curr_date <= max_date:
+        expanded_dates.append(curr_date.strftime('%Y-%m-%d'))
+        expanded_nums.append(date_num_dict.get(curr_date, 0))
         last_7_nums = expanded_nums[-7:]
         last_7_avg = sum(last_7_nums) / len(last_7_nums)
         expanded_avgs.append('{:.2f}'.format(last_7_avg))
-        cur_date += datetime.timedelta(days=1)
+        curr_date += datetime.timedelta(days=1)
 
     return (', '.join(expanded_dates),
             ', '.join(str(x) for x in expanded_nums),
             ', '.join(expanded_avgs))
+
+
+def vs_data(datetimes, total_diffs, active_cases):
+    """Compute new cases vs. active cases statistics."""
+    total_diffs_dict = dict(zip(datetimes, total_diffs))
+    active_cases_dict = dict(zip(datetimes, active_cases))
+
+    min_date = datetimes[0]
+    max_date = datetimes[-1]
+    vs_dates = []
+    vs_percents = []
+    vs_avgs = []
+    vs_cagrs = []
+
+    curr_date = min_date
+    prev_active_cases = 0
+    curr_active_cases = 0
+    prev_week_active_cases = 0
+
+    while curr_date <= max_date:
+        prev_date = curr_date - datetime.timedelta(days=1)
+        prev_week_date = curr_date - datetime.timedelta(days=7)
+
+        curr_new_cases = total_diffs_dict.get(curr_date, 0)
+        prev_active_cases = \
+            active_cases_dict.get(prev_date, prev_active_cases)
+        curr_active_cases = \
+            active_cases_dict.get(curr_date, curr_active_cases)
+        prev_week_active_cases = \
+            active_cases_dict.get(prev_week_date, prev_week_active_cases)
+
+        # Date.
+        vs_dates.append(curr_date.strftime('%Y-%m-%d'))
+
+        # New cases percent of active cases.
+        if prev_active_cases == 0:
+            vs_percents.append(-1)
+        else:
+            vs_percents.append(100 * curr_new_cases / prev_active_cases)
+
+        # Average of new cases percent of active cases.
+        last_7_percents = vs_percents[-7:]
+        if -1 in last_7_percents:
+            vs_avgs.append(-1)
+        else:
+            avg = sum(last_7_percents) / len(last_7_percents)
+            vs_avgs.append(avg)
+
+        # CAGR of active cases.
+        if prev_week_active_cases == 0:
+            vs_cagrs.append(-1)
+        else:
+            cagr = (100 *
+                    ((curr_active_cases / prev_week_active_cases)**(1/7) - 1))
+            vs_cagrs.append(cagr)
+
+        curr_date += datetime.timedelta(days=1)
+
+    return (', '.join(vs_dates[41:]),
+            ', '.join('{:.2f}'.format(x) for x in vs_percents[41:]),
+            ', '.join('{:.2f}'.format(x) for x in vs_avgs[41:]),
+            ', '.join('{:.2f}'.format(x) for x in vs_cagrs[41:]))
 
 
 def clean_data(datetimes, numbers):
