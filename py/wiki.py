@@ -77,7 +77,7 @@ def replace_within(begin_re, end_re, source, data):
         source = source.replace('@@REPL@@', data)
     else:
         log.log('')
-        log.log('ERROR: Cannot match /{}/ and /{}/'.format(begin_re, end_re))
+        log.log('ERROR: Cannot match {!r} and {!r}'.format(begin_re, end_re))
         log.log('')
     return source
 
