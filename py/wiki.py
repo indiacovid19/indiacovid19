@@ -115,6 +115,7 @@ def wiki1():
     update = replace_within('Total confirmed -->\n',
                             '\n<!-- Date',
                             update, wiki1_data(data))
+    log.log('Writing wiki1.txt and wiki1.diff ...')
     open('wiki1.txt', 'w').write(update)
     open('wiki1.diff', 'w').write(diff(source, update))
 
@@ -159,6 +160,8 @@ def wiki2():
                                     region_table_body(data))
     update = replace_within('nationals\n\|', r' cases are being reassigned',
                             update, reassigned)
+
+    log.log('Writing wiki2.txt and wiki2.diff ...')
     open('wiki2.txt', 'w').write(update)
     open('wiki2.diff', 'w').write(diff(source, update))
 
@@ -438,6 +441,7 @@ def wiki3():
     update = replace_within('= Case fatality rate =.*? y = ', '\n',
                             update, cfr_percents)
 
+    log.log('Writing wiki3.txt and wiki3.diff ...')
     open('wiki3.txt', 'w').write(update)
     open('wiki3.diff', 'w').write(diff(source, update))
 
@@ -604,6 +608,8 @@ def main():
 
     if args['3']:
         wiki3()
+
+    log.log('Done')
 
 
 wiki1_refn1 = (
