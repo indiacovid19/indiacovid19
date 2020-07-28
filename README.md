@@ -9,7 +9,7 @@ The data page at the above URL is generated from the following JSON
 file: [`indiacovid19.json`][1].
 
 This JSON file contains a list of list entries. Each inner list entry is
-a septuple (7-tuple) consisting of 8 values. Here is an example entry:
+a septuple (7-tuple) consisting of 7 values. Here is an example entry:
 
 ```json
 ["2020-03-25", 553, 43, 10, "2020-03-25 18:45",
