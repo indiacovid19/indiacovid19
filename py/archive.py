@@ -79,8 +79,7 @@ def load(ignore_dates=()):
     # Load entries into a dict to map each date to its entry and references.
     data = Data()
     for entry in entries:
-        (date, active, cured, death, migrated,
-         ref_date, ref_link, ref_comment) = entry
+        (date, active, cured, death, ref_date, ref_link, ref_comment) = entry
 
         if date in ignore_dates:
             continue
@@ -91,10 +90,10 @@ def load(ignore_dates=()):
             data.master[date] = {'refs': []}
 
         data.master[date]['active'] = active
-        data.master[date]['cured'] = cured + migrated
+        data.master[date]['cured'] = cured
         data.master[date]['death'] = death
-        data.master[date]['closed'] = cured + death + migrated
-        data.master[date]['total'] = active + cured + death + migrated
+        data.master[date]['closed'] = cured + death
+        data.master[date]['total'] = active + cured + death
         data.master[date]['refs'].append([ref_date, ref_link, ref_comment])
 
     # Split the dict into separate lists for use with matplotlib.pyplot.

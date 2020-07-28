@@ -151,15 +151,12 @@ def wiki1_data(data):
 
 def wiki2():
     """Generate Wikipedia markup for region table."""
-    data = mohfw.load_home_data()
-    reassigned = str(data.regions['reassigned'][0])
+    data = mohfw.load_region_data()
     update = source = fetch_wiki_source(WIKI_SRC2)
     update = replace_within('\\|- class="sorttop"\n',
                             '\n\\|- class="sortbottom"',
                             update, region_table_head(data) + '\n' +
                                     region_table_body(data))
-    update = replace_within('nationals\n\|', r' cases are being reassigned',
-                            update, reassigned)
 
     log.log('Writing wiki2.txt and wiki2.diff ...')
     open('wiki2.txt', 'w').write(update)
@@ -172,10 +169,10 @@ def region_table_head(data):
     style_right = '! style="text-align:right; padding: 0 2px;" |'
     out = [
         style_center + '35 / 36',
-        style_right + gldg(data.regions_total),
-        style_right + gldg(data.regions_death),
-        style_right + gldg(data.regions_cured),
-        style_right + gldg(data.regions_active),
+        style_right + gldg(data.region_total),
+        style_right + gldg(data.region_death),
+        style_right + gldg(data.region_cured),
+        style_right + gldg(data.region_active),
     ]
     return '\n'.join(out)
 

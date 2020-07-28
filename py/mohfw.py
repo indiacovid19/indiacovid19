@@ -50,16 +50,14 @@ class Data:
         self.active = -1
         self.cured = -1
         self.death = -1
-        self.migrated = -1
         self.ref_datetime = None
         self.ref_date = ''
         self.ref_time = ''
-        self.foreign = -1
         self.regions = {}
-        self.regions_total = -1
-        self.regions_cured = -1
-        self.regions_death = -1
-        self.regions_active = -1
+        self.region_total = -1
+        self.region_cured = -1
+        self.region_death = -1
+        self.region_active = -1
 
 
 def load_home_data():
@@ -74,168 +72,99 @@ def load_home_data():
     lines = [l for l in lines if l != '']
 
     # Parsers.
-    strong_re = re.compile(r'.*<strong>(.*)</strong>')
+    strong_re = re.compile(r'.*<strong.*?>([0-9]*).*<')
     time_re = re.compile(r'.*as on\s*:\s*(\d.*) IST')
-    foreign_re = re.compile(r'.*[Ii]ncluding (\d+)? ?[Ff]oreign')
     td_re = re.compile(r'.*<td>([^#]*).*</td>')
     parser_state = 'DEFAULT'
 
     # Parse the response.
     for i, line in enumerate(lines):
-        if data.active == -1 and 'Active Cases' in line:
-            data.active = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.cured == -1 and 'Cured' in line:
-            data.cured = int(strong_re.match(lines[i - 1]).group(1))
+        if data.active == -1 and 'Active' in line:
+            data.active = int(strong_re.match(lines[i + 1]).group(1))
+        elif data.cured == -1 and 'Discharged' in line:
+            data.cured = int(strong_re.match(lines[i + 1]).group(1))
         elif data.death == -1 and 'Deaths' in line:
-            data.death = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.migrated == -1 and 'Migrated' in line:
-            data.migrated = int(strong_re.match(lines[i - 1]).group(1))
+            data.death = int(strong_re.match(lines[i + 1]).group(1))
         elif data.ref_datetime == None and 'as on' in line:
             t = time_re.match(line).group(1)
             data.ref_datetime = datetime.datetime.strptime(t, '%d %B %Y, %H:%M')
             data.ref_date = data.ref_datetime.strftime('%Y-%m-%d')
             data.ref_time = data.ref_datetime.strftime('%H:%M')
-        elif data.foreign == -1 and 'foreign' in line:
-            n = foreign_re.match(line).group(1)
-            if n is not None:
-                data.foreign = int(n)
-        elif '<tbody>' in line:
-            parser_state = 'REGION'
-        elif parser_state == 'REGION' and '<tr>' in line:
-            if 'Total' in lines[i + 2]:
-                parser_state = 'REGION_TOTAL'
-                continue
-            # Parse
-            region_name = td_re.match(lines[i + 2]).group(1)
-            active = td_re.match(lines[i + 3]).group(1)
-            cured = td_re.match(lines[i + 4]).group(1)
-            death = td_re.match(lines[i + 5]).group(1)
-            total = td_re.match(lines[i + 6]).group(1)
-            # Normalize
-            if region_name.startswith('Cases being reassigned'):
-                region_name = 'reassigned'
-            total = int(total) if total else -1
-            cured = int(cured) if cured else -1
-            death = int(death) if death else -1
-            active = int(active) if active else -1
-            # Save
-            data.regions[region_name] = (total, active, cured, death)
-        elif parser_state == 'REGION_TOTAL' and 'Total' in line:
-            parser_state = 'DEFAULT'
-            data.regions_active = int(strong_re.match(lines[i + 1]).group(1))
-            data.regions_cured = int(strong_re.match(lines[i + 3]).group(1))
-            data.regions_death = int(strong_re.match(lines[i + 6]).group(1))
-            data.regions_total = int(strong_re.match(lines[i + 9]).group(1))
 
-    data.total = data.active + data.cured + data.death + data.migrated
-
-    # Validations.
-    if data.total != data.regions_total:
-        log.log('home page: Mismatch in total and regions_total')
-    if data.active != data.regions_active:
-        log.log('home page: Mismatch in active and regions_active')
-    if data.cured + data.migrated != data.regions_cured:
-        log.log('home page: Mismatch in cured + migrated and regions_cured')
-    if data.death != data.regions_death:
-        log.log('home page: Mismatch in death and regions_death')
+    data.total = data.active + data.cured + data.death
     return data
 
 
-def load_dash_data():
-    """Return data retrieved from MoHFW dashboard page."""
+def load_region_data(home_data=None):
+    """Return data retrieved from MoHFW data JSON."""
     data = Data()
 
-    # Retrieve MoHFW dashboard HTML.
-    url = 'https://www.mohfw.gov.in/index.php'
-    log.log('Connecting to {} ...', url)
-    response = urllib.request.urlopen(url).read().decode('utf-8')
-    lines = [l.strip() for l in response.splitlines()]
-    lines = [l for l in lines if l != '']
-
-    # Parsers.
-    strong_re = re.compile(r'.*<strong>(.*)</strong>')
-    time_re = re.compile(r'.*as on\s*:\s*(\d.*) IST')
-    js_re = re.compile(r"\['(.*)', (.*), (.*), (.*)\],")
-    parser_state = 'DEFAULT'
-
-    # Parse the response.
-    for i, line in enumerate(lines):
-        if data.active == -1 and 'Active Cases' in line:
-            data.active = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.cured == -1 and 'Cured' in line:
-            data.cured = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.death == -1 and 'Deaths' in line:
-            data.death = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.migrated == -1 and 'Migrated' in line:
-            data.migrated = int(strong_re.match(lines[i - 1]).group(1))
-        elif data.ref_datetime == None and 'as on' in line:
-            t = time_re.match(line).group(1)
-            data.ref_datetime = datetime.datetime.strptime(t, '%d %B %Y, %H:%M')
-            data.ref_date = data.ref_datetime.strftime('%Y-%m-%d')
-            data.ref_time = data.ref_datetime.strftime('%H:%M')
-        elif 'Hover' in line:
-            break
-
-    data.total = data.active + data.cured + data.death + data.migrated
-
     # Retrieve MoHFW JSON data.
-    url = 'https://www.mohfw.gov.in/data/data.json'
+    url = 'https://www.mohfw.gov.in/data/datanew.json'
     log.log('Connecting to {} ...', url)
     items = json.load(urllib.request.urlopen(url))
 
     # Parse the response.
     for item in items:
         region_name = item['state_name']
-        total = int(item['positive'])
-        cured = int(item['cured'])
-        death = int(item['death'])
-        active = total - cured - death
-        data.regions[region_name] = (total, active, cured, death)
+        total = int(item['new_positive'])
+        active = int(item['new_active'])
+        cured = int(item['new_cured'])
+        death = int(item['new_death'])
+
+        if region_name == '':
+            data.region_total = total
+            data.region_active = active
+            data.region_cured = cured
+            data.region_death = death
+        else:
+            if total != (active + cured + death):
+                log.log('WARN: region: Total mismatch for {}', region_name)
+            data.regions[region_name] = (total, active, cured, death)
 
     # Region totals.
-    data.regions_total = sum(v[0] for v in data.regions.values())
-    data.regions_active = sum(v[1] for v in data.regions.values())
-    data.regions_cured = sum(v[2] for v in data.regions.values())
-    data.regions_death = sum(v[3] for v in data.regions.values())
+    region_total_sum = sum(v[0] for v in data.regions.values())
+    region_active_sum = sum(v[1] for v in data.regions.values())
+    region_cured_sum = sum(v[2] for v in data.regions.values())
+    region_death_sum = sum(v[3] for v in data.regions.values())
 
     # Validations.
-    if data.total != data.regions_total:
-        log.log('dashboard: Mismatch in total and regions_total')
-    if data.active != data.regions_active:
-        log.log('dashboard: Mismatch in active and regions_active')
-    if data.cured + data.migrated != data.regions_cured:
-        log.log('dashboard: Mismatch in cured + migrated and regions_cured')
-    if data.death != data.regions_death:
-        log.log('dashboard: Mismatch in death and regions_death')
+    if home_data and data.region_total != home_data.total:
+        log.log('WARN: region: Mismatch in region total and home total')
+    if home_data and data.region_active != home_data.active:
+        log.log('WARN: region: Mismatch in region active and home active')
+    if home_data and data.region_cured != home_data.cured:
+        log.log('WARN: region: Mismatch in region cured and home cured')
+    if home_data and data.region_death != home_data.death:
+        log.log('WARN: region: Mismatch in region death and home death')
+
+    if data.region_total != region_total_sum:
+        log.log('WARN: region: Mismatch in region total and calculated sum')
+    if data.region_active != region_active_sum:
+        log.log('WARN: region: Mismatch in region active and calculated sum')
+    if data.region_cured != region_cured_sum:
+        log.log('WARN: region: Mismatch in region cured and calculated sum')
+    if data.region_death != region_death_sum:
+        log.log('WARN: region: Mismatch in region death and calculated sum')
 
     return data
 
 
-def make_summary(data):
-    """Print summary of data on the terminal."""
-    out = []
-    out.append('ref_datetime: {}'.format(data.ref_datetime))
-    out.append('overall: total: {}; active: {}; cured: {}; death: {}; '
-               'migrated: {}'.format(data.total, data.active,
-                                     data.cured, data.death, data.migrated))
-    out.append('regions: total: {}; active: {}; cured: {}; death: {}; '
-               'foreign: {}'.format(data.regions_total, data.regions_active,
-                                    data.regions_cured, data.regions_death,
-                                    data.foreign))
-    out.append('')
-    out.append('regions: {}'.format(sorted(data.regions.items())))
-    out.append('')
-    return '\n'.join(out)
-
-
 def make_json_entry(data):
     """Return JSON entry to be added to indiacovid19.json."""
-    return ('  [ "{}",  {:5},  {:5},  {:5},  {:5},  "{} {}",  '
-            '"https://indiacovid19.github.io/webarchive/mohfw/{}_{}/",'
-            '      "" ]'
-            .format(data.ref_date, data.active, data.cured, data.death,
-                    data.migrated, data.ref_date, data.ref_time,
-                    data.ref_date, data.ref_time.replace(':', '')))
+    j = [
+            data.ref_date,
+            data.active,
+            data.cured,
+            data.death,
+            data.ref_date + ' ' + data.ref_time,
+
+            'https://indiacovid19.github.io/webarchive/mohfw/{}_{}/'
+            .format(data.ref_date, data.ref_time.replace(':', '')),
+
+            ''
+    ]
+    return '  ' + json.dumps(j)
 
 
 def update_json(json_entry):
@@ -258,26 +187,31 @@ def update_json(json_entry):
     print('Done')
 
 
-def print_summary(data, heading):
-    """Print a summary of the retrieved data on console."""
-    print(heading)
-    print('-' * len(heading))
-    print(make_summary(data))
-    json_entry = make_json_entry(data)
-    print('JSON octuple for indiacovid19.json:')
+def print_home_summary(home_data, region_data, json_entry):
+    """Print summary of data on the terminal."""
+    data = home_data
     print()
-    print(json_entry)
+    print('ref_datetime: {}'.format(data.ref_datetime))
+    print('overall: total: {}; active: {}; cured: {}; death: {}'
+          .format(data.total, data.active, data.cured, data.death))
+    data = region_data
+    print('regions: total: {}; active: {}; cured: {}; death: {}'
+          .format(data.region_total, data.region_active,
+                  data.region_cured, data.region_death))
     print()
-    update_json(json_entry)
+    print('regions: {}'.format(sorted(data.regions.items())))
     print()
+    print('json:', json_entry)
 
 
 def main():
     home_data = load_home_data()
-    #dash_data = load_dash_data()
-    print()
-    print_summary(home_data, 'HOME PAGE DATA')
-    #print_summary(dash_data, 'DASHBOARD DATA')
+    region_data = load_region_data(home_data)
+
+    json_entry = make_json_entry(home_data)
+    update_json(json_entry)
+
+    print_home_summary(home_data, region_data, json_entry)
 
 
 if __name__ == '__main__':
