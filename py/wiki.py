@@ -325,11 +325,11 @@ def wiki3():
 
     # New cases.
     total_dates, total_diffs, total_avgs = \
-        expand_diffs(data.datetimes, data.total_diffs)
+        format_diffs(*expand_diffs(data.datetimes, data.total_diffs))
     cured_dates, cured_diffs, cured_avgs = \
-        expand_diffs(data.datetimes, data.cured_diffs)
+        format_diffs(*expand_diffs(data.datetimes, data.cured_diffs))
     death_dates, death_diffs, death_avgs = \
-        expand_diffs(data.datetimes, data.death_diffs)
+        format_diffs(*trim_zeros(*expand_diffs(data.datetimes, data.death_diffs)))
 
     # Daily new cases vs. active cases.
     vs_dates, vs_percents, vs_avgs, vs_cagrs = \
@@ -455,16 +455,24 @@ def expand_diffs(datetimes, numbers):
 
     curr_date = min_date
     while curr_date <= max_date:
-        expanded_dates.append(curr_date.strftime('%Y-%m-%d'))
+        expanded_dates.append(curr_date)
         expanded_nums.append(date_num_dict.get(curr_date, 0))
         last_7_nums = expanded_nums[-7:]
         last_7_avg = sum(last_7_nums) / len(last_7_nums)
         expanded_avgs.append('{:.2f}'.format(last_7_avg))
         curr_date += datetime.timedelta(days=1)
 
-    return (', '.join(expanded_dates),
-            ', '.join(str(x) for x in expanded_nums),
-            ', '.join(expanded_avgs))
+    return expanded_dates, expanded_nums, expanded_avgs
+
+
+def format_diffs(datetimes, nums, avgs):
+    print('==== new call ====')
+    for d in datetimes:
+        print('type:', type(d), d)
+    date_strs = [d.strftime('%Y-%m-%d') for d in datetimes]
+    return (', '.join(date_strs),
+            ', '.join(str(x) for x in nums),
+            ', '.join(avgs))
 
 
 def vs_data(datetimes, total_diffs, active_cases):
@@ -537,50 +545,76 @@ def prod(nums):
     return result
 
 
-def clean_data(datetimes, numbers):
-    """Remove zero entries from specified dates and numbers."""
-    formatted_dates = [d.strftime('%Y-%m-%d') for d in datetimes]
+def trim_zeros(datetimes, numbers, averages):
+    """Remove leading zero entries from specified dates and numbers."""
     cleaned_dates = []
     cleaned_numbers = []
+    cleaned_averages = []
 
     mode = 'LEADING_ZEROS'
     multiple_zeros_allowed = True
 
-    def normal_append(d, n):
+    def normal_append(d, n, a):
         nonlocal mode
         mode = 'NORMAL'
         cleaned_dates.append(d)
         cleaned_numbers.append(n)
+        cleaned_averages.append(a)
 
-    for i, (d, n) in enumerate(zip(formatted_dates, numbers)):
+    for i, (d, n, a) in enumerate(zip(datetimes, numbers, averages)):
+        if mode == 'LEADING_ZEROS' and n == 0:
+            continue
+        else:
+            normal_append(d, n, a)
+
+    return cleaned_dates, cleaned_numbers, cleaned_averages
+
+
+def clean_zeros(datetimes, numbers, averages):
+    """Remove zero entries from specified dates and numbers."""
+    cleaned_dates = []
+    cleaned_numbers = []
+    cleaned_averages = []
+
+    mode = 'LEADING_ZEROS'
+    multiple_zeros_allowed = True
+
+    def normal_append(d, n, a):
+        nonlocal mode
+        mode = 'NORMAL'
+        cleaned_dates.append(d)
+        cleaned_numbers.append(n)
+        cleaned_averages.append(a)
+
+    for i, (d, n, a) in enumerate(zip(datetimes, numbers, averages)):
         if mode == 'LEADING_ZEROS':
             if n == 0:
                 continue
             else:
-                normal_append(d, n)
+                normal_append(d, n, a)
         elif mode == 'NORMAL':
             if multiple_zeros_allowed and n == 0:
                 mode = 'SINGLE_ZERO'
                 continue
             else:
-                normal_append(d, n)
+                normal_append(d, n, a)
         elif mode == 'SINGLE_ZERO':
             if n == 0:
                 mode = 'MULTIPLE_ZEROS'
-                cleaned_dates.append('...')
-                cleaned_numbers.append(0)
+                #cleaned_dates.append('...')
+                #cleaned_numbers.append(n)
+                #cleaned_averages.append(a)
             else:
-                normal_append(formatted_dates[i - 1], 0)
-                normal_append(d, n)
+                normal_append(datetimes[i - 1], 0)
+                normal_append(d, n, a)
         elif mode == 'MULTIPLE_ZEROS':
             if n == 0:
                 continue
             else:
                 multiple_zeros_allowed = False
-                normal_append(d, n)
+                normal_append(d, n, a)
 
-    return (', '.join(str(x) for x in cleaned_dates),
-            ', '.join(str(x) for x in cleaned_numbers))
+    return cleaned_dates, cleaned_numbers, cleaned_averages
 
 
 def main():
