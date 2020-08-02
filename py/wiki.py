@@ -466,9 +466,6 @@ def expand_diffs(datetimes, numbers):
 
 
 def format_diffs(datetimes, nums, avgs):
-    print('==== new call ====')
-    for d in datetimes:
-        print('type:', type(d), d)
     date_strs = [d.strftime('%Y-%m-%d') for d in datetimes]
     return (', '.join(date_strs),
             ', '.join(str(x) for x in nums),
