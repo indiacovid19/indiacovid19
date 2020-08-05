@@ -129,9 +129,14 @@ def wiki1_data(data):
 
         if date == '2020-06-17':
             # date;deaths;cured;total;4th;5th;col1;chg1;col2;chg2
-            death_chg = round(100 * (death / data.death_cases[i - 1] - 1))
-            out.append('{};{};{};{};;;;;;{:+}%{}'.format(
+            death_chg = 100 * (death / data.death_cases[i - 1] - 1)
+            out.append('{};{};{};{};;;;;;{:+.0f}%{}'.format(
                        date, death, cured, total, death_chg, wiki1_refn1))
+        elif date == '2020-07-23':
+            # date;deaths;cured;total;4th;5th;col1;chg1;col2;chg2
+            death_chg = 100 * (death / data.death_cases[i - 1] - 1)
+            out.append('{};{};{};{};;;;;;{:+.1f}%{}'.format(
+                       date, death, cured, total, death_chg, wiki1_refn2))
         else:
             # date;deaths;cured;total
             out.append('{};{};{};{}'.format(date, death, cured, total))
@@ -641,7 +646,10 @@ def main():
 
 
 wiki1_refn1 = (
-'{{refn|group=lower-roman|1,672 backlogged deaths from Maharashtra and Delhi were added taking reported new deaths to 2,003<ref>{{Cite web|date=2020-06-17|title=India’s death toll soars past 10K, backlog deaths raise count by 437 in Delhi, 1,409 in Maharashtra|url=https://www.hindustantimes.com/india-news/india-s-death-toll-soars-past-10k-backlog-deaths-raise-count-by-437-in-delhi-1-409-in-maharashtra/story-9GNbe7iMBKLsiHtByjRKCJ.html|access-date=2020-06-17|website=Hindustan Times|language=en}}</ref>}}'
+'{{refn|group=lower-roman|On 17 June, 1,672 backlogged deaths from Maharashtra and Delhi were added taking reported daily deaths to 2,003<ref>{{Cite web|date=2020-06-17|title=India’s death toll soars past 10K, backlog deaths raise count by 437 in Delhi, 1,409 in Maharashtra|url=https://www.hindustantimes.com/india-news/india-s-death-toll-soars-past-10k-backlog-deaths-raise-count-by-437-in-delhi-1-409-in-maharashtra/story-9GNbe7iMBKLsiHtByjRKCJ.html|access-date=2020-06-17|website=Hindustan Times|language=en}}</ref>}}'
+)
+wiki1_refn2 = (
+'{{refn|group=lower-roman|On 23 July, Tamil nadu reported 528 deaths including backlogged deaths, taking reported daily deaths to 1,129<ref>{{Cite web|date=2020-07-23|title=45,720 new cases in 24 hrs, 13% positivity, single-day toll 1,129 after Tamil Nadu update|url=https://theprint.in/health/45720-new-cases-in-24-hrs-13-positivity-single-day-toll-1129-after-tamil-nadu-update/466882/|access-date=2020-08-05|website=The Print|language=en}}</ref>}}'
 )
 
 
