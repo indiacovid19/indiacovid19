@@ -80,7 +80,7 @@ def plot_end(data, img_name, recent, aspect):
 def plot_total_cases_linear(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 10000
+    tick_gap = 1_00_000
     ylim_pad = 6
     title_x, title_y = (0.63, 0.9) if recent else (0.5, 0.9)
 
@@ -109,7 +109,7 @@ def plot_total_cases_log(data, recent, aspect):
     """Plot line chart for all case numbers (log scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     ylim_top = max(data.total_cases[m:]) * 2
-    title_x, title_y = (0.3, 0.90) if recent else (0.5, 0.90)
+    title_x, title_y = (0.5, 0.50) if recent else (0.5, 0.90)
 
     total_cases = data.total_cases
     active_cases = data.active_cases
@@ -146,9 +146,9 @@ def plot_total_cases_log(data, recent, aspect):
 def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
-    tick_gap = 400
-    text_gap = 1.0
-    ylim_pad = 14 if recent else 15
+    tick_gap = 1000
+    text_gap = 1.5
+    ylim_pad = 19 if recent else 20
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -171,7 +171,7 @@ def plot_growth_percents(data, recent, aspect):
     """Plot growth rate for each day."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 10
-    text_gap = 1.5 if recent else 1.2
+    text_gap = 1.0 if recent else 1.0
     ylim_gap = 17 if recent else 5
 
     # Preprocess data for plotting.
@@ -257,8 +257,8 @@ def plus_percent_str(x):
 def plot_doubling_times(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 0.2 if recent else 1.0
-    text_gap = 2.0 if recent else 1.0
+    tick_gap = 1.2
+    text_gap = 0.8
     ylim_pad = 22 if recent else 5
 
     # Preprocess data for plotting.
@@ -348,7 +348,7 @@ def plot_cured_percents(data, recent, aspect):
                                            data.death_percents[m:])):
         if m != 0 and i == 0:
             continue
-        if cured != -1 and abs(cured - prev_cured) > 0.001:
+        if cured != -1 and abs(cured - prev_cured) > 1e-5:
             # Print cured value.
             x = i + cured_tweaks[i][0]
             y = cured + (cured_text_gap + cured_tweaks[m:][i][1]) * tick_gap
@@ -378,8 +378,8 @@ def plot_cured_percents(data, recent, aspect):
 def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 0.2
-    text_gap = 2.5
+    tick_gap = 1.0
+    text_gap = 1.5
     ylim_pad = 28 if recent else 31
 
     # Preprocess data for plotting.
