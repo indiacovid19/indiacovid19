@@ -55,7 +55,7 @@ import urllib.request
 
 WIKI_SRC1 = 'Template:COVID-19_pandemic_data/India_medical_cases_chart'
 WIKI_SRC2 = 'Template:COVID-19_pandemic_data/India_medical_cases_by_state_and_union_territory'
-WIKI_SRC3 = 'Statistics_of_COVID-19_pandemic_in_India'
+WIKI_SRC3 = 'Statistics_of_the_COVID-19_pandemic_in_India'
 
 
 def fetch_wiki_source(article_name):
