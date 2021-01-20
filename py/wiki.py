@@ -279,6 +279,7 @@ def markup_region(name):
         'Karnataka',
         'Kerala',
         'Ladakh',
+        'Lakshadweep',
         'Madhya Pradesh',
         'Maharashtra',
         'Manipur',
