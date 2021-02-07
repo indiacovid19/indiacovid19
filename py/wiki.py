@@ -173,7 +173,7 @@ def region_table_head(data):
     style_center = '! style="text-align:center; padding: 0 2px;" |'
     style_right = '! style="text-align:right; padding: 0 2px;" |'
     out = [
-        style_center + '35 / 36',
+        style_center + '36 / 36',
         style_right + gldg(data.region_total),
         style_right + gldg(data.region_death),
         style_right + gldg(data.region_cured),
