@@ -313,7 +313,8 @@ def markup_region(name):
 
 def markup_num(n_str):
     """Generate Wikipedia markup for case numbers in region table."""
-    return ' style="color:gray;" |0' if n_str == '0' else n_str
+    return n_str
+    # return ' style="color:gray;" |0' if n_str == '0' else n_str
 
 
 def wiki3():
