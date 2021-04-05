@@ -257,3 +257,10 @@ table.grid td {
   color: #666;
   font-size: small;
 }
+
+.highlight {
+  background: #eef;
+  margin: 1em 0;
+  padding: 1em;
+  border: medium double #99c;
+}
