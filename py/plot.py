@@ -44,11 +44,11 @@ recent_days = 30
 def plot_begin(data):
     """Set up a new plot."""
     global formatted_dates
-    formatted_dates = [d.strftime('%d %b') for d in data.datetimes]
+    formatted_dates = [d.strftime('%d %b %Y') for d in data.datetimes]
     plt.clf()
 
 
-def plot_end(data, img_name, recent, aspect):
+def plot_end(data, img_name, recent, aspect, legend_loc='best'):
     """Configure current plot and export it to an image file."""
     if recent:
         filename = img_name + '-recent.png'
@@ -71,7 +71,7 @@ def plot_end(data, img_name, recent, aspect):
     plt.xticks(rotation='vertical', size='x-small')
     plt.yticks(size='small')
     plt.tick_params(which='both', length=0)
-    plt.legend(shadow=True, fontsize=legend_size)
+    plt.legend(shadow=True, fontsize=legend_size, loc=legend_loc)
     os.makedirs('_site/img/', exist_ok=True)
     plt.savefig('_site/img/' + filename,
                 dpi=300, bbox_inches='tight')
@@ -82,7 +82,7 @@ def plot_total_cases_linear(data, recent, aspect):
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 1_00_000
     ylim_pad = 6
-    title_x, title_y = (0.63, 0.9) if recent else (0.5, 0.9)
+    title_x, title_y = (0.29, 0.9) if recent else (0.5, 0.9)
 
     plot_begin(data)
     plt.plot(formatted_dates[m:], data.total_cases[m:],
@@ -109,7 +109,7 @@ def plot_total_cases_log(data, recent, aspect):
     """Plot line chart for all case numbers (log scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     ylim_top = max(data.total_cases[m:]) * 2
-    title_x, title_y = (0.5, 0.50) if recent else (0.5, 0.90)
+    title_x, title_y = (0.5, 0.6) if recent else (0.5, 0.90)
 
     total_cases = data.total_cases
     active_cases = data.active_cases
@@ -147,8 +147,8 @@ def plot_new_cases(data, recent, aspect):
     """Plot bar chart for new cases on each day."""
     m = len(data.dates) - recent_days if recent else 0
     tick_gap = 1000
-    text_gap = 1.5
-    ylim_pad = 19 if recent else 20
+    text_gap = 2
+    ylim_pad = 30
 
     plot_begin(data)
     plt.bar(formatted_dates[m:], data.total_diffs[m:],
@@ -160,6 +160,7 @@ def plot_new_cases(data, recent, aspect):
     ax = plt.gca()
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(tick_gap * 5))
     ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(tick_gap))
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(comma_formatter))
     plt.ylabel('Count')
     plt.xlim(left=-0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=top_ylim(data.total_diffs[m:], tick_gap * ylim_pad, tick_gap))
@@ -171,8 +172,8 @@ def plot_growth_percents(data, recent, aspect):
     """Plot growth rate for each day."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 0.2 if recent else 10
-    text_gap = 1.0 if recent else 1.0
-    ylim_gap = 17 if recent else 5
+    text_gap = 0.2 if recent else 1.0
+    ylim_gap = 3 if recent else 5
 
     # Preprocess data for plotting.
     growths = data.total_growths
@@ -189,21 +190,8 @@ def plot_growth_percents(data, recent, aspect):
     # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
-        tweaks[data.dates.index('2020-04-15')] = (+0.8, -1.0)
-        tweaks[data.dates.index('2020-04-16')] = (+0.0, -6.0)
-        tweaks[data.dates.index('2020-04-18')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-04-21')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-04-23')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-04-25')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-04-27')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-01')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-04')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-06')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-08')] = (+0.2,  0.0)
-        tweaks[data.dates.index('2020-05-10')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-12')] = ( 0.0, -6.0)
-        tweaks[data.dates.index('2020-05-19')] = (+0.1, +0.3)
-        tweaks[data.dates.index('2020-05-16')] = ( 0.0, -6.0)
+        tweaks[data.dates.index('2021-03-30')] = (+0.1, +0.0)
+        tweaks[data.dates.index('2021-03-31')] = (-0.1, +0.0)
     else:
         tweaks[data.dates.index('2020-02-03')] = (+0.3, +0.0)
         tweaks[data.dates.index('2020-02-04')] = (+0.5, +0.0)
@@ -257,9 +245,9 @@ def plus_percent_str(x):
 def plot_doubling_times(data, recent, aspect):
     """Plot line chart for all case numbers (linear scale)."""
     m = len(data.dates) - recent_days - 1 if recent else 0
-    tick_gap = 1.2
-    text_gap = 0.8
-    ylim_pad = 22 if recent else 5
+    tick_gap = 2
+    text_gap = 3
+    ylim_pad = 30 if recent else 30
 
     # Preprocess data for plotting.
     doubling_times = data.doubling_times
@@ -275,19 +263,11 @@ def plot_doubling_times(data, recent, aspect):
     # Tweak the position of text values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
     if recent:
-        tweaks[data.dates.index('2020-03-21')] = (+0.0, -4.2)
-        tweaks[data.dates.index('2020-03-23')] = (+0.0, -4.2)
-        tweaks[data.dates.index('2020-04-01')] = (+0.0, -4.2)
-        tweaks[data.dates.index('2020-04-04')] = (-0.1, -0.0)
-        tweaks[data.dates.index('2020-04-06')] = (-0.1, -0.0)
-        tweaks[data.dates.index('2020-04-14')] = (+0.1, -0.0)
-        tweaks[data.dates.index('2020-04-15')] = (-0.1, -0.0)
+        pass
     else:
-        tweaks[data.dates.index('2020-02-04')] = (+0.8, -1.3)
-        tweaks[data.dates.index('2020-02-21')] = (+0.8, -1.3)
-        tweaks[data.dates.index('2020-02-27')] = (-0.1, +0.1)
-        tweaks[data.dates.index('2020-03-03')] = (+0.8, -1.3)
-        tweaks[data.dates.index('2020-03-04')] = (+0.3, +0.0)
+        pass
+        tweaks[data.dates.index('2020-02-04')] = (-0.2, +0.0)
+        tweaks[data.dates.index('2020-03-03')] = (+0.2, +0.2)
 
     # Show text values on the graph.
     prev_val = -1
@@ -372,15 +352,15 @@ def plot_cured_percents(data, recent, aspect):
     plt.xlim(left=0.2 if recent else -0.8, right=len(data.dates[m:]) - 0.2)
     plt.ylim(top=100)
     plt.ylim(bottom=0)
-    plot_end(data, 'cured-percent', recent, aspect)
+    plot_end(data, 'cured-percent', recent, aspect, 'center left')
 
 
 def plot_cured_ratios(data, recent, aspect):
     """Plot line chart for cured ratio."""
     m = len(data.dates) - recent_days - 1 if recent else 0
     tick_gap = 1.0
-    text_gap = 1.5
-    ylim_pad = 28 if recent else 31
+    text_gap = 2
+    ylim_pad = 20 if recent else 10
 
     # Preprocess data for plotting.
     ratios = data.cured_ratios
@@ -395,20 +375,6 @@ def plot_cured_ratios(data, recent, aspect):
 
     # Print values on the graph.
     tweaks = [(0, 0)] * len(data.dates)
-    tweaks[data.dates.index('2020-03-12')] = (+0.8,  -4.0)
-    tweaks[data.dates.index('2020-03-17')] = (+0.5,  +0.0)
-    tweaks[data.dates.index('2020-03-19')] = (-0.3,  +0.0)
-    tweaks[data.dates.index('2020-03-22')] = (+0.0,  -9.0)
-    tweaks[data.dates.index('2020-03-26')] = (+0.0,  -9.0)
-    tweaks[data.dates.index('2020-03-27')] = (-0.2,  +0.0)
-    tweaks[data.dates.index('2020-03-29')] = (+0.3,  +0.0)
-    tweaks[data.dates.index('2020-04-02')] = (+0.2,  +0.0)
-    tweaks[data.dates.index('2020-04-04')] = (-0.2,  +0.0)
-    tweaks[data.dates.index('2020-04-06')] = (+0.2,  +0.0)
-    tweaks[data.dates.index('2020-04-21')] = (-0.2,  +0.2)
-    tweaks[data.dates.index('2020-05-16')] = (-0.1,  +0.1)
-    tweaks[data.dates.index('2020-05-29')] = (-0.1,  +0.9)
-    tweaks[data.dates.index('2020-06-17')] = (-0.0, -10.0)
     prev_val = -1
     for i, val in enumerate(ratios[m:]):
         if m != 0 and i == 0:
